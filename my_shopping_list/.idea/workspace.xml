@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d72d5de6-a713-4718-bcab-1e3972bee4f1" name="Default" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_30_x86" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1j64RpsDIyRuUPQZJuFiw1ebCLE" />
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Flutter</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DEBUGGABLE_DEVICE" value="Pixel_3a_API_30_x86 [emulator-5554]" />
+    <property name="DEBUGGABLE_PROCESS" value="android.process.acore" />
+    <property name="DEBUGGER_ID" value="Java" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/android/app/src/main/res/drawable" />
+      <recent name="$PROJECT_DIR$/android" />
+      <recent name="$PROJECT_DIR$/android/app" />
+      <recent name="$PROJECT_DIR$/assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/xavier/Desktop/CM/My_Shopping_List/android/app/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/android/app/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/xavier/Desktop/CM/My_Shopping_List/android/build.gradle (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/android/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/xavier/Desktop/CM/My_Shopping_List/android/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/android/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle./home/xavier/Desktop/CM/My_Shopping_List/android/app/build.gradle" />
+        <item itemvalue="Gradle./home/xavier/Desktop/CM/My_Shopping_List/android/build.gradle (1)" />
+        <item itemvalue="Gradle./home/xavier/Desktop/CM/My_Shopping_List/android/build.gradle" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d72d5de6-a713-4718-bcab-1e3972bee4f1" name="Default" comment="" />
+      <created>1536080544339</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1536080544339</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="455" y="137" width="1000" height="846" key="#Gradle" timestamp="1603207252765">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="455" y="137" width="1000" height="846" key="#Gradle/0.33.1920.1047@0.33.1920.1047" timestamp="1603207252765" />
+    <state x="222" y="135" width="1000" height="846" key="#Plugins" timestamp="1603148826426">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="222" y="135" width="1000" height="846" key="#Plugins/0.33.1920.1047@0.33.1920.1047" timestamp="1603148826426" />
+    <state x="815" y="308" width="288" height="504" key="AndroidProcessChooserDialog" timestamp="1603113222652">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="815" y="308" width="288" height="504" key="AndroidProcessChooserDialog/0.33.1920.1047@0.33.1920.1047" timestamp="1603113222652" />
+    <state x="689" y="261" width="530" height="605" key="FileChooserDialogImpl" timestamp="1603207434590">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="689" y="261" width="530" height="605" key="FileChooserDialogImpl/0.33.1920.1047@0.33.1920.1047" timestamp="1603207434590" />
+    <state width="1862" height="261" key="GridCell.Tab.0.bottom" timestamp="1603212371727">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state width="1862" height="261" key="GridCell.Tab.0.bottom/0.33.1920.1047@0.33.1920.1047" timestamp="1603212371727" />
+    <state width="1862" height="261" key="GridCell.Tab.0.center" timestamp="1603212371727">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state width="1862" height="261" key="GridCell.Tab.0.center/0.33.1920.1047@0.33.1920.1047" timestamp="1603212371727" />
+    <state width="1862" height="261" key="GridCell.Tab.0.left" timestamp="1603212371726">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state width="1862" height="261" key="GridCell.Tab.0.left/0.33.1920.1047@0.33.1920.1047" timestamp="1603212371726" />
+    <state width="1862" height="261" key="GridCell.Tab.0.right" timestamp="1603212371727">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state width="1862" height="261" key="GridCell.Tab.0.right/0.33.1920.1047@0.33.1920.1047" timestamp="1603212371727" />
+    <state x="325" y="104" width="1269" height="912" key="SettingsEditor" timestamp="1603207437234">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="325" y="104" width="1269" height="912" key="SettingsEditor/0.33.1920.1047@0.33.1920.1047" timestamp="1603207437234" />
+    <state width="960" height="523" key="XDebugger.FullValuePopup" timestamp="1603118777106">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state width="960" height="523" key="XDebugger.FullValuePopup/0.33.1920.1047@0.33.1920.1047" timestamp="1603118777106" />
+    <state x="100" y="133" width="1720" height="847" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1603114823251">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="100" y="133" width="1720" height="847" key="com.android.tools.idea.avdmanager.AvdListDialog/0.33.1920.1047@0.33.1920.1047" timestamp="1603114823251" />
+    <state x="449" y="175" width="547" height="765" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1603149006220">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="449" y="175" width="547" height="765" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.33.1920.1047@0.33.1920.1047" timestamp="1603149006220" />
+    <state x="485" y="45" width="903" height="1026" key="find.popup" timestamp="1603207510005">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="485" y="45" width="903" height="1026" key="find.popup/0.33.1920.1047@0.33.1920.1047" timestamp="1603207510005" />
+    <state x="539" y="44" width="840" height="1034" key="search.everywhere.popup" timestamp="1603211255739">
+      <screen x="0" y="33" width="1920" height="1047" />
+    </state>
+    <state x="539" y="44" width="840" height="1034" key="search.everywhere.popup/0.33.1920.1047@0.33.1920.1047" timestamp="1603211255739" />
+  </component>
+</project>
