@@ -41,26 +41,28 @@
     }
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script defer src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
 
   <script>
-    // TODO: Replace the following with your app's Firebase project configuration.
-    // See: https://support.google.com/firebase/answer/7015592
-    var firebaseConfig = {
-      apiKey: "...",
-      authDomain: "[YOUR_PROJECT].firebaseapp.com",
-      databaseURL: "https://[YOUR_PROJECT].firebaseio.com",
-      projectId: "[YOUR_PROJECT]",
-      storageBucket: "[YOUR_PROJECT].appspot.com",
-      messagingSenderId: "...",
-      appId: "1:...:web:...",
-      measurementId: "G-..."
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
-
-  <script src="main.dart.js" type="application/javascript"></script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAi7Tg2eNZ9ZRc2A63ibOIyzy9rmrMfcyY",
+    authDomain: "my-shopping-list-5cd64.firebaseapp.com",
+    databaseURL: "https://my-shopping-list-5cd64.firebaseio.com",
+    projectId: "my-shopping-list-5cd64",
+    storageBucket: "my-shopping-list-5cd64.appspot.com",
+    messagingSenderId: "551964564646",
+    appId: "1:551964564646:web:b6e0bacf2f88bcce54e867"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
 </body>
 </html>

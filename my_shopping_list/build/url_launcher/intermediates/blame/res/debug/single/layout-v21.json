@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/layout-v21/notification_template_icon_group.xml"
+    }
+]
