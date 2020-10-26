@@ -22,11 +22,16 @@ void main() {
   );
 }
 
-
-
-class ListsScreen extends StatelessWidget {
-  // ListsScreen({Key key, @required this.lists}) : super(key: key); // Receive the list as arg
+class ListsScreen extends StatefulWidget {
   ListsScreen({Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ListsScreenState();
+}
+
+class _ListsScreenState extends State<ListsScreen>{
+  // ListsScreen({Key key, @required this.lists}) : super(key: key); // Receive the list as arg
+  // ListsScreen({Key key}) : super(key: key);
 
   // final List<ShoppingList> lists = new List<ShoppingList>();
   final List<ShoppingList> lists = <ShoppingList>[
@@ -48,9 +53,14 @@ class ListsScreen extends StatelessWidget {
             icon: Icon(Icons.add),
             onPressed: () {
               //TODO: route to new list creation
-                ShoppingList newEntry = new ShoppingList((lists.length + 1).toString(), "stuff");
+              setState(() {
+                ShoppingList newEntry = new ShoppingList(
+                  "Shopping list "+(lists.length + 1).toString(), 
+                  "stuff"
+                );
                 lists.add(newEntry);
-              }
+              });
+            }
           ),
         ],
       ),
