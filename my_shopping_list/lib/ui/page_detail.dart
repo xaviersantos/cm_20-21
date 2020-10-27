@@ -10,7 +10,7 @@ import 'package:myshoppinglist/utils/diamond_fab.dart';
 class DetailPage extends StatefulWidget {
   final auth.User user;
   final int i;
-  final Map<String, List<ElementTask>> currentList;
+  final Map<String, List<ElementItem>> currentList;
   final String color;
 
   DetailPage({Key key, this.user, this.i, this.currentList, this.color})
@@ -35,6 +35,7 @@ class _DetailPageState extends State<DetailPage> {
             child: NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (overscroll) {
                 overscroll.disallowGlow();
+                return false;
               },
               child: new StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -131,7 +132,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   getExpenseItems(AsyncSnapshot<QuerySnapshot> snapshot) {
-    List<ElementTask> listElement = new List();
+    List<ElementItem> listElement = new List();
     int nbIsDone = 0;
 
     if (widget.user.uid.isNotEmpty) {
@@ -139,7 +140,7 @@ class _DetailPageState extends State<DetailPage> {
         if (f.id == widget.currentList.keys.elementAt(widget.i)) {
           f.data().forEach((a, b) {
             if (b.runtimeType == bool) {
-              listElement.add(new ElementTask(a, b));
+              listElement.add(new ElementItem(a, b));
             }
           });
         }
@@ -199,9 +200,9 @@ class _DetailPageState extends State<DetailPage> {
                                     child: RaisedButton(
                                       elevation: 3.0,
                                       onPressed: () {
-                                        Firestore.instance
+                                        FirebaseFirestore.instance
                                             .collection(widget.user.uid)
-                                            .document(widget.currentList.keys
+                                            .doc(widget.currentList.keys
                                             .elementAt(widget.i))
                                             .delete();
                                         Navigator.pop(context);
@@ -234,7 +235,7 @@ class _DetailPageState extends State<DetailPage> {
                         nbIsDone.toString() +
                             " of " +
                             listElement.length.toString() +
-                            " tasks",
+                            " items",
                         style: TextStyle(fontSize: 18.0, color: Colors.black54),
                       ),
                     ],
@@ -267,7 +268,7 @@ class _DetailPageState extends State<DetailPage> {
                             itemCount: listElement.length,
                             itemBuilder: (BuildContext ctxt, int i) {
                               return new Slidable(
-                                dismissal: new SlidableDismissal(),
+                                actionPane: SlidableDrawerActionPane(),
                                 actionExtentRatio: 0.25,
                                 child: GestureDetector(
                                   onTap: () {
@@ -397,13 +398,22 @@ class _DetailPageState extends State<DetailPage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text('Pick a color!'),
+                  titlePadding: const EdgeInsets.all(0.0),
+                  contentPadding: const EdgeInsets.all(0.0),
                   content: SingleChildScrollView(
                     child: ColorPicker(
-                      pickerColor: pickerColor,
+                      pickerColor: currentColor,
                       onColorChanged: changeColor,
-                      colorPickerWidth: 1000.0,
+                      colorPickerWidth: 300.0,
                       pickerAreaHeightPercent: 0.7,
+                      enableAlpha: false,
+                      displayThumbColor: true,
+                      showLabel: false,
+                      paletteType: PaletteType.hsv,
+                      pickerAreaBorderRadius: const BorderRadius.only(
+                        topLeft: const Radius.circular(2.0),
+                        topRight: const Radius.circular(2.0),
+                      ),
                     ),
                   ),
                   actions: <Widget>[

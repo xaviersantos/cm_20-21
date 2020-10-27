@@ -5,266 +5,263 @@
 5    android:versionName="1.0.0" >
 6
 7    <uses-sdk
-8        android:minSdkVersion="16"
-9        android:targetSdkVersion="28" />
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="30" />
 10    <!--
 11         Flutter needs it to communicate with the running application
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:8:5-66
-14-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:8:22-64
+14-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:8:5-66
+14-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:8:22-64
 15
 16    <meta-data
-16-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:36:5-38:29
+16-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:36:5-38:29
 17        android:name="flutterEmbedding"
-17-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:37:9-40
+17-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:37:9-40
 18        android:value="2" />
-18-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:38:9-26
+18-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:38:9-26
 19
 20    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-20-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-79
-20-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-76
-21    <uses-permission android:name="android.permission.WAKE_LOCK" />
-21-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-68
-21-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:22-65
-22    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
-22-->[:connectivity] /home/xavier/Desktop/CM/my_shopping_list/build/connectivity/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-76
-22-->[:connectivity] /home/xavier/Desktop/CM/my_shopping_list/build/connectivity/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-73
-23    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-23-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:5-82
-23-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:22-79
-24    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
-24-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:26:5-110
-24-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:26:22-107
-25    <!--
-26 io.flutter.app.FlutterApplication is an android.app.Application that
-27         calls FlutterMain.startInitialization(this); in its onCreate method.
-28         In most cases you can leave this as-is, but you if you want to provide
-29         additional functionality it is fine to subclass or reimplement
-30         FlutterApplication and put your custom class here.
-31    -->
-32    <application
-32-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:15:5-35:19
-33        android:name="androidx.multidex.MultiDexApplication"
-34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-34-->[androidx.core:core:1.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/60811ca2d9928ba4b33bd47780d4a17f/core-1.3.1/AndroidManifest.xml:24:18-86
-35        android:debuggable="true"
-36        android:icon="@mipmap/ic_launcher"
-36-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:17:9-43
-37        android:label="my_shopping_list" >
-37-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:16:9-41
-38        <activity
-38-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:18:9-34:20
-39            android:name="pt.ua.my_shopping_list.MainActivity"
-39-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:19:13-41
-40            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
-40-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:22:13-137
-41            android:hardwareAccelerated="true"
-41-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:23:13-47
-42            android:launchMode="singleTop"
-42-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:20:13-43
-43            android:theme="@style/LaunchTheme"
-43-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:21:13-47
-44            android:windowSoftInputMode="adjustResize" >
-44-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:24:13-55
-45
-46            <!--
-47                 This keeps the window background of the activity showing
-48                 until Flutter renders its first frame. It can be removed if
-49                 there is no splash screen (such as the default splash screen
-50                 defined in @style/LaunchTheme).
-51            -->
-52
-53            <intent-filter>
-53-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:30:13-33:29
-54                <action android:name="android.intent.action.MAIN" />
-54-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:31:17-68
-54-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:31:25-66
-55
-56                <category android:name="android.intent.category.LAUNCHER" />
-56-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:32:17-76
-56-->/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/AndroidManifest.xml:32:27-74
-57            </intent-filter>
-58        </activity>
-59
-60        <service
-60-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-16:19
-61            android:name="com.google.firebase.components.ComponentDiscoveryService"
-61-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:18-89
-62            android:directBootAware="true"
-62-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:34:13-43
-63            android:exported="false" >
-63-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:35:13-37
-64            <meta-data
-64-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:85
-65                android:name="com.google.firebase.components:io.flutter.plugins.firebaseanalytics.FlutterFirebaseAppRegistrar"
-65-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-127
-66                android:value="com.google.firebase.components.ComponentRegistrar" />
-66-->[:firebase_analytics] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-82
-67            <meta-data
-67-->[:firebase_auth] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
-68                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-68-->[:firebase_auth] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
-69                android:value="com.google.firebase.components.ComponentRegistrar" />
-69-->[:firebase_auth] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
-70            <meta-data
-70-->[:cloud_firestore] /home/xavier/Desktop/CM/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
-71                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-71-->[:cloud_firestore] /home/xavier/Desktop/CM/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
-72                android:value="com.google.firebase.components.ComponentRegistrar" />
-72-->[:cloud_firestore] /home/xavier/Desktop/CM/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
-73            <meta-data
-73-->[:firebase_core] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
-74                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-74-->[:firebase_core] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
-75                android:value="com.google.firebase.components.ComponentRegistrar" />
-75-->[:firebase_core] /home/xavier/Desktop/CM/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
-76            <meta-data
-76-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:36:13-38:85
-77                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
-77-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:37:17-109
-78                android:value="com.google.firebase.components.ComponentRegistrar" />
-78-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:38:17-82
-79            <meta-data
-79-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/eb82f24077238f65942eeae5a5d6d080/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:20:13-22:85
-80                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-80-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/eb82f24077238f65942eeae5a5d6d080/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:21:17-111
-81                android:value="com.google.firebase.components.ComponentRegistrar" />
-81-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/eb82f24077238f65942eeae5a5d6d080/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:22:17-82
-82            <meta-data
-82-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/133a389612c442b9ddcd763dfab0f91e/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:30:13-32:85
-83                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-83-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/133a389612c442b9ddcd763dfab0f91e/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:31:17-139
-84                android:value="com.google.firebase.components.ComponentRegistrar" />
-84-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/133a389612c442b9ddcd763dfab0f91e/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:32:17-82
-85            <meta-data
-85-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:32:13-34:85
-86                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
-86-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:33:17-96
-87                android:value="com.google.firebase.components.ComponentRegistrar" />
-87-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:34:17-82
-88            <meta-data
-88-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/327e752be78f480e9989262ef2f4fa47/jetified-firebase-installations-16.2.1/AndroidManifest.xml:17:13-19:85
-89                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-89-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/327e752be78f480e9989262ef2f4fa47/jetified-firebase-installations-16.2.1/AndroidManifest.xml:18:17-127
-90                android:value="com.google.firebase.components.ComponentRegistrar" />
-90-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/327e752be78f480e9989262ef2f4fa47/jetified-firebase-installations-16.2.1/AndroidManifest.xml:19:17-82
-91        </service>
-92
-93        <activity
-93-->[:url_launcher] /home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
-94            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-94-->[:url_launcher] /home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
-95            android:exported="false"
-95-->[:url_launcher] /home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
-96            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-96-->[:url_launcher] /home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
-97
-98        <provider
-98-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
-99            android:name="io.flutter.plugins.share.ShareFileProvider"
-99-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-70
-100            android:authorities="pt.ua.my_shopping_list.flutter.share_provider"
-100-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-74
-101            android:exported="false"
-101-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
-102            android:grantUriPermissions="true" >
-102-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
-103            <meta-data
-103-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:68
-104                android:name="android.support.FILE_PROVIDER_PATHS"
-104-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
-105                android:resource="@xml/flutter_share_file_paths" />
-105-->[:share] /home/xavier/Desktop/CM/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-65
-106        </provider>
-107
-108        <activity
-108-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:24:9-31:50
-109            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-109-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:25:13-85
-110            android:excludeFromRecents="true"
-110-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:26:13-46
-111            android:exported="true"
-111-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:27:13-36
-112            android:launchMode="singleTask"
-112-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:28:13-44
-113            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
-113-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:29:13-102
-114            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-114-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/11876316f43b840949a8a9109d781b06/jetified-firebase-auth-19.3.1/AndroidManifest.xml:30:13-72
-115
-116        <receiver
-116-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:37:9-44:20
-117            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
-117-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:38:13-78
-118            android:exported="true"
-118-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:39:13-36
-119            android:permission="com.google.android.c2dm.permission.SEND" >
-119-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:40:13-73
-120            <intent-filter>
-120-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:41:13-43:29
-121                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-121-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:17-81
-121-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/1ba6f623fda55c473f098573d14b8455/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:25-78
-122            </intent-filter>
-123        </receiver>
-124
-125        <activity
-125-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/1b38349a54cbcbf804f78a3d7c262dde/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
-126            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-126-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/1b38349a54cbcbf804f78a3d7c262dde/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
-127            android:exported="false"
-127-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/1b38349a54cbcbf804f78a3d7c262dde/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
-128            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-128-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/1b38349a54cbcbf804f78a3d7c262dde/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
-129
-130        <receiver
-130-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:29:9-33:20
-131            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-131-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:30:13-85
-132            android:enabled="true"
-132-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:31:13-35
-133            android:exported="false" >
-133-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:32:13-37
-134        </receiver>
-135
-136        <service
-136-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:35:9-38:40
-137            android:name="com.google.android.gms.measurement.AppMeasurementService"
-137-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:36:13-84
-138            android:enabled="true"
-138-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:37:13-35
-139            android:exported="false" />
-139-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:38:13-37
-140        <service
-140-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:39:9-43:72
-141            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-141-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:40:13-87
-142            android:enabled="true"
-142-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:41:13-35
-143            android:exported="false"
-143-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:42:13-37
-144            android:permission="android.permission.BIND_JOB_SERVICE" />
-144-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/74f74e6fbff0f9ded06643e4d8c9b213/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:43:13-69
-145
-146        <provider
-146-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
-147            android:name="com.google.firebase.provider.FirebaseInitProvider"
-147-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
-148            android:authorities="pt.ua.my_shopping_list.firebaseinitprovider"
-148-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
-149            android:exported="false"
-149-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
-150            android:initOrder="100" />
-150-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/b7870467e194f6664184bf8e30e28130/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
-151
-152        <meta-data
-152-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/ca004154b2bec333c63ad6bcd644bdde/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
-153            android:name="com.google.android.gms.version"
-153-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/ca004154b2bec333c63ad6bcd644bdde/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
-154            android:value="@integer/google_play_services_version" />
-154-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/ca004154b2bec333c63ad6bcd644bdde/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
-155    </application>
-156
-157</manifest>
+20-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-79
+20-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-76
+21    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+21-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-68
+21-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:22-65
+22    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+22-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:5-82
+22-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:22-79
+23    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+23-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:26:5-110
+23-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:26:22-107
+24    <!--
+25 io.flutter.app.FlutterApplication is an android.app.Application that
+26         calls FlutterMain.startInitialization(this); in its onCreate method.
+27         In most cases you can leave this as-is, but you if you want to provide
+28         additional functionality it is fine to subclass or reimplement
+29         FlutterApplication and put your custom class here.
+30    -->
+31    <application
+31-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:15:5-35:19
+32        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+32-->[androidx.core:core:1.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/e0114763f475d50fc15a2f348391674b/core-1.3.1/AndroidManifest.xml:24:18-86
+33        android:debuggable="true"
+34        android:extractNativeLibs="false"
+35        android:icon="@mipmap/ic_launcher"
+35-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:17:9-43
+36        android:label="my_shopping_list" >
+36-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:16:9-41
+37        <activity
+37-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:18:9-34:20
+38            android:name="pt.ua.my_shopping_list.MainActivity"
+38-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:19:13-41
+39            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+39-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:22:13-137
+40            android:hardwareAccelerated="true"
+40-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:23:13-47
+41            android:launchMode="singleTop"
+41-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:20:13-43
+42            android:theme="@style/LaunchTheme"
+42-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:21:13-47
+43            android:windowSoftInputMode="adjustResize" >
+43-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:24:13-55
+44
+45            <!--
+46                 This keeps the window background of the activity showing
+47                 until Flutter renders its first frame. It can be removed if
+48                 there is no splash screen (such as the default splash screen
+49                 defined in @style/LaunchTheme).
+50            -->
+51
+52            <intent-filter>
+52-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:30:13-33:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:31:17-68
+53-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:31:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:32:17-76
+55-->/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/AndroidManifest.xml:32:27-74
+56            </intent-filter>
+57        </activity>
+58
+59        <service
+59-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-16:19
+60            android:name="com.google.firebase.components.ComponentDiscoveryService"
+60-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:18-89
+61            android:directBootAware="true"
+61-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:34:13-43
+62            android:exported="false" >
+62-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:35:13-37
+63            <meta-data
+63-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:85
+64                android:name="com.google.firebase.components:io.flutter.plugins.firebaseanalytics.FlutterFirebaseAppRegistrar"
+64-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-127
+65                android:value="com.google.firebase.components.ComponentRegistrar" />
+65-->[:firebase_analytics] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-82
+66            <meta-data
+66-->[:firebase_auth] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+67                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+67-->[:firebase_auth] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+68                android:value="com.google.firebase.components.ComponentRegistrar" />
+68-->[:firebase_auth] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+69            <meta-data
+69-->[:cloud_firestore] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+70                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+70-->[:cloud_firestore] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
+71                android:value="com.google.firebase.components.ComponentRegistrar" />
+71-->[:cloud_firestore] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+72            <meta-data
+72-->[:firebase_core] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+73                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+73-->[:firebase_core] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+74                android:value="com.google.firebase.components.ComponentRegistrar" />
+74-->[:firebase_core] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+75            <meta-data
+75-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:36:13-38:85
+76                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+76-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:37:17-109
+77                android:value="com.google.firebase.components.ComponentRegistrar" />
+77-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:38:17-82
+78            <meta-data
+78-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/cd0e98aa38e2c5a042fe52655cb86850/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:20:13-22:85
+79                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+79-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/cd0e98aa38e2c5a042fe52655cb86850/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:21:17-111
+80                android:value="com.google.firebase.components.ComponentRegistrar" />
+80-->[com.google.firebase:firebase-firestore:21.4.3] /home/xavier/.gradle/caches/transforms-2/files-2.1/cd0e98aa38e2c5a042fe52655cb86850/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:22:17-82
+81            <meta-data
+81-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/a0b59fda7c2e422be0d2514894b83d26/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:30:13-32:85
+82                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+82-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/a0b59fda7c2e422be0d2514894b83d26/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:31:17-139
+83                android:value="com.google.firebase.components.ComponentRegistrar" />
+83-->[com.google.android.gms:play-services-measurement-api:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/a0b59fda7c2e422be0d2514894b83d26/jetified-play-services-measurement-api-17.4.1/AndroidManifest.xml:32:17-82
+84            <meta-data
+84-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:32:13-34:85
+85                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+85-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:33:17-96
+86                android:value="com.google.firebase.components.ComponentRegistrar" />
+86-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:34:17-82
+87            <meta-data
+87-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4cabbedd9cbc3aa3a2090ba7b5e48069/jetified-firebase-installations-16.2.1/AndroidManifest.xml:17:13-19:85
+88                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+88-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4cabbedd9cbc3aa3a2090ba7b5e48069/jetified-firebase-installations-16.2.1/AndroidManifest.xml:18:17-127
+89                android:value="com.google.firebase.components.ComponentRegistrar" />
+89-->[com.google.firebase:firebase-installations:16.2.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4cabbedd9cbc3aa3a2090ba7b5e48069/jetified-firebase-installations-16.2.1/AndroidManifest.xml:19:17-82
+90        </service>
+91
+92        <activity
+92-->[:url_launcher] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+93            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+93-->[:url_launcher] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+94            android:exported="false"
+94-->[:url_launcher] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+95            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+95-->[:url_launcher] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+96
+97        <provider
+97-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
+98            android:name="io.flutter.plugins.share.ShareFileProvider"
+98-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-70
+99            android:authorities="pt.ua.my_shopping_list.flutter.share_provider"
+99-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-74
+100            android:exported="false"
+100-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
+101            android:grantUriPermissions="true" >
+101-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
+102            <meta-data
+102-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:68
+103                android:name="android.support.FILE_PROVIDER_PATHS"
+103-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
+104                android:resource="@xml/flutter_share_file_paths" />
+104-->[:share] /home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/share/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-65
+105        </provider>
+106
+107        <activity
+107-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:24:9-31:50
+108            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+108-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:25:13-85
+109            android:excludeFromRecents="true"
+109-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:26:13-46
+110            android:exported="true"
+110-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:27:13-36
+111            android:launchMode="singleTask"
+111-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:28:13-44
+112            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+112-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:29:13-102
+113            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+113-->[com.google.firebase:firebase-auth:19.3.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/4764faef9ac526437982ac3a8e5a5831/jetified-firebase-auth-19.3.1/AndroidManifest.xml:30:13-72
+114
+115        <receiver
+115-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:37:9-44:20
+116            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+116-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:38:13-78
+117            android:exported="true"
+117-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:39:13-36
+118            android:permission="com.google.android.c2dm.permission.SEND" >
+118-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:40:13-73
+119            <intent-filter>
+119-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:41:13-43:29
+120                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+120-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:17-81
+120-->[com.google.firebase:firebase-iid:20.1.5] /home/xavier/.gradle/caches/transforms-2/files-2.1/4a0bd0da644c4a5535a5cd2bd180b2a3/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:25-78
+121            </intent-filter>
+122        </receiver>
+123
+124        <activity
+124-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/f4155c77e4bc8861ca8d80daef019309/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+125            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+125-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/f4155c77e4bc8861ca8d80daef019309/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+126            android:exported="false"
+126-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/f4155c77e4bc8861ca8d80daef019309/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+127            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+127-->[com.google.android.gms:play-services-base:17.1.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/f4155c77e4bc8861ca8d80daef019309/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+128
+129        <receiver
+129-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:29:9-33:20
+130            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+130-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:30:13-85
+131            android:enabled="true"
+131-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:31:13-35
+132            android:exported="false" >
+132-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:32:13-37
+133        </receiver>
+134
+135        <service
+135-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:35:9-38:40
+136            android:name="com.google.android.gms.measurement.AppMeasurementService"
+136-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:36:13-84
+137            android:enabled="true"
+137-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:37:13-35
+138            android:exported="false" />
+138-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:38:13-37
+139        <service
+139-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:39:9-43:72
+140            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+140-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:40:13-87
+141            android:enabled="true"
+141-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:41:13-35
+142            android:exported="false"
+142-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:42:13-37
+143            android:permission="android.permission.BIND_JOB_SERVICE" />
+143-->[com.google.android.gms:play-services-measurement:17.4.1] /home/xavier/.gradle/caches/transforms-2/files-2.1/ee674cf5e186f2960c23034bd05c0210/jetified-play-services-measurement-17.4.1/AndroidManifest.xml:43:13-69
+144
+145        <provider
+145-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
+146            android:name="com.google.firebase.provider.FirebaseInitProvider"
+146-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
+147            android:authorities="pt.ua.my_shopping_list.firebaseinitprovider"
+147-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
+148            android:exported="false"
+148-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
+149            android:initOrder="100" />
+149-->[com.google.firebase:firebase-common:19.3.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/4084c0fce3ae27e4e0e94b43509b2073/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
+150
+151        <meta-data
+151-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/096320c55d9bd7df3a4f77a60c3b188b/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+152            android:name="com.google.android.gms.version"
+152-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/096320c55d9bd7df3a4f77a60c3b188b/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+153            android:value="@integer/google_play_services_version" />
+153-->[com.google.android.gms:play-services-basement:17.0.0] /home/xavier/.gradle/caches/transforms-2/files-2.1/096320c55d9bd7df3a4f77a60c3b188b/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+154    </application>
+155
+156</manifest>

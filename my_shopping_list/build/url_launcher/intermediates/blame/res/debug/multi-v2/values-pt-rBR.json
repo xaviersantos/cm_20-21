@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/values-pt-rBR/values-pt-rBR.xml",
+            "outputFile": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
                     "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/values-pt-rBR/values-pt-rBR.xml",
@@ -16,7 +16,7 @@
             ]
         },
         {
-            "outputFile": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rBR/values-pt-rBR.xml",
+            "outputFile": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
                     "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/values-pt-rBR/values-pt-rBR.xml",

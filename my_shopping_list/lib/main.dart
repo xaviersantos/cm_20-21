@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:myshoppinglist/ui/page_done.dart';
 import 'package:myshoppinglist/ui/page_settings.dart';
-import 'package:myshoppinglist/ui/page_task.dart';
+import 'package:myshoppinglist/ui/page_item.dart';
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage>
     DonePage(
       user: _currentUser,
     ),
-    TaskPage(
+    ItemPage(
       user: _currentUser,
     ),
     SettingsPage(
@@ -78,11 +78,11 @@ class _HomePageState extends State<HomePage>
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: new Icon(FontAwesomeIcons.calendarCheck),
-              title: new Text("")),
+              label: ''),
           BottomNavigationBarItem(
-              icon: new Icon(FontAwesomeIcons.calendar), title: new Text("")),
+              icon: new Icon(FontAwesomeIcons.calendar), label: ''),
           BottomNavigationBarItem(
-              icon: new Icon(FontAwesomeIcons.slidersH), title: new Text(""))
+              icon: new Icon(FontAwesomeIcons.slidersH), label: '')
         ],
       ),
       body: _children[_currentIndex],

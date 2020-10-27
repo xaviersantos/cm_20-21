@@ -48,7 +48,7 @@ class DiamondFab extends StatefulWidget {
 }
 
 class DiamondFabState extends State<DiamondFab> {
-  bool _hightlight = false;
+  bool _highlight = false;
   VoidCallback _notchChange;
 
   @override
@@ -77,8 +77,8 @@ class DiamondFabState extends State<DiamondFab> {
 
     result = RawMaterialButton(
       onPressed: widget.onPressed,
-      onHighlightChanged: _handleHightlightChanged,
-      elevation: _hightlight ? widget.highlightElevation : widget.elevation,
+      onHighlightChanged: _handleHighlightChanged,
+      elevation: _highlight ? widget.highlightElevation : widget.elevation,
       constraints: widget._sizeConstraints,
       fillColor: widget.backgroundColor ?? theme.accentColor,
       textStyle: theme.accentTextTheme.button.copyWith(
@@ -115,8 +115,8 @@ class DiamondFabState extends State<DiamondFab> {
   }
 
   // Draws the Notch.
-  void _handleHightlightChanged(bool value) {
-    setState(() => _hightlight = value);
+  void _handleHighlightChanged(bool value) {
+    setState(() => _highlight = value);
   }
 }
 

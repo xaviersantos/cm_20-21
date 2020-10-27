@@ -29,15 +29,6 @@ class _SettingsPageState extends State<SettingsPage>
         androidAppId: "pt.ua.my_shopping_list", iOSAppId: "1435481664");
   }
 
-  _launchURL() async {
-    const url = 'https://twitter.com/HugoExtrat';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Task',
+                              'App',
                               style: new TextStyle(
                                   fontSize: 30.0, fontWeight: FontWeight.bold),
                             ),
@@ -107,15 +98,6 @@ class _SettingsPageState extends State<SettingsPage>
                       ),
                       title: Text("Version"),
                       trailing: Text("1.0.0"),
-                    ),
-                    ListTile(
-                      onTap: _launchURL,
-                      leading: Icon(
-                        FontAwesomeIcons.twitter,
-                        color: Colors.blue,
-                      ),
-                      title: Text("Twitter"),
-                      trailing: Icon(Icons.arrow_right),
                     ),
                     ListTile(
                       onTap: rateApp,

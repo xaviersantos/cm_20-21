@@ -1,7 +1,7 @@
-class ElementTask{
+class ElementItem{
   final String name;
   final bool isDone;
 
-  ElementTask(this.name, this.isDone);
+  ElementItem(this.name, this.isDone);
 
 }

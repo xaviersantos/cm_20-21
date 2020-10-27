@@ -1,22 +1,22 @@
 [
     {
-        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_low_normal.9.png",
-        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
-    },
-    {
-        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_normal.9.png",
-        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_normal.9.png"
-    },
-    {
-        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notify_panel_notification_icon_bg.png",
+        "merged": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notify_panel_notification_icon_bg.png",
         "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
     },
     {
-        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_low_pressed.9.png",
+        "merged": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_normal_pressed.9.png",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_low_normal.9.png",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_low_pressed.9.png",
         "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
     },
     {
-        "merged": "/home/xavier/Desktop/CM/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_normal_pressed.9.png",
-        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
+        "merged": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/url_launcher/intermediates/res/merged/debug/drawable-hdpi-v4/notification_bg_normal.9.png",
+        "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/3727f332117a7c80090c9294824b208b/core-1.1.0/res/drawable-hdpi-v4/notification_bg_normal.9.png"
     }
 ]

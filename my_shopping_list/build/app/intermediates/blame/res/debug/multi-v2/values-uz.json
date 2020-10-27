@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/xavier/Desktop/CM/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
+            "outputFile": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
             "map": [
                 {
                     "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/ca004154b2bec333c63ad6bcd644bdde/jetified-play-services-basement-17.0.0/res/values-uz/values.xml",

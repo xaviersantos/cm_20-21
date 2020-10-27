@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/xavier/Desktop/CM/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-de/values-de.xml",
+            "outputFile": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-de/values-de.xml",
             "map": [
                 {
                     "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/60811ca2d9928ba4b33bd47780d4a17f/core-1.3.1/res/values-de/values-de.xml",

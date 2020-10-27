@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/xavier/Desktop/CM/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/home/xavier/.gradle/caches/transforms-2/files-2.1/60811ca2d9928ba4b33bd47780d4a17f/core-1.3.1/res/values/values.xml",
@@ -40,7 +40,7 @@
                     }
                 },
                 {
-                    "source": "/home/xavier/Desktop/CM/my_shopping_list/android/app/src/main/res/values/styles.xml",
+                    "source": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -59,7 +59,7 @@
                     }
                 },
                 {
-                    "source": "/home/xavier/Desktop/CM/my_shopping_list/build/app/generated/res/google-services/debug/values/values.xml",
+                    "source": "/home/xavier/Desktop/CM/cm_20-21/my_shopping_list/build/app/generated/res/google-services/debug/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

@@ -108,28 +108,28 @@ class _DonePageState extends State<DonePage>
   }
 
   getExpenseItems(AsyncSnapshot<QuerySnapshot> snapshot) {
-    List<ElementTask> listElement = new List(), listElement2;
-    Map<String, List<ElementTask>> userMap = new Map();
+    List<ElementItem> listElement = new List(), listElement2;
+    Map<String, List<ElementItem>> userMap = new Map();
 
     List<String> cardColor = new List();
     if (widget.user.uid.isNotEmpty) {
       cardColor.clear();
 
-      snapshot.data.documents.map<List>((f) {
+      snapshot.data.docs.map<List>((f) {
         f.data().forEach((a, b) {
           if (b.runtimeType == bool) {
-            listElement.add(new ElementTask(a, b));
+            listElement.add(new ElementItem(a, b));
           }
           if (b.runtimeType == String && a == "color") {
             cardColor.add(b);
           }
         });
-        listElement2 = new List<ElementTask>.from(listElement);
-        userMap[f.documentID] = listElement2;
+        listElement2 = new List<ElementItem>.from(listElement);
+        userMap[f.id] = listElement2;
 
         for (int i = 0; i < listElement2.length; i++) {
           if (listElement2.elementAt(i).isDone == false) {
-            userMap.remove(f.documentID);
+            userMap.remove(f.id);
             if (cardColor.isNotEmpty) {
               cardColor.removeLast();
             }
@@ -138,7 +138,7 @@ class _DonePageState extends State<DonePage>
           }
         }
         if (listElement2.length == 0) {
-          userMap.remove(f.documentID);
+          userMap.remove(f.id);
           cardColor.removeLast();
         }
         listElement.clear();

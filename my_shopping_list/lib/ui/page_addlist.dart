@@ -9,16 +9,16 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'package:connectivity/connectivity.dart';
 
-class NewTaskPage extends StatefulWidget {
+class NewItemPage extends StatefulWidget {
   final auth.User user;
 
-  NewTaskPage({Key key, this.user}) : super(key: key);
+  NewItemPage({Key key, this.user}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _NewTaskPageState();
+  State<StatefulWidget> createState() => _NewItemPageState();
 }
 
-class _NewTaskPageState extends State<NewTaskPage> {
+class _NewItemPageState extends State<NewItemPage> {
   TextEditingController listNameController = new TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -72,19 +72,19 @@ class _NewTaskPageState extends State<NewTaskPage> {
       bool isExist = false;
 
       QuerySnapshot query =
-      await Firestore.instance.collection(widget.user.uid).getDocuments();
+      await FirebaseFirestore.instance.collection(widget.user.uid).get();
 
-      query.documents.forEach((doc) {
-        if (listNameController.text.toString() == doc.documentID) {
+      query.docs.forEach((doc) {
+        if (listNameController.text.toString() == doc.id) {
           isExist = true;
         }
       });
 
       if (isExist == false && listNameController.text.isNotEmpty) {
-        await Firestore.instance
+        await FirebaseFirestore.instance
             .collection(widget.user.uid)
-            .document(listNameController.text.toString().trim())
-            .setData({
+            .doc(listNameController.text.toString().trim())
+            .set({
           "color": currentColor.value.toString(),
           "date": DateTime.now().millisecondsSinceEpoch
         });
@@ -203,13 +203,22 @@ class _NewTaskPageState extends State<NewTaskPage> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('Pick a color!'),
+                                      titlePadding: const EdgeInsets.all(0.0),
+                                      contentPadding: const EdgeInsets.all(0.0),
                                       content: SingleChildScrollView(
                                         child: ColorPicker(
-                                          pickerColor: pickerColor,
+                                          pickerColor: currentColor,
                                           onColorChanged: changeColor,
-                                          colorPickerWidth: 1000.0,
+                                          colorPickerWidth: 300.0,
                                           pickerAreaHeightPercent: 0.7,
+                                          enableAlpha: false,
+                                          displayThumbColor: true,
+                                          showLabel: false,
+                                          paletteType: PaletteType.hsv,
+                                          pickerAreaBorderRadius: const BorderRadius.only(
+                                            topLeft: const Radius.circular(2.0),
+                                            topRight: const Radius.circular(2.0),
+                                          ),
                                         ),
                                       ),
                                       actions: <Widget>[
@@ -217,7 +226,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                                           child: Text('Got it'),
                                           onPressed: () {
                                             setState(() =>
-                                                currentColor = pickerColor);
+                                            currentColor = pickerColor);
                                             Navigator.of(context).pop();
                                           },
                                         ),
