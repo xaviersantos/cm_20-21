@@ -26,7 +26,6 @@ class _ItemPageState extends State<ItemPage>
     return Scaffold(
       body: ListView(
         children: <Widget>[
-          _getToolbar(context),
           new Column(
             children: <Widget>[
               Padding(
@@ -381,27 +380,6 @@ class _ItemPageState extends State<ItemPage>
               ),
             ),
       ),
-    );
-    //Navigator.of(context).pushNamed('/new');
-  }
-
-  Padding _getToolbar(BuildContext context) {
-    return new Padding(
-      padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
-      child:
-      new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new Image(
-                width: 40.0,
-                height: 40.0,
-                fit: BoxFit.cover,
-                image: new AssetImage('assets/list.png')
-            ),
-          ),
-        ),
-      ]),
     );
   }
 }

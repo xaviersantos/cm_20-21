@@ -118,7 +118,6 @@ class _NewItemPageState extends State<NewItemPage> {
       body: ModalProgressHUD(
           child: new Stack(
             children: <Widget>[
-              _getToolbar(context),
               Container(
                 child: Column(
                   children: <Widget>[
@@ -300,12 +299,5 @@ class _NewItemPageState extends State<NewItemPage> {
       backgroundColor: currentColor,
       duration: Duration(seconds: 3),
     ));
-  }
-
-  Container _getToolbar(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.only(left: 10.0, top: 40.0),
-      child: new BackButton(color: Colors.black),
-    );
   }
 }

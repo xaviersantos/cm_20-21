@@ -28,6 +28,7 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       //key: _scaffoldKey,
       backgroundColor: Colors.white,
+      resizeToAvoidBottomPadding: false,
       body: new Stack(
         children: <Widget>[
           _getToolbar(context),
