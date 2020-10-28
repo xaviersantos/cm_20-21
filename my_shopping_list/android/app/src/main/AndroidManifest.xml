@@ -16,7 +16,7 @@
         android:label="my_shopping_list"
         android:icon="@mipmap/ic_launcher">
 
-        <meta-data android:name="com.google.android.geo.AIzaSyAI-zd0IhN14UFT9AMvNMuZda0nDSTvcfI"
+        <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAI-zd0IhN14UFT9AMvNMuZda0nDSTvcfI"/>
 
         <activity

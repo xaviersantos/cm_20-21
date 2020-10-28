@@ -19,7 +19,7 @@ class _DonePageState extends State<DonePage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng _center = const LatLng(0.0, 0.0);
+  static const LatLng _center = const LatLng(40.630107, -8.657132);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -77,11 +77,11 @@ class _DonePageState extends State<DonePage>
           Padding(
               padding:
               EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
-              child: new Column(
+              child: Column(
                   children: [
-                    new SizedBox(
+                    Container(
                         width: MediaQuery.of(context).size.width,  // or use fixed size like 200
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
                             onMapCreated: _onMapCreated,
                             initialCameraPosition: CameraPosition(
