@@ -15,6 +15,8 @@ class DonePage extends StatefulWidget {
   State<StatefulWidget> createState() => _DonePageState();
 }
 
+final Map<String, Marker> _markers = {};
+
 class _DonePageState extends State<DonePage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
@@ -23,6 +25,11 @@ class _DonePageState extends State<DonePage>
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+
+    // uncomment to clear on reload:
+    // setState(() {
+    //   _markers.clear();
+    // });
   }
 
   @override
@@ -87,7 +94,24 @@ class _DonePageState extends State<DonePage>
                             initialCameraPosition: CameraPosition(
                               target: _center,
                               zoom: 11.0,
-                            )
+                            ),
+                            onTap: (LatLng latLng) {
+                              setState(() {
+                                var lat = latLng.latitude;
+                                var lng = latLng.longitude;
+                                var i = _markers.length.toString();
+                                final marker = Marker(
+                                  markerId: MarkerId(i),
+                                  position: LatLng(lat, lng),
+                                  infoWindow: InfoWindow(
+                                    title: "Nome do sitio?",
+                                    snippet: "Nome da lista?",
+                                  ),
+                                );
+                                _markers[i] = marker;
+                              });
+                            },
+                            markers: _markers.values.toSet(),     // Add markers
                         )
                     )
                   ]
