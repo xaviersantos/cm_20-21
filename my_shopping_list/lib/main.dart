@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
         fixedColor: Colors.deepPurple,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: new Icon(FontAwesomeIcons.calendarCheck),
+              icon: new Icon(FontAwesomeIcons.globeAmericas),
               label: ''),
           BottomNavigationBarItem(
               icon: new Icon(FontAwesomeIcons.calendar), label: ''),
