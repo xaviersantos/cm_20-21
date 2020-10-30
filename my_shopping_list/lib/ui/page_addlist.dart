@@ -42,7 +42,6 @@ class _NewItemPageState extends State<NewItemPage> {
       print(e.toString());
       connectionStatus = 'Failed to get connectivity.';
     }
-
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
@@ -113,6 +112,7 @@ class _NewItemPageState extends State<NewItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("page_addlist"); // debug
     return Scaffold(
       key: _scaffoldKey,
       body: ModalProgressHUD(

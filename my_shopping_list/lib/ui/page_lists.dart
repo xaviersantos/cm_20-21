@@ -8,21 +8,22 @@ import 'package:myshoppinglist/ui/page_detail.dart';
 
 import 'page_addlist.dart';
 
-class ItemPage extends StatefulWidget {
+class ListsPage extends StatefulWidget {
   final auth.User user;
 
-  ItemPage({Key key, this.user}) : super(key: key);
+  ListsPage({Key key, this.user}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ItemPageState();
+  State<StatefulWidget> createState() => _ListsPageState();
 }
 
-class _ItemPageState extends State<ItemPage>
+class _ListsPageState extends State<ListsPage>
     with SingleTickerProviderStateMixin {
   int index = 1;
 
   @override
   Widget build(BuildContext context) {
+    print("page_lists"); // debug
     return Scaffold(
       body: ListView(
         children: <Widget>[

@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:myshoppinglist/ui/page_map.dart';
 import 'package:myshoppinglist/ui/page_settings.dart';
-import 'package:myshoppinglist/ui/page_item.dart';
+import 'package:myshoppinglist/ui/page_lists.dart';
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,10 +57,10 @@ class _HomePageState extends State<HomePage>
   int _currentIndex = 1;
 
   final List<Widget> _children = [
-    DonePage(
+    MapPage(
       user: _currentUser,
     ),
-    ItemPage(
+    ListsPage(
       user: _currentUser,
     ),
     SettingsPage(

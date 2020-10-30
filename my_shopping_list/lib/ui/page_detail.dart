@@ -5,6 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myshoppinglist/model/element.dart';
+import 'package:myshoppinglist/ui/page_setlocation.dart';
 import 'package:myshoppinglist/utils/diamond_fab.dart';
 
 class DetailPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("page_details"); // debug
     return Scaffold(
       //key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -385,11 +387,15 @@ class _DetailPageState extends State<DetailPage> {
       padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 12.0),
       child:
           new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            new Image(
-                width: 35.0,
-                height: 35.0,
-                fit: BoxFit.cover,
-                image: new AssetImage('assets/list.png')
+            new GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: new Icon(
+                FontAwesomeIcons.arrowLeft,
+                size: 40.0,
+                color: currentColor,
+              ),
             ),
         RaisedButton(
           elevation: 3.0,
@@ -444,11 +450,53 @@ class _DetailPageState extends State<DetailPage> {
           textColor: const Color(0xffffffff),
         ),
         GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
+          onTap: () { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            Navigator.of(context).push(
+              new PageRouteBuilder(
+                pageBuilder: (_, __, ___) => new SetLocationPage(
+                  user: widget.user,
+                  // i: index,
+                  // currentList: userMap,
+                  // color: cardColor.elementAt(index),
+                ),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                new ScaleTransition(
+                  scale: new Tween<double>(
+                    begin: 1.5,
+                    end: 1.0,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Interval(
+                        0.50,
+                        1.00,
+                        curve: Curves.linear,
+                      ),
+                    ),
+                  ),
+                  child: ScaleTransition(
+                    scale: Tween<double>(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Interval(
+                          0.00,
+                          0.50,
+                          curve: Curves.linear,
+                        ),
+                      ),
+                    ),
+                    child: child,
+                  ),
+                ),
+              ),
+            );
           },
           child: new Icon(
-            Icons.close,
+            FontAwesomeIcons.mapMarkedAlt,
             size: 40.0,
             color: currentColor,
           ),
