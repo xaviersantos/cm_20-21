@@ -11,6 +11,21 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+//// ----------------------------
+ext {
+    compileSdkVersion = 29
+}
+
+subprojects { subproject ->
+    afterEvaluate{
+        if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+            }
+        }
+    }
+}
+//// ---------------------------
 
 allprojects {
     repositories {

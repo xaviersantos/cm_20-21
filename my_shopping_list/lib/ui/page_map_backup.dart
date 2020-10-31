@@ -22,17 +22,12 @@ final Map<String, Marker> _markers = {};
 class _MapPageState extends State<MapPage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
-  // final Geolocator geolocator = Geolocator();//..forceAndroidLocationManager;
-  Position _currentPosition;
 
   static const LatLng _center = const LatLng(40.630107, -8.657132);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-    _getCurrentLocation();
-    print("Current pos:"+_currentPosition.toString());
-    print((Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)).toString()); //TODO: add marker
+
     // setState(() {
     //   _markers.clear();
     // });
@@ -137,39 +132,11 @@ class _MapPageState extends State<MapPage>
   void initState() {
     super.initState();
 
-    _getCurrentLocation();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
   }
-
-  _getCurrentLocation() {
-    Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-
-      // _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  // _getAddressFromLatLng() async {
-  //   try {
-  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
-  //         _currentPosition.latitude, _currentPosition.longitude);
-  //
-  //     Placemark place = p[0];
-  //
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }
 
 

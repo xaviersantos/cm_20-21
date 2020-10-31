@@ -150,6 +150,7 @@ class _ListsPageState extends State<ListsPage>
     if (widget.user.uid.isNotEmpty) {
       cardColor.clear();
 
+      // ignore: missing_return
       snapshot.data.docs.map<List>((f) {
         String color;
         f.data().forEach((a, b) {

@@ -4,35 +4,39 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myshoppinglist/model/element.dart';
-import 'package:geolocator/geolocator.dart';
 
-class MapPage extends StatefulWidget {
+
+class SetLocationPage extends StatefulWidget {
   final auth.User user;
+  ///
+  final int i;
+  final Map<String, List<ElementItem>> currentList;
+  final String color;
 
-  MapPage({Key key, this.user}) : super(key: key);
+  SetLocationPage({Key key, this.user, this.i, this.currentList, this.color})
+      : super(key: key);
+  ///
+
+
+  // SetLocationPage({Key key, this.user}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MapPageState();
+  State<StatefulWidget> createState() => _SetLocationPageState();
 }
 
 final Map<String, Marker> _markers = {};
 
-class _MapPageState extends State<MapPage>
+class _SetLocationPageState extends State<SetLocationPage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
-  // final Geolocator geolocator = Geolocator();//..forceAndroidLocationManager;
-  Position _currentPosition;
 
   static const LatLng _center = const LatLng(40.630107, -8.657132);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-    _getCurrentLocation();
-    print("Current pos:"+_currentPosition.toString());
-    print((Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)).toString()); //TODO: add marker
+
     // setState(() {
     //   _markers.clear();
     // });
@@ -64,12 +68,12 @@ class _MapPageState extends State<MapPage>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Items',
+                              'Set',
                               style: new TextStyle(
                                   fontSize: 30.0, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Nearby',
+                              'Location',
                               style: new TextStyle(
                                   fontSize: 28.0, color: Colors.grey),
                             )
@@ -87,37 +91,38 @@ class _MapPageState extends State<MapPage>
               ),
             ],
           ),
+          _getToolbar(context),
           Padding(
               padding:
-              EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+              EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
               child: Column(
                   children: [
                     Container(
                         width: MediaQuery.of(context).size.width,  // or use fixed size like 200
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
-                            onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                              target: _center,
-                              zoom: 11.0,
-                            ),
-                            onTap: (LatLng latLng) {
-                              setState(() {
-                                var lat = latLng.latitude;
-                                var lng = latLng.longitude;
-                                var i = _markers.length.toString();
-                                final marker = Marker(
-                                  markerId: MarkerId(i),
-                                  position: LatLng(lat, lng),
-                                  infoWindow: InfoWindow(
-                                    title: "Nome do sitio?",
-                                    snippet: "Nome da lista?",
-                                  ),
-                                );
-                                _markers[i] = marker;
-                              });
-                            },
-                            markers: _markers.values.toSet(),     // Add markers
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _center,
+                            zoom: 11.0,
+                          ),
+                          onTap: (LatLng latLng) {
+                            setState(() {
+                              var lat = latLng.latitude;
+                              var lng = latLng.longitude;
+                              var i = _markers.length.toString();
+                              final marker = Marker(
+                                markerId: MarkerId(i),
+                                position: LatLng(lat, lng),
+                                infoWindow: InfoWindow(
+                                  title: "Nome do sitio?",
+                                  snippet: "Nome da lista?",
+                                ),
+                              );
+                              _markers[i] = marker;
+                            });
+                          },
+                          markers: _markers.values.toSet(),     // Add markers
                         )
                     )
                   ]
@@ -137,39 +142,28 @@ class _MapPageState extends State<MapPage>
   void initState() {
     super.initState();
 
-    _getCurrentLocation();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
   }
 
-  _getCurrentLocation() {
-    Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-
-      // _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
+  Padding _getToolbar(BuildContext context) {
+    return new Padding(
+      padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 12.0),
+      child:
+      new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        new GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: new Icon(
+            FontAwesomeIcons.arrowLeft,
+            size: 40.0,
+            // color: currentColor, //TODO
+          ),
+        ),
+      ]),
+    );
   }
-
-  // _getAddressFromLatLng() async {
-  //   try {
-  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
-  //         _currentPosition.latitude, _currentPosition.longitude);
-  //
-  //     Placemark place = p[0];
-  //
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }
-
-

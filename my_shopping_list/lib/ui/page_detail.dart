@@ -8,6 +8,7 @@ import 'package:myshoppinglist/model/element.dart';
 import 'package:myshoppinglist/ui/page_setlocation.dart';
 import 'package:myshoppinglist/utils/diamond_fab.dart';
 
+
 class DetailPage extends StatefulWidget {
   final auth.User user;
   final int i;
@@ -450,13 +451,13 @@ class _DetailPageState extends State<DetailPage> {
           textColor: const Color(0xffffffff),
         ),
         GestureDetector(
-          onTap: () { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+          onTap: () {
             Navigator.of(context).push(
               new PageRouteBuilder(
-                pageBuilder: (_, __, ___) => new SetLocationPage(
+                pageBuilder: (_, __, ___) => new SetLocationPage( // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                   user: widget.user,
-                  // i: index,
-                  // currentList: userMap,
+                  // i: i,
+                  // currentList: this.userMap,
                   // color: cardColor.elementAt(index),
                 ),
                 transitionsBuilder:
