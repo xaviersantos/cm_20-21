@@ -22,20 +22,30 @@ final Map<String, Marker> _markers = {};
 class _MapPageState extends State<MapPage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
-  // final Geolocator geolocator = Geolocator();//..forceAndroidLocationManager;
   Position _currentPosition;
 
   static const LatLng _center = const LatLng(40.630107, -8.657132);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+
     _getCurrentLocation();
-    print("Current pos:"+_currentPosition.toString());
-    print((Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)).toString()); //TODO: add marker
-    // setState(() {
-    //   _markers.clear();
-    // });
+
+    print("\n\n----------------\nCurrent pos:"+_currentPosition.toString()+"\n----------------");
+
+    // Place your position on the map
+    setState(() { //TODO: different color marker?
+      _markers['self'] = Marker(
+        markerId: MarkerId('self'),
+        position: LatLng(
+            _currentPosition.latitude,
+            _currentPosition.longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: "You",
+        ),
+      );
+    });
   }
 
   @override
@@ -109,6 +119,7 @@ class _MapPageState extends State<MapPage>
                                 final marker = Marker(
                                   markerId: MarkerId(i),
                                   position: LatLng(lat, lng),
+                                  icon: BitmapDescriptor.defaultMarker,
                                   infoWindow: InfoWindow(
                                     title: "Nome do sitio?",
                                     snippet: "Nome da lista?",
@@ -152,24 +163,11 @@ class _MapPageState extends State<MapPage>
       setState(() {
         _currentPosition = position;
       });
-
-      // _getAddressFromLatLng();
     }).catchError((e) {
       print(e);
     });
   }
 
-  // _getAddressFromLatLng() async {
-  //   try {
-  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
-  //         _currentPosition.latitude, _currentPosition.longitude);
-  //
-  //     Placemark place = p[0];
-  //
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }
 
 
