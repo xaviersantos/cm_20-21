@@ -456,9 +456,9 @@ class _DetailPageState extends State<DetailPage> {
               new PageRouteBuilder(
                 pageBuilder: (_, __, ___) => new SetLocationPage( // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                   user: widget.user,
-                  // i: i,
-                  // currentList: this.userMap,
-                  // color: cardColor.elementAt(index),
+                  i: widget.i,
+                  currentList: widget.currentList,
+                  color: widget.color,
                 ),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>

@@ -11,16 +11,16 @@ import 'package:myshoppinglist/model/element.dart';
 class SetLocationPage extends StatefulWidget {
   final auth.User user;
   ///
-  // final int i;
-  // final Map<String, List<ElementItem>> currentList;
-  // final String color;
+  final int i;
+  final Map<String, List<ElementItem>> currentList;
+  final String color;
 
-  // SetLocationPage({Key key, this.user, this.i, this.currentList, this.color})
-  //     : super(key: key);
+  SetLocationPage({Key key, this.user, this.i, this.currentList, this.color})
+      : super(key: key);
   ///
 
 
-  SetLocationPage({Key key, this.user}) : super(key: key);
+  // SetLocationPage({Key key, this.user}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SetLocationPageState();
@@ -138,10 +138,11 @@ class _SetLocationPageState extends State<SetLocationPage>
     super.dispose();
   }
 
+  Color currentColor;
   @override
   void initState() {
     super.initState();
-
+    currentColor = Color(int.parse(widget.color));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -160,7 +161,7 @@ class _SetLocationPageState extends State<SetLocationPage>
           child: new Icon(
             FontAwesomeIcons.arrowLeft,
             size: 40.0,
-            // color: currentColor, //TODO
+            color: currentColor,
           ),
         ),
       ]),
