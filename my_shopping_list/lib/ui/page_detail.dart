@@ -15,7 +15,6 @@ class DetailPage extends StatefulWidget {
   final int i;
   final Map<String, List<ElementItem>> currentList;
   final String color;
-  // final Position location;
 
   DetailPage({Key key, this.user, this.i, this.currentList, this.color})
       : super(key: key);
@@ -458,7 +457,7 @@ class _DetailPageState extends State<DetailPage> {
           onTap: () {
             Navigator.of(context).push(
               new PageRouteBuilder(
-                pageBuilder: (_, __, ___) => new SetLocationPage( // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                pageBuilder: (_, __, ___) => new SetLocationPage(
                   user: widget.user,
                   i: widget.i,
                   currentList: widget.currentList,

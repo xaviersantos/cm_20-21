@@ -34,11 +34,6 @@ class _MapPageState extends State<MapPage>
     _controller.complete(controller);
 
     _getCurrentLocation();
-
-    print("\n\n----------------\nCurrent pos:"+_currentPosition.toString()+"\n----------------");
-
-    // Place your position on the map
-
   }
 
   @override
@@ -139,8 +134,6 @@ class _MapPageState extends State<MapPage>
   @override
   void initState() {
     super.initState();
-
-    // _getCurrentLocation();
 
     _timer = new Timer.periodic(refreshLocationTime, (Timer t) => _getCurrentLocation());
 
