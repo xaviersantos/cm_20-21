@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,9 +38,6 @@ class _SetLocationPageState extends State<SetLocationPage>
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
 
-    // setState(() {
-    //   _markers.clear();
-    // });
   }
 
   @override
@@ -108,12 +106,16 @@ class _SetLocationPageState extends State<SetLocationPage>
                           ),
                           onTap: (LatLng latLng) {
                             setState(() {
-                              var lat = latLng.latitude;
-                              var lng = latLng.longitude;
                               var i = _markers.length.toString();
+                              FirebaseFirestore.instance
+                                  .collection(widget.user.uid)
+                                  .doc(
+                                  widget.currentList.keys.elementAt(widget.i))
+                                  .update(
+                                  {"_location": latLng});
                               final marker = Marker(
                                 markerId: MarkerId(i),
-                                position: LatLng(lat, lng),
+                                position: latLng,
                                 infoWindow: InfoWindow(
                                   title: "Nome do sitio?",
                                   snippet: "Nome da lista?",
@@ -169,17 +171,6 @@ class _SetLocationPageState extends State<SetLocationPage>
   }
 }
 
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart' as auth;
-// import 'package:flutter/material.dart';
-// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-// import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:myshoppinglist/model/element.dart';
-// import 'package:myshoppinglist/utils/diamond_fab.dart';
-// import 'dart:async';
-//
-// import 'package:flutter/services.dart';
 //
 // class SetLocationPage extends StatefulWidget {
 //   final auth.User user;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:myshoppinglist/model/element.dart';
 import 'package:myshoppinglist/ui/page_setlocation.dart';
 import 'package:myshoppinglist/utils/diamond_fab.dart';
@@ -14,6 +15,7 @@ class DetailPage extends StatefulWidget {
   final int i;
   final Map<String, List<ElementItem>> currentList;
   final String color;
+  // final Position location;
 
   DetailPage({Key key, this.user, this.i, this.currentList, this.color})
       : super(key: key);
@@ -24,6 +26,8 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   TextEditingController itemController = new TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {

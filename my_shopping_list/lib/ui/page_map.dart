@@ -8,6 +8,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:myshoppinglist/model/element.dart';
 import 'package:geolocator/geolocator.dart';
 
+
+final Duration refreshLocationTime = new Duration(seconds: 3);
+
 class MapPage extends StatefulWidget {
   final auth.User user;
 
@@ -23,6 +26,7 @@ class _MapPageState extends State<MapPage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
   Position _currentPosition;
+  Timer _timer;
 
   static const LatLng _center = const LatLng(40.630107, -8.657132);
 
@@ -34,18 +38,7 @@ class _MapPageState extends State<MapPage>
     print("\n\n----------------\nCurrent pos:"+_currentPosition.toString()+"\n----------------");
 
     // Place your position on the map
-    setState(() { //TODO: different color marker?
-      _markers['self'] = Marker(
-        markerId: MarkerId('self'),
-        position: LatLng(
-            _currentPosition.latitude,
-            _currentPosition.longitude),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(
-          title: "You",
-        ),
-      );
-    });
+
   }
 
   @override
@@ -111,23 +104,21 @@ class _MapPageState extends State<MapPage>
                               target: _center,
                               zoom: 11.0,
                             ),
-                            onTap: (LatLng latLng) {
-                              setState(() {
-                                var lat = latLng.latitude;
-                                var lng = latLng.longitude;
-                                var i = _markers.length.toString();
-                                final marker = Marker(
-                                  markerId: MarkerId(i),
-                                  position: LatLng(lat, lng),
-                                  icon: BitmapDescriptor.defaultMarker,
-                                  infoWindow: InfoWindow(
-                                    title: "Nome do sitio?",
-                                    snippet: "Nome da lista?",
-                                  ),
-                                );
-                                _markers[i] = marker;
-                              });
-                            },
+                            // onTap: (LatLng latLng) {
+                            //   setState(() {
+                            //     var i = _markers.length.toString();
+                            //     final marker = Marker(
+                            //       markerId: MarkerId(i),
+                            //       position: latLng,
+                            //       icon: BitmapDescriptor.defaultMarker,
+                            //       infoWindow: InfoWindow(
+                            //         title: "Nome do sitio?",
+                            //         snippet: "Nome da lista?",
+                            //       ),
+                            //     );
+                            //     _markers[i] = marker;
+                            //   });
+                            // },
                             markers: _markers.values.toSet(),     // Add markers
                         )
                     )
@@ -142,13 +133,16 @@ class _MapPageState extends State<MapPage>
   @override
   void dispose() {
     super.dispose();
+    _timer.cancel();
   }
 
   @override
   void initState() {
     super.initState();
 
-    _getCurrentLocation();
+    // _getCurrentLocation();
+
+    _timer = new Timer.periodic(refreshLocationTime, (Timer t) => _getCurrentLocation());
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -157,11 +151,22 @@ class _MapPageState extends State<MapPage>
   }
 
   _getCurrentLocation() {
+    print("getting location");
     Geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
+        _markers['self'] = Marker(
+          markerId: MarkerId('self'),
+          position: LatLng(
+              _currentPosition.latitude,
+              _currentPosition.longitude),
+          icon: BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(
+            title: "You",
+          ),
+        );
       });
     }).catchError((e) {
       print(e);

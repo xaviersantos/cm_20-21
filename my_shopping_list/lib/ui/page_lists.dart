@@ -142,7 +142,8 @@ class _ListsPageState extends State<ListsPage>
   }
 
   getExpenseItems(AsyncSnapshot<QuerySnapshot> snapshot) {
-    List<ElementItem> listElement = new List(), listElement2;
+    List<ElementItem> listElement = new List();
+    List<ElementItem> listElement2;
     Map<String, List<ElementItem>> userMap = new Map();
 
     List<String> cardColor = new List();
@@ -153,12 +154,16 @@ class _ListsPageState extends State<ListsPage>
       // ignore: missing_return
       snapshot.data.docs.map<List>((f) {
         String color;
+        String location;
         f.data().forEach((a, b) {
           if (b.runtimeType == bool) {
             listElement.add(new ElementItem(a, b));
           }
           if (b.runtimeType == String && a == "color") {
             color = b;
+          }
+          if (b.runtimeType == String && a == "_location") { //TODO <<<<<<<<<<<<<<<<<<<<<
+            location = b;
           }
         });
         listElement2 = new List<ElementItem>.from(listElement);
