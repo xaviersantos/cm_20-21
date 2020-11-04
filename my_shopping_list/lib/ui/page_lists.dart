@@ -154,7 +154,7 @@ class _ListsPageState extends State<ListsPage>
       // ignore: missing_return
       snapshot.data.docs.map<List>((f) {
         String color;
-        String location;
+        // String location;
         f.data().forEach((a, b) {
           if (b.runtimeType == bool) {
             listElement.add(new ElementItem(a, b));
@@ -162,9 +162,9 @@ class _ListsPageState extends State<ListsPage>
           if (b.runtimeType == String && a == "color") {
             color = b;
           }
-          if (b.runtimeType == String && a == "_location") { //TODO <<<<<<<<<<<<<<<<<<<<<
-            location = b;
-          }
+          // if (b.runtimeType == String && a == "_location") { //TODO <<<<<<<<<<<<<<<<<<<<<
+          //   location = b;
+          // }
         });
         listElement2 = new List<ElementItem>.from(listElement);
         for (int i = 0; i < listElement2.length; i++) {

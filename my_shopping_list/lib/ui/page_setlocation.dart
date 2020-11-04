@@ -172,40 +172,19 @@ class _SetLocationPageState extends State<SetLocationPage>
 
 
   _loadSavedLocation() {
-    LatLng savedPos;
-
-    print("\n\n--------------------");
-
-    print(widget.currentList);
-    //{Lista f: [Instance of 'ElementItem', Instance of 'ElementItem'], Asdff: []}
-
-    print(widget.currentList.keys.elementAt(widget.i));
-    //Lista f
-
-    print(widget.currentList.keys.elementAt(widget.i));
-    //Lista f
-
-    print(FirebaseFirestore.instance
-        .collection(widget.user.uid)
-        .doc(widget.currentList.keys
-        .elementAt(widget.i)));
-    //DocumentReference(YziRuuGnS5Q2IxQNcGYSqf96cUw2/Lista f)
-    ///--------------------------
-
-
     FirebaseFirestore.instance
         .collection(widget.user.uid)
         .doc(widget.currentList.keys.elementAt(widget.i))
         .get()
         .then((DocumentSnapshot documentSnapshot) {
+          // Check if there's an existing setlocation
           if (documentSnapshot.exists && documentSnapshot.data()['_location'] != null) {
             var location = documentSnapshot.data()['_location'];
-            savedPos = LatLng(location[0], location[1]);
-
+            // Put it on the map
             setState(() {
               final marker = Marker(
                 markerId: MarkerId(widget.i.toString()),
-                position: savedPos,
+                position: LatLng(location[0], location[1]),
                 infoWindow: InfoWindow(
                   title: widget.currentList.keys.elementAt(widget.i),
                   snippet: "",
@@ -215,43 +194,6 @@ class _SetLocationPageState extends State<SetLocationPage>
             });
           }
         });
-
-
-      print("\n\n--------");
-
-
-    ///--------------------------
-    // if (widget.i == widget.currentList.keys.elementAt(widget.i)) {
-    //   print("Has data");
-      // f.data().forEach((a, b) {
-      //   if (b.runtimeType == bool) {
-      //     listElement.add(new ElementItem(a, b));
-      //   }
-      // });
-    // }
-    ///--------------------------------
-    // _currentPosition = savedPos;
-    // _markers['self'] = Marker(
-    //   markerId: MarkerId('self'),
-    //   position: savedPos,
-    //   icon: BitmapDescriptor.defaultMarker,
-    //   infoWindow: InfoWindow(
-    //     title: "You",
-    //   ),
-    // );
-    ///--------------------------------
-
-    // setState(() {
-    //   final marker = Marker(
-    //     markerId: MarkerId(widget.i.toString()),
-    //     position: savedPos,
-    //     infoWindow: InfoWindow(
-    //       title: "Nome do sitio?",
-    //       snippet: "Nome da lista?",
-    //     ),
-    //   );
-    //   _markers[widget.i.toString()] = marker;
-    // });
   }
 }
 

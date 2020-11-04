@@ -9,7 +9,19 @@ import 'package:myshoppinglist/model/element.dart';
 import 'package:geolocator/geolocator.dart';
 
 
+
+final Map<String, Marker> _markers = {};
+
+const LatLng _defaultCenter = const LatLng(40.630107, -8.657132);
+const double _defaultZoom = 14;
+
+bool firstCamUpdate = true;
+CameraPosition _cameraPosition = new CameraPosition(
+  target: _defaultCenter,
+  zoom: _defaultZoom,);
 final Duration refreshLocationTime = new Duration(seconds: 3);
+LatLng _currentPosition;
+
 
 class MapPage extends StatefulWidget {
   final auth.User user;
@@ -20,24 +32,23 @@ class MapPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MapPageState();
 }
 
-final Map<String, Marker> _markers = {};
 
-class _MapPageState extends State<MapPage>
-    with SingleTickerProviderStateMixin {
+
+
+class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
+
   Completer<GoogleMapController> _controller = Completer();
-  Position _currentPosition;
-  Timer _timer;
-
-  static const LatLng _center = const LatLng(40.630107, -8.657132);
+  Timer _timerLocation;
+  Timer _timerCamera;
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-
     _getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("\n\n----------\nbuild, _curr:"+_currentPosition.toString());
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -95,25 +106,7 @@ class _MapPageState extends State<MapPage>
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
                             onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                              target: _center,
-                              zoom: 11.0,
-                            ),
-                            // onTap: (LatLng latLng) {
-                            //   setState(() {
-                            //     var i = _markers.length.toString();
-                            //     final marker = Marker(
-                            //       markerId: MarkerId(i),
-                            //       position: latLng,
-                            //       icon: BitmapDescriptor.defaultMarker,
-                            //       infoWindow: InfoWindow(
-                            //         title: "Nome do sitio?",
-                            //         snippet: "Nome da lista?",
-                            //       ),
-                            //     );
-                            //     _markers[i] = marker;
-                            //   });
-                            // },
+                            initialCameraPosition: _cameraPosition,
                             markers: _markers.values.toSet(),     // Add markers
                         )
                     )
@@ -128,14 +121,16 @@ class _MapPageState extends State<MapPage>
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timerLocation.cancel();
   }
 
   @override
   void initState() {
     super.initState();
+    print("\n\n----------\ninit_state, _curr:"+_currentPosition.toString());
 
-    _timer = new Timer.periodic(refreshLocationTime, (Timer t) => _getCurrentLocation());
+    _timerLocation = new Timer.periodic(new Duration(seconds: 3), (Timer t) => _getCurrentLocation());
+    _timerCamera = new Timer.periodic(new Duration(milliseconds: 500), (Timer t) => _setCamera());
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -148,24 +143,43 @@ class _MapPageState extends State<MapPage>
     Geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _markers['self'] = Marker(
-          markerId: MarkerId('self'),
-          position: LatLng(
-              _currentPosition.latitude,
-              _currentPosition.longitude),
-          icon: BitmapDescriptor.defaultMarker,
-          infoWindow: InfoWindow(
-            title: "You",
-          ),
-        );
-      });
+          setState(()  {
+            _currentPosition = LatLng(
+                position.latitude,
+                position.longitude);
+            _markers['self'] = Marker(
+              markerId: MarkerId('self'),
+              position: LatLng(
+                  _currentPosition.latitude,
+                  _currentPosition.longitude),
+              icon: BitmapDescriptor.defaultMarker,
+              infoWindow: InfoWindow(
+                title: "You",
+              ),
+            );
+            _cameraPosition = new CameraPosition(
+                target: _currentPosition,
+                zoom:_defaultZoom);
+          });
     }).catchError((e) {
       print(e);
     });
   }
 
+  _setCamera() {
+    // firstCamUpdate = false;
+    if (_currentPosition != null) {
+      setState(() async {
+        final GoogleMapController controller = await _controller.future;
+        controller.animateCamera(
+            CameraUpdate.newCameraPosition(
+                new CameraPosition(
+                  target: _currentPosition,
+                  zoom:_defaultZoom)));
+        _timerCamera.cancel();
+      });
+    }
+  }
 }
 
 
