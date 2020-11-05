@@ -102,7 +102,7 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
               child: Column(
                   children: [
                     Container(
-                        width: MediaQuery.of(context).size.width,  // or use fixed size like 200
+                        width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
                             onMapCreated: _onMapCreated,

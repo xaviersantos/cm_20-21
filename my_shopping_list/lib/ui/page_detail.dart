@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:geolocator/geolocator.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:myshoppinglist/model/element.dart';
 import 'package:myshoppinglist/ui/page_setlocation.dart';
 import 'package:myshoppinglist/utils/diamond_fab.dart';
@@ -25,111 +25,138 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   TextEditingController itemController = new TextEditingController();
+  String scanResult = '';
 
-
+  //function that launches the scanner
+  Future scanQR() async {
+    String cameraScanResult = await scanner.scan();
+    setState(() {
+      scanResult = cameraScanResult;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     print("page_details"); // debug
     return Scaffold(
       //key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomPadding: false,
-      body: new Stack(
-        children: <Widget>[
-          _getToolbar(context),
-          Container(
-            child: NotificationListener<OverscrollIndicatorNotification>(
-              onNotification: (overscroll) {
-                overscroll.disallowGlow();
-                return false;
-              },
-              child: new StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection(widget.user.uid)
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData)
-                      return new Center(
-                          child: CircularProgressIndicator(
-                        backgroundColor: currentColor,
-                      ));
-                    return new Container(
-                      child: getExpenseItems(snapshot),
-                    );
-                  }),
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomPadding: false,
+        body: new Stack(
+          children: <Widget>[
+            _getToolbar(context),
+            Container(
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (overscroll) {
+                  overscroll.disallowGlow();
+                  return false;
+                },
+                child: new StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection(widget.user.uid)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData)
+                        return new Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: currentColor,
+                            ));
+                      return new Container(
+                        child: getExpenseItems(snapshot),
+                      );
+                    }),
+              ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: DiamondFab(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: new TextField(
-                        autofocus: true,
-                        decoration: InputDecoration(
-                            border: new OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: currentColor)),
-                            labelText: "Item",
-                            hintText: "Item",
-                            contentPadding: EdgeInsets.only(
-                                left: 16.0,
-                                top: 20.0,
-                                right: 16.0,
-                                bottom: 5.0)),
-                        controller: itemController,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        keyboardType: TextInputType.text,
-                        textCapitalization: TextCapitalization.sentences,
-                      ),
-                    )
-                  ],
+          ],
+        ),
+        floatingActionButton: Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(5.0),
+                child: DiamondFab(
+                  heroTag: null,
+                  onPressed: scanQR,
+                  tooltip: 'Reader the QRCode',
+                  child: Icon(Icons.qr_code),
+                  backgroundColor: currentColor,
+                  //TODO
                 ),
-                actions: <Widget>[
-                  ButtonTheme(
-                    //minWidth: double.infinity,
-                    child: RaisedButton(
-                      elevation: 3.0,
-                      onPressed: () {
-                        if (itemController.text.isNotEmpty &&
-                            !widget.currentList.values
-                                .contains(itemController.text.toString())) {
-                          FirebaseFirestore.instance
-                              .collection(widget.user.uid)
-                              .doc(
-                                  widget.currentList.keys.elementAt(widget.i))
-                              .update(
-                                  {itemController.text.toString(): false});
+              ),
+              DiamondFab(
+                heroTag: null,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: new TextField(
+                                autofocus: true,
+                                decoration: InputDecoration(
+                                    border: new OutlineInputBorder(
+                                        borderSide: new BorderSide(
+                                            color: currentColor)),
+                                    labelText: "Item",
+                                    hintText: "Item",
+                                    contentPadding: EdgeInsets.only(
+                                        left: 16.0,
+                                        top: 20.0,
+                                        right: 16.0,
+                                        bottom: 5.0)),
+                                controller: itemController,
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                keyboardType: TextInputType.text,
+                                textCapitalization: TextCapitalization.sentences,
+                              ),
+                            )
+                          ],
+                        ),
+                        actions: <Widget>[
+                          ButtonTheme(
+                            //minWidth: double.infinity,
+                            child: RaisedButton(
+                              elevation: 3.0,
+                              onPressed: () {
+                                if (itemController.text.isNotEmpty &&
+                                    !widget.currentList.values
+                                        .contains(itemController.text.toString())) {
+                                  FirebaseFirestore.instance
+                                      .collection(widget.user.uid)
+                                      .doc(
+                                      widget.currentList.keys.elementAt(widget.i))
+                                      .update(
+                                      {itemController.text.toString(): false});
 
-                          itemController.clear();
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Text('Add'),
-                      color: currentColor,
-                      textColor: const Color(0xffffffff),
-                    ),
-                  )
-                ],
-              );
-            },
-          );
-        },
-        child: Icon(Icons.add),
-        backgroundColor: currentColor,
-      ),
+                                  itemController.clear();
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: Text('Add'),
+                              color: currentColor,
+                              textColor: const Color(0xffffffff),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Icon(Icons.add),
+                backgroundColor: currentColor,
+              )
+            ],
+          ),
+        )
     );
   }
 
@@ -188,7 +215,7 @@ class _DetailPageState extends State<DetailPage> {
                               return new AlertDialog(
                                 title: Text("Delete: " + widget.currentList.keys.elementAt(widget.i).toString()),
                                 content: Text(
-                                    "Are you sure you want to delete this list?", style: TextStyle(fontWeight: FontWeight.w400),),
+                                  "Are you sure you want to delete this list?", style: TextStyle(fontWeight: FontWeight.w400),),
                                 actions: <Widget>[
                                   ButtonTheme(
                                     //minWidth: double.infinity,
@@ -282,10 +309,10 @@ class _DetailPageState extends State<DetailPage> {
                                     FirebaseFirestore.instance
                                         .collection(widget.user.uid)
                                         .doc(widget.currentList.keys
-                                            .elementAt(widget.i))
+                                        .elementAt(widget.i))
                                         .update({
                                       listElement.elementAt(i).name:
-                                          !listElement.elementAt(i).isDone
+                                      !listElement.elementAt(i).isDone
                                     });
                                   },
                                   child: Container(
@@ -297,22 +324,22 @@ class _DetailPageState extends State<DetailPage> {
                                       padding: EdgeInsets.only(left: 50.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         children: <Widget>[
                                           Icon(
                                             listElement.elementAt(i).isDone
                                                 ? FontAwesomeIcons.checkSquare
                                                 : FontAwesomeIcons.square,
                                             color: listElement
-                                                    .elementAt(i)
-                                                    .isDone
+                                                .elementAt(i)
+                                                .isDone
                                                 ? currentColor
                                                 : Colors.black,
                                             size: 20.0,
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsets.only(left: 30.0),
+                                            EdgeInsets.only(left: 30.0),
                                           ),
                                           Flexible(
                                             child: Text(
@@ -320,18 +347,18 @@ class _DetailPageState extends State<DetailPage> {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: listElement
-                                                      .elementAt(i)
-                                                      .isDone
+                                                  .elementAt(i)
+                                                  .isDone
                                                   ? TextStyle(
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                      color: currentColor,
-                                                      fontSize: 27.0,
-                                                    )
+                                                decoration: TextDecoration
+                                                    .lineThrough,
+                                                color: currentColor,
+                                                fontSize: 27.0,
+                                              )
                                                   : TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 27.0,
-                                                    ),
+                                                color: Colors.black,
+                                                fontSize: 27.0,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -345,14 +372,14 @@ class _DetailPageState extends State<DetailPage> {
                                     color: Colors.red,
                                     icon: Icons.delete,
                                     onTap: () {
-                                        FirebaseFirestore.instance
-                                            .collection(widget.user.uid)
-                                            .doc(widget.currentList.keys
-                                            .elementAt(widget.i))
-                                            .update({
-                                          listElement.elementAt(i).name:
-                                          ""
-                                        });
+                                      FirebaseFirestore.instance
+                                          .collection(widget.user.uid)
+                                          .doc(widget.currentList.keys
+                                          .elementAt(widget.i))
+                                          .update({
+                                        listElement.elementAt(i).name:
+                                        ""
+                                      });
                                     },
                                   ),
                                 ],
@@ -390,17 +417,17 @@ class _DetailPageState extends State<DetailPage> {
     return new Padding(
       padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 12.0),
       child:
-          new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            new GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: new Icon(
-                FontAwesomeIcons.arrowLeft,
-                size: 40.0,
-                color: currentColor,
-              ),
-            ),
+      new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        new GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: new Icon(
+            FontAwesomeIcons.arrowLeft,
+            size: 40.0,
+            color: currentColor,
+          ),
+        ),
         RaisedButton(
           elevation: 3.0,
           onPressed: () {
