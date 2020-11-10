@@ -122,12 +122,12 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _timerLocation.cancel();
+    _timerCamera.cancel();
   }
 
   @override
   void initState() {
     super.initState();
-    print("\n\n----------\ninit_state, _curr:"+_currentPosition.toString());
 
     _timerLocation = new Timer.periodic(new Duration(seconds: 3), (Timer t) => _getCurrentLocation());
     _timerCamera = new Timer.periodic(new Duration(milliseconds: 500), (Timer t) => _setCamera());
@@ -167,7 +167,6 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   }
 
   _setCamera() {
-    // firstCamUpdate = false;
     if (_currentPosition != null) {
       setState(() async {
         final GoogleMapController controller = await _controller.future;

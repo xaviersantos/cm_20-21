@@ -82,6 +82,8 @@ class _DetailPageState extends State<DetailPage> {
     String cameraScanResult = await scanner.scan();
     setState(() {
       futureProduct = fetchProduct(cameraScanResult);
+      // debugPrint("MANUALLY ADDING BAR CODE: 038000635304");  // DEBUG
+      // futureProduct = fetchProduct("038000635304");          // DEBUG
     });
   }
 
@@ -136,10 +138,16 @@ class _DetailPageState extends State<DetailPage> {
                     String productDescription;
                     await scanQR();
                     await futureProduct.then((product) {
+                      debugPrint("Product code:"+product.code);
+                      debugPrint("Product description:"+product.description);
                       productDescription = product.description;
-                      debugPrint(productDescription);
+                      productDescription = productDescription.replaceAll("(from barcode.monster)", "");
+                      productDescription = productDescription.replaceAll("<span>", "");
+                      productDescription = productDescription.replaceAll(".", ",");
+                      debugPrint("Textprocessed:"+productDescription);
                       debugPrint("NUM. OF ELEMENTS ON FIREBASE: "+ widget.currentList.values.length.toString());
                       if (!widget.currentList.values.contains(productDescription)) {
+                        debugPrint("Adding product");
                         FirebaseFirestore.instance
                             .collection(widget.user.uid)
                             .doc(widget.currentList.keys.elementAt(widget.i))
