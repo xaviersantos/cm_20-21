@@ -15,12 +15,14 @@ import 'dart:async';
 
 
 Future<Product> fetchProduct(String code) async {
+  debugPrint('Step 2, fetch data');
   final response =
   await http.get('https://barcode.monster/api/' + code);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+    print(response.body);
     return Product.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -37,18 +39,23 @@ class Product {
   final String image_url;
   final String size;
   final String status;
+  
+  String getDescription(){
+    return description;
+  }
 
   Product({this.classId, this.code, this.company, this.description, this.image_url, this.size, this.status});
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    debugPrint("CREATING PRODUCT...");
     return Product(
-      classId: json['class'],
-      code: json['code'],
-      company: json['company'],
-      description: json['description'],
-      image_url: json['image_url'],
-      size: json['size'],
-      status: json['status']
+        classId: json['class'] as String,
+        code: json['code'] as String,
+        company: json['company'] as String,
+        description: json['description'] as String,
+        image_url: json['image_url'] as String,
+        size: json['size'] as String,
+        status: json['status'] as String
     );
   }
 }
@@ -68,14 +75,13 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   TextEditingController itemController = new TextEditingController();
-  String scanResult = '';
   Future<Product> futureProduct;
 
   //function that launches the scanner
   Future scanQR() async {
     String cameraScanResult = await scanner.scan();
     setState(() {
-      scanResult = cameraScanResult;
+      futureProduct = fetchProduct(cameraScanResult);
     });
   }
 
@@ -123,35 +129,24 @@ class _DetailPageState extends State<DetailPage> {
                 padding: EdgeInsets.all(5.0),
                 child: DiamondFab(
                   heroTag: null,
-                    tooltip: 'Reader the QRCode',
-                    child: Icon(Icons.qr_code),
-                    backgroundColor: currentColor,
-                  onPressed: () {
-                    scanQR();
-                    futureProduct= fetchProduct(scanResult);
-
-                    FutureBuilder<Product>(
-                      future: futureProduct,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (itemController.text.isNotEmpty &&
-                              !widget.currentList.values
-                                  .contains(itemController.text.toString())) {
-                            FirebaseFirestore.instance
-                                .collection(widget.user.uid)
-                                .doc(snapshot.data.description)
-                                .update(
-                                {itemController.text.toString(): false});
-
-                            itemController.clear();
-                          }
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        }
-                        // By default, show a loading spinner.
-                        return CircularProgressIndicator();
-                      },
-                    );
+                  tooltip: 'Reader the QRCode',
+                  child: Icon(Icons.qr_code),
+                  backgroundColor: currentColor,
+                  onPressed: () async {
+                    String productDescription;
+                    await scanQR();
+                    await futureProduct.then((product) {
+                      productDescription = product.description;
+                      debugPrint(productDescription);
+                      debugPrint("NUM. OF ELEMENTS ON FIREBASE: "+ widget.currentList.values.length.toString());
+                      if (!widget.currentList.values.contains(productDescription)) {
+                        FirebaseFirestore.instance
+                            .collection(widget.user.uid)
+                            .doc(widget.currentList.keys.elementAt(widget.i))
+                            .update(
+                            {productDescription: false});
+                      }
+                    });
                   },
                 ),
               ),
