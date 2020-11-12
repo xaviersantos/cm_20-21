@@ -12,16 +12,9 @@ import 'package:geolocator/geolocator.dart';
 
 final Map<String, Marker> _markers = {};
 
-const LatLng _defaultCenter = const LatLng(40.630107, -8.657132);
-const double _defaultZoom = 14;
-
-bool firstCamUpdate = true;
-CameraPosition _cameraPosition = new CameraPosition(
-  target: _defaultCenter,
-  zoom: _defaultZoom,);
-final Duration refreshLocationTime = new Duration(seconds: 3);
+const double _defaultZoom = 15;
+CameraPosition _cameraPosition;
 LatLng _currentPosition;
-
 
 class MapPage extends StatefulWidget {
   final auth.User user;
@@ -33,22 +26,82 @@ class MapPage extends StatefulWidget {
 }
 
 
-
-
 class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
   Completer<GoogleMapController> _controller = Completer();
-  Timer _timerLocation;
-  Timer _timerCamera;
+  Timer _timerLocationUpdate;
+  Timer _timerCameraUpdate;
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-    _getCurrentLocation();
+  @override
+  void initState() {
+    super.initState();
+
+    _timerLocationUpdate = new Timer.periodic(new Duration(seconds: 1), (Timer t) => _updateLocation());
+    _timerCameraUpdate = new Timer.periodic(new Duration(seconds: 2), (Timer t) => _updateCamera());
+
+    _updateLocation();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timerLocationUpdate.cancel();
+    _timerCameraUpdate.cancel();
+  }
+
+
+  void _onMapCreated (GoogleMapController controller) {
+    setState(() {
+      _controller.complete(controller);
+    });
+  }
+
+  void _updateLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(()  {
+      _currentPosition = LatLng(
+          position.latitude,
+          position.longitude);
+      _markers['self'] = Marker(
+        markerId: MarkerId('self'),
+        position: LatLng(
+            _currentPosition.latitude,
+            _currentPosition.longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: "You",
+        ),
+      );
+      _cameraPosition = new CameraPosition(
+          target: _currentPosition,
+          zoom: _defaultZoom);
+    });
+  }
+
+
+  _updateCamera() {
+    if (_currentPosition != null) {
+      setState(() async {
+        final GoogleMapController controller = await _controller.future;
+        double newZoom = await controller.getZoomLevel();
+        controller.animateCamera(
+            CameraUpdate.newCameraPosition(
+                new CameraPosition(
+                    target: _currentPosition,
+                    zoom: newZoom)));
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    print("\n\n----------\nbuild, _curr:"+_currentPosition.toString());
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -100,8 +153,11 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
               padding:
               EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
               child: Column(
-                  children: [
-                    Container(
+                  children: _cameraPosition == null ?
+                    [Container(
+                      child: Center(child:Text('Loading map...', style: TextStyle(fontFamily: 'Avenir-Medium', color: Colors.grey[400]),),),)]
+                      :
+                    [ Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
@@ -116,68 +172,6 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timerLocation.cancel();
-    _timerCamera.cancel();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _timerLocation = new Timer.periodic(new Duration(seconds: 3), (Timer t) => _getCurrentLocation());
-    _timerCamera = new Timer.periodic(new Duration(milliseconds: 500), (Timer t) => _setCamera());
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-  }
-
-  _getCurrentLocation() {
-    print("getting location");
-    Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-          setState(()  {
-            _currentPosition = LatLng(
-                position.latitude,
-                position.longitude);
-            _markers['self'] = Marker(
-              markerId: MarkerId('self'),
-              position: LatLng(
-                  _currentPosition.latitude,
-                  _currentPosition.longitude),
-              icon: BitmapDescriptor.defaultMarker,
-              infoWindow: InfoWindow(
-                title: "You",
-              ),
-            );
-            _cameraPosition = new CameraPosition(
-                target: _currentPosition,
-                zoom:_defaultZoom);
-          });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _setCamera() {
-    if (_currentPosition != null) {
-      setState(() async {
-        final GoogleMapController controller = await _controller.future;
-        controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-                new CameraPosition(
-                  target: _currentPosition,
-                  zoom:_defaultZoom)));
-        _timerCamera.cancel();
-      });
-    }
   }
 }
 
