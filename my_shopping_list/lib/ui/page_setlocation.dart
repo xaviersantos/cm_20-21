@@ -11,15 +11,12 @@ import 'package:myshoppinglist/model/element.dart';
 
 class SetLocationPage extends StatefulWidget {
   final auth.User user;
-  ///
   final int i;
   final Map<String, List<ElementItem>> currentList;
   final String color;
 
   SetLocationPage({Key key, this.user, this.i, this.currentList, this.color})
       : super(key: key);
-  ///
-
 
   // SetLocationPage({Key key, this.user}) : super(key: key);
 
