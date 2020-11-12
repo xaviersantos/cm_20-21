@@ -4,7 +4,7 @@ description: My Shopping List App
 version: 1.0.0+6
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
