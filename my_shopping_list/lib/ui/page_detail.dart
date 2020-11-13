@@ -19,10 +19,10 @@ Future<Product> fetchProduct(String code) async {
   final response =
   await http.get('https://barcode.monster/api/' + code);
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 && !response.body.contains("\"status\":\"undefined\"")) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    print(response.body);
+    debugPrint("RETURNED JSON: " + response.body.toString());
     return Product.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -39,7 +39,7 @@ class Product {
   final String image_url;
   final String size;
   final String status;
-  
+
   String getDescription(){
     return description;
   }
@@ -88,7 +88,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     print("page_details"); // debug
     return Scaffold(
       //key: _scaffoldKey,
@@ -135,26 +135,56 @@ class _DetailPageState extends State<DetailPage> {
                   child: Icon(Icons.qr_code),
                   backgroundColor: currentColor,
                   onPressed: () async {
-                    String productDescription;
-                    await scanQR();
-                    await futureProduct.then((product) {
-                      debugPrint("Product code:"+product.code);
-                      debugPrint("Product description:"+product.description);
-                      productDescription = product.description;
-                      productDescription = productDescription.replaceAll("(from barcode.monster)", "");
-                      productDescription = productDescription.replaceAll("<span>", "");
-                      productDescription = productDescription.replaceAll(".", ",");
-                      debugPrint("Textprocessed:"+productDescription);
-                      debugPrint("NUM. OF ELEMENTS ON FIREBASE: "+ widget.currentList.values.length.toString());
-                      if (!widget.currentList.values.contains(productDescription)) {
-                        debugPrint("Adding product");
-                        FirebaseFirestore.instance
-                            .collection(widget.user.uid)
-                            .doc(widget.currentList.keys.elementAt(widget.i))
-                            .update(
-                            {productDescription: false});
-                      }
-                    });
+                    try {
+                      String productDescription;
+                      await scanQR();
+                      await futureProduct.then((product) {
+                        debugPrint("Product code:" + product.code);
+                        debugPrint(
+                            "Product description:" + product.description);
+                        productDescription = product.description;
+                        productDescription = productDescription.replaceAll(
+                            "(from barcode.monster)", "");
+                        productDescription =
+                            productDescription.replaceAll("<span>", "");
+                        productDescription =
+                            productDescription.replaceAll("<\/span>", "");
+                        productDescription =
+                            productDescription.replaceAll(".", ",");
+                        debugPrint("Text processed:" + productDescription);
+                        debugPrint("NUM. OF ELEMENTS ON FIREBASE: " + widget
+                            .currentList.values.length.toString());
+                        if (!widget.currentList.values.contains(
+                            productDescription) && productDescription != null) {
+                          debugPrint("Adding product");
+                          FirebaseFirestore.instance
+                              .collection(widget.user.uid)
+                              .doc(widget.currentList.keys.elementAt(widget.i))
+                              .update(
+                              {productDescription: false});
+                        }
+                      });
+                    }
+                    catch(e) {
+                      debugPrint("CAUGHT EXCEPTION " + e.toString());
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Failed to load the product"),
+                              content: Text("Please input the product name manually"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("OK"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          }
+                      );
+                    }
                   },
                 ),
               ),
