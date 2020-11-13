@@ -7,8 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:myshoppinglist/model/element.dart';
 import 'package:geolocator/geolocator.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:wakelock/wakelock.dart';
 
 final Map<String, Marker> _markers = {};
 
@@ -36,10 +37,13 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _timerLocationUpdate = new Timer.periodic(new Duration(seconds: 1), (Timer t) => _updateLocation());
-    _timerCameraUpdate = new Timer.periodic(new Duration(seconds: 2), (Timer t) => _updateCamera());
+    Wakelock.enable();
 
     _updateLocation();
+    _loadListMarkers();
+
+    _timerLocationUpdate = new Timer.periodic(new Duration(seconds: 1), (Timer t) => _updateLocation());
+    _timerCameraUpdate = new Timer.periodic(new Duration(seconds: 2), (Timer t) => _updateCamera());
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -85,11 +89,11 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   }
 
 
-  _updateCamera() {
+  _updateCamera() async {
     if (_currentPosition != null) {
-      setState(() async {
-        final GoogleMapController controller = await _controller.future;
-        double newZoom = await controller.getZoomLevel();
+      final GoogleMapController controller = await _controller.future;
+      double newZoom = await controller.getZoomLevel();
+      setState(() {
         controller.animateCamera(
             CameraUpdate.newCameraPosition(
                 new CameraPosition(
@@ -97,6 +101,41 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
                     zoom: newZoom)));
       });
     }
+  }
+
+
+  _loadListMarkers() {
+    if (widget.user.uid.isEmpty) {
+      return ;
+    }
+
+    if (_markers.length > 1) {
+      Marker savedMarker = _markers['self'];
+      _markers.clear();
+      _markers['self'] = savedMarker;
+    }
+
+    FirebaseFirestore
+        .instance
+        .collection(widget.user.uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((doc) {
+            if(doc.data()['_location'] != null) {
+              var location = doc.data()['_location'];
+              _markers[doc.id] = Marker(
+                markerId: MarkerId(doc.id),
+                position: LatLng(
+                    location[0],
+                    location[1]),
+                icon: BitmapDescriptor.defaultMarker,
+                infoWindow: InfoWindow(
+                  title: doc.id,
+                ),
+              );
+            }
+          })
+        });
   }
 
 
