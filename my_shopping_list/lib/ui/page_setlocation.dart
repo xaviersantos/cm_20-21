@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -96,6 +98,10 @@ class _SetLocationPageState extends State<SetLocationPage>
                         width: MediaQuery.of(context).size.width,  // or use fixed size like 200
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
+                          gestureRecognizers: Set()
+                            ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
+                            ..add(Factory<VerticalDragGestureRecognizer>(
+                                    () => VerticalDragGestureRecognizer())),
                           onMapCreated: _onMapCreated,
                           initialCameraPosition: CameraPosition(
                             target: _center,

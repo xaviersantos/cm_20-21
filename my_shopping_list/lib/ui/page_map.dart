@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -200,9 +202,14 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
+                            gestureRecognizers: Set()
+                              ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
+                              ..add(Factory<VerticalDragGestureRecognizer>(
+                                      () => VerticalDragGestureRecognizer())),
                             onMapCreated: _onMapCreated,
                             initialCameraPosition: _cameraPosition,
-                            markers: _markers.values.toSet(),     // Add markers
+                            markers: _markers.values.toSet(),
+                            // Add markers
                         )
                     )
                   ]
