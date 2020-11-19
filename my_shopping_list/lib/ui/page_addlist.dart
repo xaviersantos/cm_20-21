@@ -114,6 +114,7 @@ class _NewItemPageState extends State<NewItemPage> {
   Widget build(BuildContext context) {
     print("page_addlist"); // debug
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: ModalProgressHUD(
           child: new Stack(
