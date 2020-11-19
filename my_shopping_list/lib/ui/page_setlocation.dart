@@ -6,9 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myshoppinglist/model/element.dart';
+
+const double _defaultZoom = 13.5;
 
 
 class SetLocationPage extends StatefulWidget {
@@ -20,7 +23,6 @@ class SetLocationPage extends StatefulWidget {
   SetLocationPage({Key key, this.user, this.i, this.currentList, this.color})
       : super(key: key);
 
-  // SetLocationPage({Key key, this.user}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SetLocationPageState();
@@ -28,16 +30,115 @@ class SetLocationPage extends StatefulWidget {
 
 final Map<String, Marker> _markers = {};
 
+
 class _SetLocationPageState extends State<SetLocationPage>
     with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
-
-  static const LatLng _center = const LatLng(40.630107, -8.657132);
+  CameraPosition _cameraPosition;
+  LatLng _currentPosition;
+  Color currentColor;
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-
   }
+
+  @override
+  void initState() {
+    super.initState();
+    currentColor = Color(int.parse(widget.color));
+    _initMap();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  _initMap() async {
+    print("Initiating map");
+    bool saved = await _loadSavedLocation();
+    if(!saved) {
+      print("No saved location");
+      await _getCurrentPos();
+      return;
+    }
+    print("Using saved location");
+    // await _setInitCamera();
+  }
+
+
+  _loadSavedLocation() {
+    // Returns true if there's a saved location
+    FirebaseFirestore.instance
+        .collection(widget.user.uid)
+        .doc(widget.currentList.keys.elementAt(widget.i))
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+          // Check if there's an existing setlocation
+          if (documentSnapshot.exists && documentSnapshot.data()['_location'] != null) {
+            var location = documentSnapshot.data()['_location'];
+            // Put it on the map
+            setState(() {
+              _currentPosition = LatLng(location[0], location[1]);
+              final marker = Marker(
+                markerId: MarkerId(widget.currentList.keys.elementAt(widget.i)),
+                position: _currentPosition,
+                infoWindow: InfoWindow(
+                  title: widget.currentList.keys.elementAt(widget.i),
+                  snippet: "",
+                ),
+              );
+              _markers[widget.currentList.keys.elementAt(widget.i)] = marker;
+            });
+            return true;
+          }
+        });
+    return false;
+  }
+
+  _getCurrentPos() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _currentPosition = LatLng(
+          position.latitude,
+          position.longitude);
+    });
+  }
+
+  _setInitCamera() async {
+    if (_currentPosition != null) {
+      setState(() {
+        _cameraPosition = new CameraPosition(
+            target: _currentPosition,
+            zoom: _defaultZoom);
+      });
+    }
+  }
+
+
+  Padding _getToolbar(BuildContext context) {
+    return new Padding(
+      padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 12.0),
+      child:
+      new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        new GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: new Icon(
+            FontAwesomeIcons.arrowLeft,
+            size: 40.0,
+            color: currentColor,
+          ),
+        ),
+      ]),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +194,11 @@ class _SetLocationPageState extends State<SetLocationPage>
               padding:
               EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
               child: Column(
-                  children: [
-                    Container(
+                  children: _currentPosition == null ?
+                  [ Container(
+                    child: Center(child:Text('Loading map...', style: TextStyle(fontFamily: 'Avenir-Medium', color: Colors.grey[400]),),),)]
+                      :
+                  [ Container(
                         width: MediaQuery.of(context).size.width,  // or use fixed size like 200
                         height: MediaQuery.of(context).size.height - 250.0,
                         child: GoogleMap(
@@ -104,9 +208,8 @@ class _SetLocationPageState extends State<SetLocationPage>
                                     () => VerticalDragGestureRecognizer())),
                           onMapCreated: _onMapCreated,
                           initialCameraPosition: CameraPosition(
-                            target: _center,
-                            zoom: 11.0,
-                          ),
+                            target: _currentPosition,
+                            zoom: _defaultZoom),
                           onTap: (LatLng latLng) {
                             FirebaseFirestore.instance
                                 .collection(widget.user.uid)
@@ -119,8 +222,8 @@ class _SetLocationPageState extends State<SetLocationPage>
                                 markerId: MarkerId(widget.i.toString()),
                                 position: latLng,
                                 infoWindow: InfoWindow(
-                                  title: "Nome do sitio?",
-                                  snippet: "Nome da lista?",
+                                  title: widget.i.toString(),
+                                  snippet: "",
                                 ),
                               );
                               _markers[widget.i.toString()] = marker;
@@ -135,68 +238,6 @@ class _SetLocationPageState extends State<SetLocationPage>
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Color currentColor;
-  @override
-  void initState() {
-    super.initState();
-    currentColor = Color(int.parse(widget.color));
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    _loadSavedLocation();
-  }
-
-  Padding _getToolbar(BuildContext context) {
-    return new Padding(
-      padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 12.0),
-      child:
-      new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        new GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: new Icon(
-            FontAwesomeIcons.arrowLeft,
-            size: 40.0,
-            color: currentColor,
-          ),
-        ),
-      ]),
-    );
-  }
-
-
-  _loadSavedLocation() {
-    FirebaseFirestore.instance
-        .collection(widget.user.uid)
-        .doc(widget.currentList.keys.elementAt(widget.i))
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-          // Check if there's an existing setlocation
-          if (documentSnapshot.exists && documentSnapshot.data()['_location'] != null) {
-            var location = documentSnapshot.data()['_location'];
-            // Put it on the map
-            setState(() {
-              final marker = Marker(
-                markerId: MarkerId(widget.i.toString()),
-                position: LatLng(location[0], location[1]),
-                infoWindow: InfoWindow(
-                  title: widget.currentList.keys.elementAt(widget.i),
-                  snippet: "",
-                ),
-              );
-              _markers[widget.i.toString()] = marker;
-            });
-          }
-        });
   }
 }
 
