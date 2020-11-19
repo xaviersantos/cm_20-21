@@ -13,6 +13,8 @@ import 'package:myshoppinglist/ui/page_map.dart';
 import 'package:myshoppinglist/ui/page_settings.dart';
 import 'package:myshoppinglist/ui/page_lists.dart';
 
+import 'package:wakelock/wakelock.dart';
+
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -39,6 +41,7 @@ class HomePage extends StatefulWidget {
 }
 
 class MyShoppingListApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,6 +57,7 @@ class MyShoppingListApp extends StatelessWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
   int _currentIndex = 1;
 
   final List<Widget> _children = [
@@ -97,6 +101,8 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+
+    Wakelock.enable();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
