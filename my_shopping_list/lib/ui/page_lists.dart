@@ -43,7 +43,7 @@ class _ListsPageState extends State<ListsPage>
                       ),
                     ),
                     Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -119,8 +119,8 @@ class _ListsPageState extends State<ListsPage>
                       if (!snapshot.hasData)
                         return new Center(
                             child: CircularProgressIndicator(
-                          backgroundColor: Colors.blue,
-                        ));
+                              backgroundColor: Colors.blue,
+                            ));
                       return new ListView(
                         physics: const BouncingScrollPhysics(),
                         padding: EdgeInsets.only(left: 40.0, right: 40.0),
@@ -187,44 +187,44 @@ class _ListsPageState extends State<ListsPage>
             Navigator.of(context).push(
               new PageRouteBuilder(
                 pageBuilder: (_, __, ___) => new DetailPage(
-                      user: widget.user,
-                      i: index,
-                      currentList: userMap,
-                      color: cardColor.elementAt(index),
-                    ),
+                  user: widget.user,
+                  i: index,
+                  currentList: userMap,
+                  color: cardColor.elementAt(index),
+                ),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                        new ScaleTransition(
-                          scale: new Tween<double>(
-                            begin: 1.5,
-                            end: 1.0,
-                          ).animate(
-                            CurvedAnimation(
-                              parent: animation,
-                              curve: Interval(
-                                0.50,
-                                1.00,
-                                curve: Curves.linear,
-                              ),
-                            ),
-                          ),
-                          child: ScaleTransition(
-                            scale: Tween<double>(
-                              begin: 0.0,
-                              end: 1.0,
-                            ).animate(
-                              CurvedAnimation(
-                                parent: animation,
-                                curve: Interval(
-                                  0.00,
-                                  0.50,
-                                  curve: Curves.linear,
-                                ),
-                              ),
-                            ),
-                            child: child,
-                          ),
+                new ScaleTransition(
+                  scale: new Tween<double>(
+                    begin: 1.5,
+                    end: 1.0,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Interval(
+                        0.50,
+                        1.00,
+                        curve: Curves.linear,
+                      ),
+                    ),
+                  ),
+                  child: ScaleTransition(
+                    scale: Tween<double>(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Interval(
+                          0.00,
+                          0.50,
+                          curve: Curves.linear,
                         ),
+                      ),
+                    ),
+                    child: child,
+                  ),
+                ),
               ),
             );
           },
@@ -258,7 +258,7 @@ class _ListsPageState extends State<ListsPage>
                           Expanded(
                             flex: 2,
                             child: Container(
-                              margin: EdgeInsets.only(left: 50.0),
+                              margin: EdgeInsets.only(left: 10.0, right: 10.0),
                               color: Colors.white,
                               height: 1.5,
                             ),
@@ -268,60 +268,63 @@ class _ListsPageState extends State<ListsPage>
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 30.0, left: 15.0, right: 5.0),
+                      EdgeInsets.only(top: 30.0, left: 15.0, right: 5.0),
                       child: Column(
                         children: <Widget>[
                           SizedBox(
                             height: 220.0,
                             child: ListView.builder(
-                                //physics: const NeverScrollableScrollPhysics(),
+                              //physics: const NeverScrollableScrollPhysics(),
                                 itemCount:
-                                    userMap.values.elementAt(index).length,
+                                userMap.values.elementAt(index).length,
                                 itemBuilder: (BuildContext ctxt, int i) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        userMap.values
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Icon(
+                                            userMap.values
                                                 .elementAt(index)
                                                 .elementAt(i)
                                                 .isDone
-                                            ? FontAwesomeIcons.checkCircle
-                                            : FontAwesomeIcons.circle,
-                                        color: userMap.values
+                                                ? FontAwesomeIcons.checkCircle
+                                                : FontAwesomeIcons.circle,
+                                            color: userMap.values
                                                 .elementAt(index)
                                                 .elementAt(i)
                                                 .isDone
-                                            ? Colors.white70
-                                            : Colors.white,
-                                        size: 14.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10.0),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          userMap.values
-                                              .elementAt(index)
-                                              .elementAt(i)
-                                              .name,
-                                          style: userMap.values
+                                                ? Colors.white70
+                                                : Colors.white,
+                                            size: 14.0,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10.0),
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              userMap.values
+                                                  .elementAt(index)
+                                                  .elementAt(i)
+                                                  .name,
+                                              style: userMap.values
                                                   .elementAt(index)
                                                   .elementAt(i)
                                                   .isDone
-                                              ? TextStyle(
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  color: Colors.white70,
-                                                  fontSize: 17.0,
-                                                )
-                                              : TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 17.0,
-                                                ),
-                                        ),
-                                      ),
-                                    ],
+                                                  ? TextStyle(
+                                                decoration: TextDecoration
+                                                    .lineThrough,
+                                                color: Colors.white70,
+                                                fontSize: 17.0,
+                                              )
+                                                  : TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 17.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                   );
                                 }),
                           ),
@@ -352,40 +355,40 @@ class _ListsPageState extends State<ListsPage>
     Navigator.of(context).push(
       new PageRouteBuilder(
         pageBuilder: (_, __, ___) => new NewItemPage(
-              user: widget.user,
-            ),
+          user: widget.user,
+        ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            new ScaleTransition(
-              scale: new Tween<double>(
-                begin: 1.5,
-                end: 1.0,
-              ).animate(
-                CurvedAnimation(
-                  parent: animation,
-                  curve: Interval(
-                    0.50,
-                    1.00,
-                    curve: Curves.linear,
-                  ),
-                ),
-              ),
-              child: ScaleTransition(
-                scale: Tween<double>(
-                  begin: 0.0,
-                  end: 1.0,
-                ).animate(
-                  CurvedAnimation(
-                    parent: animation,
-                    curve: Interval(
-                      0.00,
-                      0.50,
-                      curve: Curves.linear,
-                    ),
-                  ),
-                ),
-                child: child,
+        new ScaleTransition(
+          scale: new Tween<double>(
+            begin: 1.5,
+            end: 1.0,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Interval(
+                0.50,
+                1.00,
+                curve: Curves.linear,
               ),
             ),
+          ),
+          child: ScaleTransition(
+            scale: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Interval(
+                  0.00,
+                  0.50,
+                  curve: Curves.linear,
+                ),
+              ),
+            ),
+            child: child,
+          ),
+        ),
       ),
     );
   }

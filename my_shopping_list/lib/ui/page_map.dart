@@ -162,7 +162,7 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
                       ),
                     ),
                     Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
