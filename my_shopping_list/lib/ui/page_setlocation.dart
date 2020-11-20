@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myshoppinglist/model/element.dart';
 
-const double _defaultZoom = 13.5;
+const double _defaultZoom = 14;
 
 
 class SetLocationPage extends StatefulWidget {
@@ -80,6 +80,7 @@ class _SetLocationPageState extends State<SetLocationPage>
         .then((DocumentSnapshot documentSnapshot) {
           // Check if there's an existing setlocation
           if (documentSnapshot.exists && documentSnapshot.data()['_location'] != null) {
+            _markers.clear();
             var location = documentSnapshot.data()['_location'];
             // Put it on the map
             setState(() {
