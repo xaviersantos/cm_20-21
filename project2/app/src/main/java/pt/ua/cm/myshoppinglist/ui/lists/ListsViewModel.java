@@ -10,7 +10,7 @@ public class ListsViewModel extends ViewModel {
 
     public ListsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is lists fragment");
+        mText.setValue("My Lists");
     }
 
     public LiveData<String> getText() {
