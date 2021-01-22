@@ -1,11 +1,11 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,19 +40,18 @@ public class ListsAdapter extends Fragment implements DialogCloseListener {
 
     private List<ListModel> itemList;
 
-    public ListsAdapter(DatabaseHandler db, MainActivity activity) {
-        this.db = db;
-        this.activity = activity;    }
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listsModel = new ViewModelProvider(this).get(ListsModel.class);
-        
         View root = inflater.inflate(R.layout.fragment_lists, container, false);
-        
         final TextView textView = root.findViewById(R.id.text_lists);
 
-        itemsRecyclerView = getView().findViewById(R.id.listCheckBox);
-        itemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        activity = (MainActivity) getActivity();
+
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+
+        itemsRecyclerView = root.findViewById(R.id.listCheckBox);
+        itemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         itemsAdapter = new ListDetailAdapter(db, activity);
         itemsRecyclerView.setAdapter(itemsAdapter);
 
@@ -73,7 +72,7 @@ public class ListsAdapter extends Fragment implements DialogCloseListener {
                 AddNewItem.newInstance().show(activity.getSupportFragmentManager(), AddNewItem.TAG);
             }
         });
-            
+
         listsModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
