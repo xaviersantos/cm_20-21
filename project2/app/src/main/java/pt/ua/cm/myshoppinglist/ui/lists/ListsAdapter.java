@@ -1,11 +1,10 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,28 +16,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Collections;
-import java.util.List;
-
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
-import pt.ua.cm.myshoppinglist.utils.DatabaseHandler;
-import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 
-public class ListsAdapter extends Fragment implements DialogCloseListener {
+public class ListsAdapter extends Fragment {
 
     private ListsModel listsModel;
-    private RecyclerView itemsRecyclerView;
-    private ListDetailAdapter itemsAdapter;
-    private FloatingActionButton fab;
-    private DatabaseHandler db;
+    private RecyclerView listsRecyclerView;
+    private ListDetailAdapter listsAdapter;
     private MainActivity activity;
-
-    private List<ListModel> itemList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listsModel = new ViewModelProvider(this).get(ListsModel.class);
@@ -47,26 +35,18 @@ public class ListsAdapter extends Fragment implements DialogCloseListener {
 
         activity = (MainActivity) getActivity();
 
-        db = new DatabaseHandler(activity);
-        db.openDatabase();
-
-        itemsRecyclerView = root.findViewById(R.id.listCheckBox);
-        itemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        itemsAdapter = new ListDetailAdapter(db, activity);
-        itemsRecyclerView.setAdapter(itemsAdapter);
+        listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
+        listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listsAdapter = activity.getListsAdapter();
+        listsRecyclerView.setAdapter(listsAdapter);
 
         ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new RecyclerItemTouchHelper(itemsAdapter));
-        itemTouchHelper.attachToRecyclerView(itemsRecyclerView);
+                ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
+        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
 
-        fab = getView().findViewById(R.id.fab);
+        ImageButton addButton = root.findViewById(R.id.bt_addButton);
 
-        itemList = db.getAllItems();
-        Collections.reverse(itemList);
-
-        itemsAdapter.setItems(itemList);
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddNewItem.newInstance().show(activity.getSupportFragmentManager(), AddNewItem.TAG);
@@ -81,13 +61,5 @@ public class ListsAdapter extends Fragment implements DialogCloseListener {
         });
         
         return root;
-    }
-
-    @Override
-    public void handleDialogClose(DialogInterface dialog){
-        itemList = db.getAllItems();
-        Collections.reverse(itemList);
-        itemsAdapter.setItems(itemList);
-        itemsAdapter.notifyDataSetChanged();
     }
 }
