@@ -54,47 +54,20 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         listsAdapter.setItems(itemList);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_map, R.id.navigation_lists, R.id.navigation_settings)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
         // Make the center the default selection
-        navView.getMenu().getItem(1).setChecked(true);
+        navView.setSelectedItemId(R.id.navigation_lists);
     }
-
-    public ListDetailAdapter createListDetailAdapter() {
-        return new ListDetailAdapter(db, this);
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_map:
-                    fm.beginTransaction().hide(active).show(fragment1).commit();
-                    active = fragment1;
-                    return true;
-
-                case R.id.navigation_lists:
-                    fm.beginTransaction().hide(active).show(fragment2).commit();
-                    active = fragment2;
-                    return true;
-
-                case R.id.navigation_settings:
-                    fm.beginTransaction().hide(active).show(fragment3).commit();
-                    active = fragment3;
-                    return true;
-            }
-            return false;
-        }
-    };
 
     public List<ListModel> getAllItems() {
         List<ListModel> itemList = db.getAllItems();
