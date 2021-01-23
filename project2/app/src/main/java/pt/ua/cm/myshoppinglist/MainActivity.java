@@ -31,5 +31,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        // Make the center the default selection
+        navView.getMenu().getItem(1).setChecked(true);
     }
+
 }
