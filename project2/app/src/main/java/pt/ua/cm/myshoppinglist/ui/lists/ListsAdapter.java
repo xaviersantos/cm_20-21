@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
@@ -25,8 +29,9 @@ public class ListsAdapter extends Fragment {
 
     private ListsModel listsModel;
     private RecyclerView listsRecyclerView;
-    private ListDetailAdapter listsAdapter;
+    private ListPreviewAdapter listsAdapter;
     private MainActivity activity;
+    private String listName = "exampleList";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listsModel = new ViewModelProvider(this).get(ListsModel.class);
@@ -38,6 +43,7 @@ public class ListsAdapter extends Fragment {
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         listsAdapter = activity.getListsAdapter();
+        // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
         ItemTouchHelper itemTouchHelper = new
@@ -61,5 +67,21 @@ public class ListsAdapter extends Fragment {
         });
         
         return root;
+    }
+
+    // Function to tell the app to start getting
+    // data from database on starting of the activity
+    @Override
+    public void onStart() {
+        super.onStart();
+        listsAdapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stoping of the activity
+    @Override
+    public void onStop() {
+        super.onStop();
+        listsAdapter.stopListening();
     }
 }

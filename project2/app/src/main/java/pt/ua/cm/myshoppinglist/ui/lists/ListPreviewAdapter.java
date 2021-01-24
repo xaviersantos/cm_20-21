@@ -7,38 +7,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.List;
 
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
+import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.DatabaseHandler;
+import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 
-public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.ViewHolder>{
+public class ListPreviewAdapter extends FirebaseRecyclerAdapter<ListModel, ListPreviewAdapter.listsViewholder> {
     private List<ListModel> listInstance;
-    private DatabaseHandler db;
+    private FirebaseDbHandler db;
+    private String listName;
     private MainActivity activity;
 
-    public ListPreviewAdapter(DatabaseHandler db, MainActivity activity) {
+    public ListPreviewAdapter(@NonNull FirebaseRecyclerOptions<ListModel> options, FirebaseDbHandler db, String listName, MainActivity activity) {
+        super(options);
         this.db = db;
+        this.listName = listName;
         this.activity = activity;
     }
 
-    @NonNull
     @Override
-    public ListPreviewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_list_preview, parent, false);
-        return new ListPreviewAdapter.ViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final ListPreviewAdapter.ViewHolder holder, int position) {
-        db.openDatabase();
-
+    protected void onBindViewHolder(@NonNull listsViewholder holder, int position, @NonNull ListModel model) {
         final ListModel item = listInstance.get(position);
         holder.item.setText(item.getItem());
         holder.item.setChecked(toBoolean(item.getStatus()));
@@ -46,9 +45,9 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    db.updateStatus(item.getId(), 1);
+                    db.changeItemStatus(listName, item.getItem(), true);
                 } else {
-                    db.updateStatus(item.getId(), 0);
+                    db.changeItemStatus(listName, item.getItem(), false);
                 }
             }
         });
@@ -58,21 +57,48 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
         return n != 0;
     }
 
-    @Override
-    public int getItemCount() {
-        return listInstance.size();
-    }
-
     public Context getContext() {
         return activity;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public void setItems(List<ListModel> itemList) {
+        this.listInstance = itemList;
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        ListModel item = listInstance.get(position);
+        db.deleteItem("listName", item.getItem());
+        listInstance.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void editItem(int position) {
+        ListModel item = listInstance.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", item.getId());
+        bundle.putString("item", item.getItem());
+        AddNewItem fragment = new AddNewItem();
+        fragment.setArguments(bundle);
+        fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+    }
+
+    @NonNull
+    @Override
+    public listsViewholder
+    onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_detail, parent, false);
+        return new ListPreviewAdapter.listsViewholder(view);
+    }
+
+    // Sub Class to create references of the views in Crad
+    // view (here "person.xml")
+    class listsViewholder extends RecyclerView.ViewHolder {
         CheckBox item;
 
-        ViewHolder(View view) {
-            super(view);
-            item = view.findViewById(R.id.listPreview);
+        public listsViewholder(@NonNull View itemView) {
+            super(itemView);
+            item = itemView.findViewById(R.id.listCheckBox);
         }
     }
 }
