@@ -2,42 +2,44 @@ package pt.ua.cm.myshoppinglist;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import pt.ua.cm.myshoppinglist.ui.lists.ListDetailAdapter;
 import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
-import pt.ua.cm.myshoppinglist.ui.lists.ListsAdapter;
-import pt.ua.cm.myshoppinglist.ui.lists.ListsModel;
-import pt.ua.cm.myshoppinglist.ui.map.MapFragment;
-import pt.ua.cm.myshoppinglist.ui.settings.SettingsFragment;
-import pt.ua.cm.myshoppinglist.utils.DatabaseHandler;
+import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
 import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
+import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 
 public class MainActivity extends AppCompatActivity implements DialogCloseListener {
-    final Fragment fragment1 = new ListsAdapter();
-    final Fragment fragment2 = new MapFragment();
-    final Fragment fragment3 = new SettingsFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-    Fragment active = fragment1;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private static final String TAG = "MainActivity";
 
-    private DatabaseHandler db;
-    private ListDetailAdapter listsAdapter;
+    private FirebaseDbHandler db;
+    private ListPreviewAdapter listsAdapter;
+    private FirestoreRecyclerAdapter adapter;
+
     private List<ListModel> itemList;
 
     @Override
@@ -46,12 +48,53 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        db = new DatabaseHandler(this);
-        db.openDatabase();
+        loginAnonymously();
+    }
 
-        listsAdapter = new ListDetailAdapter(db, this);
-        itemList = getAllItems();
-        listsAdapter.setItems(itemList);
+//    public List<ListModel> getAllItems() {
+//        List<ListModel> itemList = db.getAllItems();
+//        Collections.reverse(itemList);
+//
+//        return itemList;
+//    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    private void loginAnonymously() {
+        mAuth = FirebaseAuth.getInstance();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        this.currentUser = currentUser;
+
+        if(currentUser != null)
+            db = new FirebaseDbHandler(currentUser);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -69,20 +112,35 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         navView.setSelectedItemId(R.id.navigation_lists);
     }
 
-    public List<ListModel> getAllItems() {
-        List<ListModel> itemList = db.getAllItems();
-        Collections.reverse(itemList);
-
-        return itemList;
-    }
-
     @Override
     public void handleDialogClose(DialogInterface dialog){
-        listsAdapter.setItems(getAllItems());
+        //listsAdapter.setItems(getAllItems());
         listsAdapter.notifyDataSetChanged();
     }
 
-    public ListDetailAdapter getListsAdapter() {
+    public ListPreviewAdapter getListsAdapter() {
+
+        DatabaseReference mbase = FirebaseDatabase.getInstance().getReference();
+
+        // It is a class provide by the FirebaseUI to make a
+        // query in the database to fetch appropriate data
+        FirebaseRecyclerOptions<ListModel> options =
+                new FirebaseRecyclerOptions.Builder<ListModel>()
+                        .setQuery(mbase, ListModel.class)
+                        .build();
+        // Connecting object of required Adapter class to
+        // the Adapter class itself
+        listsAdapter = new ListPreviewAdapter(options, db, "listName", this);
+
         return listsAdapter;
+    }
+
+
+    public FirebaseDbHandler getDb() {
+        return db;
+    }
+
+    public String getCurrentUserName() {
+        return currentUser.getDisplayName();
     }
 }

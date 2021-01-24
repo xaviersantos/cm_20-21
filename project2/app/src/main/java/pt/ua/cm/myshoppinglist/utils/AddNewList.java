@@ -18,22 +18,20 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.firebase.auth.FirebaseUser;
 
-import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
 
-public class AddNewItem extends BottomSheetDialogFragment {
+public class AddNewList extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
     private EditText newItemText;
     private Button newItemSaveButton;
 
-    private FirebaseDbHandler db;
+    private DatabaseHandler db;
 
-    public static AddNewItem newInstance(){
-        return new AddNewItem();
+    public static AddNewList newInstance(){
+        return new AddNewList();
     }
 
     @Override
@@ -64,16 +62,15 @@ public class AddNewItem extends BottomSheetDialogFragment {
         final Bundle bundle = getArguments();
         if(bundle != null){
             isUpdate = true;
-            String item = bundle.getString("item");
-            newItemText.setText(item);
-            assert item != null;
-            if(item.length()>0)
+            String listName = bundle.getString("item");
+            newItemText.setText(listName);
+            assert listName != null;
+            if(listName.length()>0)
                 newItemSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
         }
 
-        MainActivity activity = (MainActivity) getActivity();
-
-        db = activity.getDb();
+        db = new DatabaseHandler(getActivity());
+        db.openDatabase();
 
         newItemText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,13 +100,13 @@ public class AddNewItem extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newItemText.getText().toString();
                 if(finalIsUpdate){
-                    db.addItem("listName", text);
+                    db.updateItem(bundle.getInt("id"), text);
                 }
                 else {
                     ListModel item = new ListModel();
                     item.setItem(text);
                     item.setStatus(0);
-                    db.addItem("listName", item.getItem());
+                    db.insertItem(item);
                 }
                 dismiss();
             }
