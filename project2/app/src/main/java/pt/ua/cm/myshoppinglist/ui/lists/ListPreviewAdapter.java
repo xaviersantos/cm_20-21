@@ -1,6 +1,5 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.util.List;
 
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
@@ -41,14 +37,11 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
     protected void onBindViewHolder(@NonNull listsViewholder holder, int position, @NonNull ItemModel model) {
         holder.item.setText(model.getProductName());
         holder.item.setChecked(model.getStatus());
-        holder.item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    db.changeItemStatus(listName, model.getUuid(), true);
-                } else {
-                    db.changeItemStatus(listName, model.getUuid(), false);
-                }
+        holder.item.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                db.changeItemStatus(listName, model.getUuid(), true);
+            } else {
+                db.changeItemStatus(listName, model.getUuid(), false);
             }
         });
     }
@@ -59,8 +52,7 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
 
     public void deleteItem(int position) {
         ItemModel item = this.getItem(position);
-        db.deleteItem("listName", item.getUuid());
-        //notifyItemRemoved(position);
+        db.deleteItem(listName, item.getUuid());
     }
 
     public void editItem(int position) {
@@ -68,6 +60,7 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
         Bundle bundle = new Bundle();
         bundle.putString("id", item.getUuid());
         bundle.putString("item", item.getProductName());
+        bundle.putString("listName", listName);
         AddNewItem fragment = new AddNewItem();
         fragment.setArguments(bundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
@@ -75,9 +68,9 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
 
     @NonNull
     @Override
-    public listsViewholder
-    onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public listsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_detail, parent, false);
+
         return new ListPreviewAdapter.listsViewholder(view);
     }
 

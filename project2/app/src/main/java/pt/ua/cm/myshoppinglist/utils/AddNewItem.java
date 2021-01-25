@@ -27,6 +27,7 @@ import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
 public class AddNewItem extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
+    private String listName;
     private EditText newItemText;
     private Button newItemSaveButton;
     private String itemId;
@@ -63,10 +64,13 @@ public class AddNewItem extends BottomSheetDialogFragment {
         boolean isUpdate = false;
 
         final Bundle bundle = getArguments();
-        if(bundle != null){
+
+        listName = bundle.getString("listName");
+        itemId = bundle.getString("id");
+
+        if(bundle.containsKey("item")){
             isUpdate = true;
             String item = bundle.getString("item");
-            itemId = bundle.getString("id");
             newItemText.setText(item);
             assert item != null;
             if(item.length()>0)
@@ -105,13 +109,10 @@ public class AddNewItem extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newItemText.getText().toString();
                 if(finalIsUpdate){
-                    db.editItem("listName", itemId, text);
+                    db.editItem(listName, itemId, text);
                 }
                 else {
-                    //ListModel item = new ListModel();
-                    //item.setItem(text);
-                    //item.setStatus(false);
-                    db.addItem("listName", text);
+                    db.addItem(listName, text);
                 }
                 dismiss();
             }

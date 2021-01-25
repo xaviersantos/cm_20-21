@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,13 +29,12 @@ import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 
-public class ListsAdapter extends Fragment {
+public class ListsFragment extends Fragment {
 
     private ListsModel listsModel;
     private RecyclerView listsRecyclerView;
     private ListPreviewAdapter listsAdapter;
     private MainActivity activity;
-    private String listName = "exampleList";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listsModel = new ViewModelProvider(this).get(ListsModel.class);
@@ -45,9 +45,22 @@ public class ListsAdapter extends Fragment {
 
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listsAdapter = activity.getListsAdapter();
+        listsAdapter = activity.getListsAdapter("listName");
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
+
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("listName", "listName");
+                AddNewItem fragment = new AddNewItem();
+                fragment.setArguments(bundle);
+                fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+            }
+        });
 
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
@@ -57,7 +70,11 @@ public class ListsAdapter extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewItem.newInstance().show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+                Bundle bundle = new Bundle();
+                bundle.putString("listName", "listName");
+                AddNewItem fragment = new AddNewItem();
+                fragment.setArguments(bundle);
+                fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
             }
         });
 
