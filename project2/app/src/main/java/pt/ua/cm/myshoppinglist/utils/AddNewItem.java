@@ -29,6 +29,7 @@ public class AddNewItem extends BottomSheetDialogFragment {
     public static final String TAG = "ActionBottomDialog";
     private EditText newItemText;
     private Button newItemSaveButton;
+    private String itemId;
 
     private FirebaseDbHandler db;
 
@@ -65,6 +66,7 @@ public class AddNewItem extends BottomSheetDialogFragment {
         if(bundle != null){
             isUpdate = true;
             String item = bundle.getString("item");
+            itemId = bundle.getString("id");
             newItemText.setText(item);
             assert item != null;
             if(item.length()>0)
@@ -103,7 +105,7 @@ public class AddNewItem extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newItemText.getText().toString();
                 if(finalIsUpdate){
-                    db.addItem("listName", text);
+                    db.editItem("listName", itemId, text);
                 }
                 else {
                     //ListModel item = new ListModel();
