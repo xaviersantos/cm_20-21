@@ -1,6 +1,8 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import pt.ua.cm.myshoppinglist.ActivitySetLocation;
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
@@ -51,11 +54,24 @@ public class ListsAdapter extends Fragment {
         itemTouchHelper.attachToRecyclerView(listsRecyclerView);
 
         ImageButton addButton = root.findViewById(R.id.bt_addButton);
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddNewItem.newInstance().show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+            }
+        });
+
+        // LOCATION
+        ImageButton addLocButton = root.findViewById(R.id.bt_addLocation);
+        addLocButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+                Log.d("MAP","go to map?");
+                Intent intent = new Intent(getContext(), ActivitySetLocation.class);
+//                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+//                AddNewItem.newInstance().show(activity.getSupportFragmentManager(), AddNewItem.TAG);
             }
         });
 
