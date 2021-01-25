@@ -5,8 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -18,8 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import pt.ua.cm.myshoppinglist.entities.Item;
-import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
+import pt.ua.cm.myshoppinglist.entities.ItemModel;
 
 public class FirebaseDbHandler {
     private FirebaseFirestore db;
@@ -31,19 +28,15 @@ public class FirebaseDbHandler {
         this.currentUser = currentUser;
     }
 
-    public void addItem(String listName, String itemName) {
-        Item item = new Item(itemName, false);
+    public void addItem(String listName, String productName) {
+        ItemModel item = new ItemModel(productName, false);
         String uniqueID = UUID.randomUUID().toString();
-
-        Map<String, Object> itemInstance = new HashMap<>();
-
-        itemInstance.put(uniqueID, item);
 
         db.collection(currentUser.getUid())
                 .document(listName)
                 .collection("items")
                 .document(uniqueID)
-                .set(itemInstance);
+                .set(item);
     }
 
     public void deleteItem(String listName, String itemId) {

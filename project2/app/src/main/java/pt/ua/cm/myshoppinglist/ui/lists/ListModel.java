@@ -2,22 +2,22 @@ package pt.ua.cm.myshoppinglist.ui.lists;
 
 import java.util.Map;
 
-import pt.ua.cm.myshoppinglist.entities.Item;
+import pt.ua.cm.myshoppinglist.entities.ItemModel;
 
 public class ListModel {
-    private Map<String, Item> list;
+    private Map<String, ItemModel> list;
 
     public ListModel() { }
 
-    public ListModel(Map<String, Item> aList) {
+    public ListModel(Map<String, ItemModel> aList) {
         list = aList;
     }
 
-    public Map<String, Item> getList() {
+    public Map<String, ItemModel> getList() {
         return list;
     }
 
-    public void setList(Map<String, Item> list) {
+    public void setList(Map<String, ItemModel> list) {
         this.list = list;
     }
 }

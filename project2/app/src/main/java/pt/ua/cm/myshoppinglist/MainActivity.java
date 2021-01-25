@@ -3,9 +3,6 @@ package pt.ua.cm.myshoppinglist;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,8 +12,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,16 +19,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.List;
 import java.util.Objects;
 
-import pt.ua.cm.myshoppinglist.entities.Item;
-import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
+import pt.ua.cm.myshoppinglist.entities.ItemModel;
 import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
 import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
@@ -46,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private FirebaseDbHandler db;
     private ListPreviewAdapter listsAdapter;
 
-    private List<Item> itemList;
+    private List<ItemModel> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                 .document("listName")
                 .collection("items");
 
-        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
-                .setQuery(query, Item.class)
+        FirestoreRecyclerOptions<ItemModel> options = new FirestoreRecyclerOptions.Builder<ItemModel>()
+                .setQuery(query, ItemModel.class)
                 .build();
 
         // Connecting object of required Adapter class to
