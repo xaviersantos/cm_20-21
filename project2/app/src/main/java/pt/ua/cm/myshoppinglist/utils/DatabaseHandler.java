@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
+import pt.ua.cm.myshoppinglist.entities.ListModel;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 

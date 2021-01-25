@@ -22,18 +22,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 
-public class AddNewItem extends BottomSheetDialogFragment {
+public class AddNewList extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
     private String listName;
-    private EditText newItemText;
-    private Button newItemSaveButton;
-    private String itemId;
+    private EditText newListText;
+    private Button newListSaveButton;
 
     private FirebaseDbHandler db;
 
-    public static AddNewItem newInstance(){
-        return new AddNewItem();
+    public AddNewList() {
+    }
+
+    public static AddNewList newInstance(){
+        return new AddNewList();
     }
 
     @Override
@@ -47,7 +49,7 @@ public class AddNewItem extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.new_item, container, false);
+        View view = inflater.inflate(R.layout.new_list, container, false);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         return view;
@@ -56,30 +58,27 @@ public class AddNewItem extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        newItemText = requireView().findViewById(R.id.newItemText);
-        newItemSaveButton = getView().findViewById(R.id.newItemButton);
+        newListText = requireView().findViewById(R.id.newListText);
+        newListSaveButton = getView().findViewById(R.id.newListButton);
 
         boolean isUpdate = false;
 
         final Bundle bundle = getArguments();
 
-        listName = bundle.getString("listName");
-        itemId = bundle.getString("id");
-
-        if(bundle.containsKey("item")){
+        if(bundle != null){
             isUpdate = true;
-            String item = bundle.getString("item");
-            newItemText.setText(item);
-            assert item != null;
-            if(item.length()>0)
-                newItemSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
+            String list = bundle.getString("listName");
+            newListText.setText(list);
+            assert list != null;
+            if(list.length()>0)
+                newListSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
         }
 
         MainActivity activity = (MainActivity) getActivity();
 
         db = activity.getDb();
 
-        newItemText.addTextChangedListener(new TextWatcher() {
+        newListText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -87,12 +86,12 @@ public class AddNewItem extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
-                    newItemSaveButton.setEnabled(false);
-                    newItemSaveButton.setTextColor(Color.GRAY);
+                    newListSaveButton.setEnabled(false);
+                    newListSaveButton.setTextColor(Color.GRAY);
                 }
                 else{
-                    newItemSaveButton.setEnabled(true);
-                    newItemSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
+                    newListSaveButton.setEnabled(true);
+                    newListSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
                 }
             }
 
@@ -102,15 +101,15 @@ public class AddNewItem extends BottomSheetDialogFragment {
         });
 
         final boolean finalIsUpdate = isUpdate;
-        newItemSaveButton.setOnClickListener(new View.OnClickListener() {
+        newListSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = newItemText.getText().toString();
+                String text = newListText.getText().toString();
                 if(finalIsUpdate){
-                    db.editItem(listName, itemId, text);
+                    db.editList(listName, text);
                 }
                 else {
-                    db.addItem(listName, text);
+                    db.addList(text);
                 }
                 dismiss();
             }

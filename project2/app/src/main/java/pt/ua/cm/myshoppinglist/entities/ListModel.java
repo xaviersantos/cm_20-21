@@ -1,4 +1,4 @@
-package pt.ua.cm.myshoppinglist.ui.lists;
+package pt.ua.cm.myshoppinglist.entities;
 
 public class ListModel {
     private String listName;

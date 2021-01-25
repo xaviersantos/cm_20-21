@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import pt.ua.cm.myshoppinglist.entities.ItemModel;
+import pt.ua.cm.myshoppinglist.entities.ListModel;
 
 public class FirebaseDbHandler {
     private FirebaseFirestore db;
@@ -77,5 +78,14 @@ public class FirebaseDbHandler {
                 .document(itemId);
 
         docRef.update("productName", newName);
+    }
+
+    public void editList(String listName, String text) {
+
+    }
+
+    public void addList(String listName) {
+        ListModel list = new ListModel(listName);
+        db.collection(currentUser.getUid()).document(listName).set(list);
     }
 }

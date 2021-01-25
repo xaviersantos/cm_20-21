@@ -18,15 +18,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import pt.ua.cm.myshoppinglist.ActivitySetLocation;
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
+import pt.ua.cm.myshoppinglist.utils.AddNewList;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 
 public class ListsFragment extends Fragment {
@@ -43,9 +41,38 @@ public class ListsFragment extends Fragment {
 
         activity = (MainActivity) getActivity();
 
+        initList(root);
+
+        ImageButton addButton = root.findViewById(R.id.bt_addButton);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Bundle bundle = new Bundle();
+                //bundle.putString("listName", "listName");
+                AddNewList fragment = new AddNewList();
+                //fragment.setArguments(bundle);
+                fragment.show(activity.getSupportFragmentManager(), AddNewList.TAG);
+            }
+        });
+
+        listsModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
+        
+        return root;
+    }
+
+    public void initList(View root) {
+        String listName = "listName";
+        TextView listTitle = root.findViewById(R.id.listName);
+        listTitle.setText(listName);
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listsAdapter = activity.getListsAdapter("listName");
+        listsAdapter = activity.getListsAdapter(listName);
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
@@ -55,23 +82,7 @@ public class ListsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("listName", "listName");
-                AddNewItem fragment = new AddNewItem();
-                fragment.setArguments(bundle);
-                fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
-            }
-        });
-
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
-        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
-
-        ImageButton addButton = root.findViewById(R.id.bt_addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("listName", "listName");
+                bundle.putString("listName", listName);
                 AddNewItem fragment = new AddNewItem();
                 fragment.setArguments(bundle);
                 fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
@@ -92,14 +103,9 @@ public class ListsFragment extends Fragment {
             }
         });
 
-        listsModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        
-        return root;
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
+        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
     }
 
     // Function to tell the app to start getting

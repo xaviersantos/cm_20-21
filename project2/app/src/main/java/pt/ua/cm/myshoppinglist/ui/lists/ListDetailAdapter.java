@@ -15,6 +15,7 @@ import java.util.List;
 
 import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
+import pt.ua.cm.myshoppinglist.entities.ListModel;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.DatabaseHandler;
 
