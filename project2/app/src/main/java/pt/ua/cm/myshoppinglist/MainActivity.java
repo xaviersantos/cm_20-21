@@ -3,6 +3,7 @@ package pt.ua.cm.myshoppinglist;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -73,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private void loginAnonymously() {
         mAuth = FirebaseAuth.getInstance();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
@@ -121,15 +119,14 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     @Override
     public void handleDialogClose(DialogInterface dialog){
-        //listsAdapter.setItems(getAllItems());
         listsAdapter.notifyDataSetChanged();
     }
 
-    public ListPreviewAdapter getListsAdapter() {
+    public ListPreviewAdapter getListsAdapter(String listName) {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection(currentUser.getUid())
-                .document("listName")
+                .document(listName)
                 .collection("items");
 
         FirestoreRecyclerOptions<ItemModel> options = new FirestoreRecyclerOptions.Builder<ItemModel>()
@@ -140,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         // the Adapter class itself
         listsAdapter = new ListPreviewAdapter(options, db, "listName", this);
         listsAdapter.startListening();
-        //listsAdapter.setItems(options.getSnapshots());
 
         return listsAdapter;
     }

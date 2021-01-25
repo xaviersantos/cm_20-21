@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_lists"
-        android:name="pt.ua.cm.myshoppinglist.ui.lists.ListsAdapter"
+        android:name="pt.ua.cm.myshoppinglist.ui.lists.ListsFragment"
         android:label="@string/title_lists"
         tools:layout="@layout/fragment_lists" />
 

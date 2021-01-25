@@ -1,23 +1,19 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
-import java.util.Map;
-
-import pt.ua.cm.myshoppinglist.entities.ItemModel;
-
 public class ListModel {
-    private Map<String, ItemModel> list;
+    private String listName;
 
     public ListModel() { }
 
-    public ListModel(Map<String, ItemModel> aList) {
-        list = aList;
+    public ListModel(String listName) {
+        this.listName = listName;
     }
 
-    public Map<String, ItemModel> getList() {
-        return list;
+    public String getListName() {
+        return listName;
     }
 
-    public void setList(Map<String, ItemModel> list) {
-        this.list = list;
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 }
