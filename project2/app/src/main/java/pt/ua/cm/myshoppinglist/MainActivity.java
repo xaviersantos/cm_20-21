@@ -3,6 +3,9 @@ package pt.ua.cm.myshoppinglist;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,10 +26,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
 import java.util.Objects;
 
+import pt.ua.cm.myshoppinglist.entities.Item;
 import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
 import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
 import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
@@ -38,9 +45,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     private FirebaseDbHandler db;
     private ListPreviewAdapter listsAdapter;
-    private FirestoreRecyclerAdapter adapter;
 
-    private List<ListModel> itemList;
+    private List<Item> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,15 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     @Override
     public void onStart() {
         super.onStart();
+        if (listsAdapter != null)
+            listsAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (listsAdapter != null)
+            listsAdapter.stopListening();
     }
 
     private void loginAnonymously() {
@@ -120,17 +135,20 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     public ListPreviewAdapter getListsAdapter() {
 
-        DatabaseReference mbase = FirebaseDatabase.getInstance().getReference();
+        Query query = FirebaseFirestore.getInstance()
+                .collection(currentUser.getUid())
+                .document("listName")
+                .collection("items");
 
-        // It is a class provide by the FirebaseUI to make a
-        // query in the database to fetch appropriate data
-        FirebaseRecyclerOptions<ListModel> options =
-                new FirebaseRecyclerOptions.Builder<ListModel>()
-                        .setQuery(mbase, ListModel.class)
-                        .build();
+        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+                .setQuery(query, Item.class)
+                .build();
+
         // Connecting object of required Adapter class to
         // the Adapter class itself
         listsAdapter = new ListPreviewAdapter(options, db, "listName", this);
+        listsAdapter.startListening();
+        //listsAdapter.setItems(options.getSnapshots());
 
         return listsAdapter;
     }

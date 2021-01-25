@@ -106,10 +106,10 @@ public class AddNewItem extends BottomSheetDialogFragment {
                     db.addItem("listName", text);
                 }
                 else {
-                    ListModel item = new ListModel();
-                    item.setItem(text);
-                    item.setStatus(0);
-                    db.addItem("listName", item.getItem());
+                    //ListModel item = new ListModel();
+                    //item.setItem(text);
+                    //item.setStatus(false);
+                    db.addItem("listName", text);
                 }
                 dismiss();
             }

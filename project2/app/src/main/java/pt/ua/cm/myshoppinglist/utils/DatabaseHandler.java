@@ -47,7 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void insertItem(ListModel item){
         ContentValues cv = new ContentValues();
-        cv.put(ITEM, item.getItem());
+        //cv.put(ITEM, item.getItem());
         cv.put(STATUS, 0);
         db.insert(ITEM_TABLE, null, cv);
     }
@@ -62,9 +62,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 if(cur.moveToFirst()){
                     do{
                         ListModel item = new ListModel();
-                        item.setId(cur.getInt(cur.getColumnIndex(ID)));
-                        item.setItem(cur.getString(cur.getColumnIndex(ITEM)));
-                        item.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
+                        //item.setId(cur.getInt(cur.getColumnIndex(ID)));
+                        //item.setItem(cur.getString(cur.getColumnIndex(ITEM)));
+                        //item.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
                         itemList.add(item);
                     }
                     while(cur.moveToNext());

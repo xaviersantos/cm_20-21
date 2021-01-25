@@ -16,6 +16,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import pt.ua.cm.myshoppinglist.entities.Item;
+import pt.ua.cm.myshoppinglist.ui.lists.ListModel;
 
 public class FirebaseDbHandler {
     private FirebaseFirestore db;
@@ -28,21 +32,26 @@ public class FirebaseDbHandler {
     }
 
     public void addItem(String listName, String itemName) {
-        Map<String, Object> item = new HashMap<>();
-        item.put("item", itemName);
-        item.put("status", false);
+        Item item = new Item(itemName, false);
+        String uniqueID = UUID.randomUUID().toString();
+
+        Map<String, Object> itemInstance = new HashMap<>();
+
+        itemInstance.put(uniqueID, item);
 
         db.collection(currentUser.getUid())
                 .document(listName)
-                .set(item);
+                .collection("items")
+                .document(uniqueID)
+                .set(itemInstance);
     }
 
-    public void deleteItem(String listName, String itemName) {
+    public void deleteItem(String listName, String itemId) {
         DocumentReference docRef = db.collection(currentUser.getUid()).document(listName);
 
         // Remove the 'item' field from the document
         Map<String,Object> updates = new HashMap<>();
-        updates.put(itemName, FieldValue.delete());
+        updates.put(itemId, FieldValue.delete());
 
         docRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
             // [START_EXCLUDE]
@@ -53,9 +62,13 @@ public class FirebaseDbHandler {
         // [END update_delete_field]
     }
 
-    public void changeItemStatus(String listName, String itemName, boolean status) {
-        DocumentReference docRef = db.collection(listName).document(itemName);
-        docRef.update("isDone", status);
+    public void changeItemStatus(String listName, String itemId, boolean status) {
+        DocumentReference docRef = db.collection(currentUser.getUid()).document(listName);
+        docRef.update(itemId, status);
+    }
+
+    public DocumentReference getDocRef(String collection, String document) {
+        return db.collection(collection).document(document);
     }
 
     public Map<String, Object> getItems(DocumentReference docRef) {

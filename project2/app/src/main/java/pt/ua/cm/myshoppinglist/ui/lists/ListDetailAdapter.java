@@ -41,15 +41,15 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
         db.openDatabase();
 
         final ListModel item = listInstance.get(position);
-        holder.item.setText(item.getItem());
-        holder.item.setChecked(toBoolean(item.getStatus()));
+        //holder.item.setText(item.getItem());
+        //holder.item.setChecked(toBoolean(item.getStatus()));
         holder.item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    db.updateStatus(item.getId(), 1);
+                    //db.updateStatus(item.getItem(), true);
                 } else {
-                    db.updateStatus(item.getId(), 0);
+                    //db.updateStatus(item.getItem(), true);
                 }
             }
         });
@@ -75,7 +75,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
 
     public void deleteItem(int position) {
         ListModel item = listInstance.get(position);
-        db.deleteItem(item.getId());
+        //db.deleteItem(item.getId());
         listInstance.remove(position);
         notifyItemRemoved(position);
     }
@@ -83,8 +83,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
     public void editItem(int position) {
         ListModel item = listInstance.get(position);
         Bundle bundle = new Bundle();
-        bundle.putInt("id", item.getId());
-        bundle.putString("item", item.getItem());
+        //bundle.putString("item", item.getItem());
         AddNewItem fragment = new AddNewItem();
         fragment.setArguments(bundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);

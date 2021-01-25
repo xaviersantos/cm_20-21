@@ -1,47 +1,23 @@
 package pt.ua.cm.myshoppinglist.ui.lists;
 
-import com.google.firebase.firestore.ServerTimestamp;
-import com.google.type.Date;
+import java.util.Map;
+
+import pt.ua.cm.myshoppinglist.entities.Item;
 
 public class ListModel {
-    private int id, status;
-    private String item;
-    private Date mTimestamp;
+    private Map<String, Item> list;
 
     public ListModel() { }
 
-    public ListModel(int uid, String itemName, int mStatus) {
-        id = uid;
-        item = itemName;
-        status = mStatus;
+    public ListModel(Map<String, Item> aList) {
+        list = aList;
     }
 
-    public int getId() {
-        return id;
+    public Map<String, Item> getList() {
+        return list;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setList(Map<String, Item> list) {
+        this.list = list;
     }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    @ServerTimestamp
-    public Date getTimestamp() { return mTimestamp; }
-
-    public void setTimestamp(Date timestamp) { mTimestamp = timestamp; }
 }
