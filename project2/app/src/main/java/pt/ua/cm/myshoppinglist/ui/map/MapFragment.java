@@ -30,10 +30,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import pt.ua.cm.myshoppinglist.R;
 
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.*;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
-    long LOCATION_REFRESH_TIME = 1000;      // milisecs
-    long LOCATION_REFRESH_TIME_FAST = 500;
-    float LOCATION_REFRESH_DISTANCE = 10;  // meters
 
     private MapViewModel mMapViewModel;
 
@@ -59,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if(checkPermissions()) {
+        if(checkLocationPermissions(getActivity(), getContext()) ) {
             mMap.setMyLocationEnabled(true); // Self location button
         }
         startLocationUpdates();
@@ -80,7 +79,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LocationSettingsRequest locationSettingsRequest = builder.build();
 
         // Check whether location settings are satisfied
-        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
         SettingsClient settingsClient = LocationServices.getSettingsClient(getActivity());
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
@@ -89,41 +87,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 .getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                Log.d("MAP","inside onSuccess location");
                 if (location != null && mMap != null && !isCamInitPosSetup) {
                     double lat = location.getLatitude();
                     double lng = location.getLongitude();
                     LatLng latLng = new LatLng(lat,lng);
-                    moveCamera(latLng);
+                    moveCamera(mMap, latLng);
                     isCamInitPosSetup = true;
                 }
             }
         });
-    }
-
-
-    private boolean checkPermissions() {
-        if (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            requestPermissions();
-            return false;
-        }
-    }
-
-    private void requestPermissions() {
-        int REQUEST_FINE_LOCATION = 1001;
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_FINE_LOCATION);
-    }
-
-    private void moveCamera(LatLng latLng) {
-        if (mMap == null) {
-            return;
-        }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(18));
     }
 }
