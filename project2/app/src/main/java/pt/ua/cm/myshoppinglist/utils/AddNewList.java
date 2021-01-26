@@ -65,11 +65,10 @@ public class AddNewList extends BottomSheetDialogFragment {
 
         final Bundle bundle = getArguments();
 
-        listId = bundle.getString("listId");
-
-        if(bundle.containsKey("listName")){
+        if(bundle != null){
             isUpdate = true;
             String listName = bundle.getString("listName");
+            listId = bundle.getString("listId");
             newListText.setText(listName);
             assert listName != null;
             if(listName.length()>0)
