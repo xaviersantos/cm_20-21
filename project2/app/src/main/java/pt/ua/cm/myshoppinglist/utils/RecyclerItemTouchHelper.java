@@ -15,13 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.ui.lists.ListDetailAdapter;
-import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ListPreviewAdapter adapter;
+    private ListDetailAdapter adapter;
 
-    public RecyclerItemTouchHelper(ListPreviewAdapter adapter) {
+    public RecyclerItemTouchHelper(ListDetailAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }

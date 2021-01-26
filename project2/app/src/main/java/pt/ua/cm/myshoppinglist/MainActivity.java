@@ -3,7 +3,6 @@ package pt.ua.cm.myshoppinglist;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +26,10 @@ import java.util.List;
 import java.util.Objects;
 
 import pt.ua.cm.myshoppinglist.entities.ItemModel;
+import pt.ua.cm.myshoppinglist.entities.ListModel;
+import pt.ua.cm.myshoppinglist.ui.lists.ListDetailAdapter;
 import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
+import pt.ua.cm.myshoppinglist.ui.lists.ListScrollerAdapter;
 import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 
@@ -37,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private static final String TAG = "MainActivity";
 
     private FirebaseDbHandler db;
-    private ListPreviewAdapter listsAdapter;
+    private ListDetailAdapter listsAdapter;
+    private ListPreviewAdapter listPreviewAdapter;
+    ListScrollerAdapter listScrollerAdapter;
 
     private List<ItemModel> itemList;
 
@@ -119,10 +123,13 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     @Override
     public void handleDialogClose(DialogInterface dialog){
-        listsAdapter.notifyDataSetChanged();
+        if (listsAdapter != null)
+            listsAdapter.notifyDataSetChanged();
+        if (listScrollerAdapter != null)
+            listScrollerAdapter.notifyDataSetChanged();
     }
 
-    public ListPreviewAdapter getListsAdapter(String listName) {
+    public ListPreviewAdapter getListPreviewAdapter(String listName) {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection(currentUser.getUid())
@@ -135,10 +142,44 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
         // Connecting object of required Adapter class to
         // the Adapter class itself
-        listsAdapter = new ListPreviewAdapter(options, db, "listName", this);
+        listPreviewAdapter = new ListPreviewAdapter(options, listName, this);
+        listPreviewAdapter.startListening();
+
+        return listPreviewAdapter;
+    }
+
+    public ListDetailAdapter getListDetailAdapter(String listName) {
+
+        Query query = FirebaseFirestore.getInstance()
+                .collection(currentUser.getUid())
+                .document(listName)
+                .collection("items");
+
+        FirestoreRecyclerOptions<ItemModel> options = new FirestoreRecyclerOptions.Builder<ItemModel>()
+                .setQuery(query, ItemModel.class)
+                .build();
+
+        // Connecting object of required Adapter class to
+        // the Adapter class itself
+        listsAdapter = new ListDetailAdapter(options, db, listName, this);
         listsAdapter.startListening();
 
         return listsAdapter;
+    }
+
+    public ListScrollerAdapter getListScrollerAdapter() {
+
+        Query query = FirebaseFirestore.getInstance()
+                .collection(currentUser.getUid());
+
+        FirestoreRecyclerOptions<ListModel> options = new FirestoreRecyclerOptions.Builder<ListModel>()
+                .setQuery(query, ListModel.class)
+                .build();
+
+        listScrollerAdapter = new ListScrollerAdapter(options, this);
+        listScrollerAdapter.startListening();
+
+        return listScrollerAdapter;
     }
 
 

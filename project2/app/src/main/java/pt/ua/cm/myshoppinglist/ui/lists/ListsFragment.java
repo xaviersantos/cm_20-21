@@ -3,7 +3,6 @@ package pt.ua.cm.myshoppinglist.ui.lists;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import pt.ua.cm.myshoppinglist.ActivitySetLocation;
 import pt.ua.cm.myshoppinglist.MainActivity;
@@ -46,7 +40,8 @@ public class ListsFragment extends Fragment {
 
     private ListsModel listsModel;
     private RecyclerView listsRecyclerView;
-    private ListPreviewAdapter listsAdapter;
+    private ListDetailAdapter listsAdapter;
+    private ListScrollerAdapter listScrollerAdapter;
     private MainActivity activity;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +51,9 @@ public class ListsFragment extends Fragment {
 
         activity = (MainActivity) getActivity();
 
-        initList(root);
+        initListScroller(root);
+
+        //initList(root, "listName");
 
         ImageButton addButton = root.findViewById(R.id.bt_addButton);
 
@@ -81,13 +78,20 @@ public class ListsFragment extends Fragment {
         return root;
     }
 
-    public void initList(View root) {
-        String listName = "listName";
+    private void initListScroller(View root) {
+        listsRecyclerView = root.findViewById(R.id.listsRecyclerView);
+        listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listScrollerAdapter = activity.getListScrollerAdapter();
+        // Connecting Adapter class with the Recycler view*/
+        listsRecyclerView.setAdapter(listScrollerAdapter);
+    }
+
+    public void initList(View root, String listName) {
         TextView listTitle = root.findViewById(R.id.listName);
         listTitle.setText(listName);
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listsAdapter = activity.getListsAdapter(listName);
+        listsAdapter = activity.getListDetailAdapter(listName);
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
@@ -150,7 +154,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        listsAdapter.startListening();
+        listScrollerAdapter.startListening();
     }
 
     // Function to tell the app to stop getting
@@ -158,6 +162,6 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        listsAdapter.stopListening();
+        listScrollerAdapter.stopListening();
     }
 }

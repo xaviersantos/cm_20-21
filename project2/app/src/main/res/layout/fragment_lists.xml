@@ -55,7 +55,7 @@
         tools:layout_editor_absoluteY="35dp">
 
         <include
-            layout="@layout/item_list"
+            layout="@layout/lists_list"
             android:layout_width="500dp"
             android:layout_height="488dp"
             android:layout_weight="1"
