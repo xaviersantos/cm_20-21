@@ -92,12 +92,12 @@ public class ListsFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(listsRecyclerView);
     }
 
-    public void initList(View root, String listName) {
+    public void initList(View root, String listId, String listName) {
         TextView listTitle = root.findViewById(R.id.listName);
         listTitle.setText(listName);
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listsAdapter = activity.getListDetailAdapter(listName);
+        listsAdapter = activity.getListDetailAdapter(listId);
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
@@ -107,7 +107,7 @@ public class ListsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("listName", listName);
+                bundle.putString("listId", listId);
                 AddNewItem fragment = new AddNewItem();
                 fragment.setArguments(bundle);
                 fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
@@ -122,6 +122,7 @@ public class ListsFragment extends Fragment {
                 Intent intent = new Intent(getContext(), ActivitySetLocation.class);
                 ArrayList<LatLng> markers = new ArrayList<>();
                 intent.putExtra("LIST_NAME", listName);
+                intent.putExtra("LIST_ID", listId);
                 intent.putExtra(MARKERS, markers);
                 startActivityForResult(intent, SET_LIST_MARKERS);
             }

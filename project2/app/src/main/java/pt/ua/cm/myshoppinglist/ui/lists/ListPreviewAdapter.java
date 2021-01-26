@@ -28,12 +28,12 @@ import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, ListPreviewAdapter.listsViewholder> {
 
     private final MainActivity activiy;
-    private final String listName;
+    private final String listId;
 
-    public ListPreviewAdapter(@NonNull FirestoreRecyclerOptions<ItemModel> options, String listName, MainActivity activity) {
+    public ListPreviewAdapter(@NonNull FirestoreRecyclerOptions<ItemModel> options, String listId, MainActivity activity) {
         super(options);
         this.activiy = activity;
-        this.listName = listName;
+        this.listId = listId;
     }
 
     @Override
@@ -51,9 +51,6 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
     @Override
     public listsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_preview, parent, false);
-
-        //TextView listTitle = view.findViewById(R.id.listTitle);
-        //listTitle.setText(listName);
 
         return new ListPreviewAdapter.listsViewholder(view);
     }

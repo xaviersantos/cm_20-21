@@ -35,6 +35,8 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private boolean mMarkersChanged = false;
     private ArrayList<LatLng> mPoints;
     private String mListName;
+    private String mListId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         Intent intent = getIntent();
         mPoints = (ArrayList<LatLng>) intent.getSerializableExtra(MARKERS);
         mListName = intent.getStringExtra("LIST_NAME");
+        mListId = intent.getStringExtra("LIST_ID");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

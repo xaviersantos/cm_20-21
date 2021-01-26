@@ -153,11 +153,11 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             listScrollerAdapter.notifyDataSetChanged();
     }
 
-    public ListPreviewAdapter getListPreviewAdapter(String listName) {
+    public ListPreviewAdapter getListPreviewAdapter(String listId) {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items");
 
         FirestoreRecyclerOptions<ItemModel> options = new FirestoreRecyclerOptions.Builder<ItemModel>()
@@ -166,17 +166,17 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
         // Connecting object of required Adapter class to
         // the Adapter class itself
-        listPreviewAdapter = new ListPreviewAdapter(options, listName, this);
+        listPreviewAdapter = new ListPreviewAdapter(options, listId, this);
         listPreviewAdapter.startListening();
 
         return listPreviewAdapter;
     }
 
-    public ListDetailAdapter getListDetailAdapter(String listName) {
+    public ListDetailAdapter getListDetailAdapter(String listId) {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items");
 
         FirestoreRecyclerOptions<ItemModel> options = new FirestoreRecyclerOptions.Builder<ItemModel>()
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
         // Connecting object of required Adapter class to
         // the Adapter class itself
-        listsAdapter = new ListDetailAdapter(options, db, listName, this);
+        listsAdapter = new ListDetailAdapter(options, db, listId, this);
         listsAdapter.startListening();
 
         return listsAdapter;
@@ -227,12 +227,12 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         itemTouchHelper.attachToRecyclerView(listsRecyclerView);
     }
 
-    public void initList(View root, String listName) {
+    public void initList(View root, String listId, String listName) {
         TextView listTitle = root.findViewById(R.id.listName);
         listTitle.setText(listName);
         listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
         listsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        listsAdapter = getListDetailAdapter(listName);
+        listsAdapter = getListDetailAdapter(listId);
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
+                bundle.putString("listId", listId);
                 bundle.putString("listName", listName);
                 AddNewItem fragment = new AddNewItem();
                 fragment.setArguments(bundle);
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivitySetLocation.class);
                 ArrayList<LatLng> markers = new ArrayList<>();
-                intent.putExtra("LIST_NAME", listName);
+                intent.putExtra("LIST_ID", listId);
                 intent.putExtra(MARKERS, markers);
                 startActivityForResult(intent, SET_LIST_MARKERS);
             }
@@ -269,14 +270,15 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     }
 
     @Override
-    public void onListItemClick(String listName) {
+    public void onListItemClick(ListModel list) {
         FragmentManager fragMgr = getSupportFragmentManager();
         FragmentTransaction fragTrans = fragMgr.beginTransaction();
 
         ItemsFragment itemsFragment = new ItemsFragment(); //my custom fragment
 
         Bundle bundle = new Bundle();
-        bundle.putString("listName", listName);
+        bundle.putString("listId", list.getUuid());
+        bundle.putString("listName", list.getListName());
         itemsFragment.setArguments(bundle);
 
         fragTrans.replace(R.id.nav_host_fragment, itemsFragment);

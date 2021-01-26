@@ -23,13 +23,13 @@ import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 
 public class ListDetailAdapter extends FirestoreRecyclerAdapter<ItemModel, ListDetailAdapter.listsViewholder> {
     private FirebaseDbHandler db;
-    private String listName;
+    private String listId;
     private MainActivity activity;
 
-    public ListDetailAdapter(@NonNull FirestoreRecyclerOptions<ItemModel> options, FirebaseDbHandler db, String listName, MainActivity activity) {
+    public ListDetailAdapter(@NonNull FirestoreRecyclerOptions<ItemModel> options, FirebaseDbHandler db, String listId, MainActivity activity) {
         super(options);
         this.db = db;
-        this.listName = listName;
+        this.listId = listId;
         this.activity = activity;
     }
 
@@ -39,9 +39,9 @@ public class ListDetailAdapter extends FirestoreRecyclerAdapter<ItemModel, ListD
         holder.item.setChecked(model.getStatus());
         holder.item.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                db.changeItemStatus(listName, model.getUuid(), true);
+                db.changeItemStatus(listId, model.getUuid(), true);
             } else {
-                db.changeItemStatus(listName, model.getUuid(), false);
+                db.changeItemStatus(listId, model.getUuid(), false);
             }
         });
     }
@@ -52,7 +52,7 @@ public class ListDetailAdapter extends FirestoreRecyclerAdapter<ItemModel, ListD
 
     public void deleteItem(int position) {
         ItemModel item = this.getItem(position);
-        db.deleteItem(listName, item.getUuid());
+        db.deleteItem(listId, item.getUuid());
     }
 
     public void editItem(int position) {
@@ -60,7 +60,7 @@ public class ListDetailAdapter extends FirestoreRecyclerAdapter<ItemModel, ListD
         Bundle bundle = new Bundle();
         bundle.putString("id", item.getUuid());
         bundle.putString("item", item.getProductName());
-        bundle.putString("listName", listName);
+        bundle.putString("listId", listId);
         AddNewItem fragment = new AddNewItem();
         fragment.setArguments(bundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);

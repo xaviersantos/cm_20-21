@@ -33,31 +33,31 @@ public class FirebaseDbHandler {
         this.currentUser = currentUser;
     }
 
-    public void addItem(String listName, String productName) {
+    public void addItem(String listId, String productName) {
         String uuid = UUID.randomUUID().toString();
         ItemModel item = new ItemModel(uuid, productName, false);
 
         db.collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items")
                 .document(uuid)
                 .set(item);
     }
 
-    public void addLocation(String listName, LatLng coords) {
+    public void addLocation(String listId, LatLng coords) {
         String uuid = UUID.randomUUID().toString();
         LocationModel location = new LocationModel(uuid, coords);
 
         db.collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("locations")
                 .document(uuid)
                 .set(location);
     }
 
-    public void deleteItem(String listName, String itemId) {
+    public void deleteItem(String listId, String itemId) {
         DocumentReference docRef = db.collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items")
                 .document(itemId);
 
@@ -75,34 +75,51 @@ public class FirebaseDbHandler {
                 });
     }
 
-    public void changeItemStatus(String listName, String itemId, boolean status) {
+    public void changeItemStatus(String listId, String itemId, boolean status) {
         DocumentReference docRef = db.collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items")
                 .document(itemId);
 
         docRef.update("status", status);
     }
 
-    public void editItem(String listName, String itemId, String newName) {
+    public void editItem(String listId, String itemId, String newName) {
         DocumentReference docRef = db.collection(currentUser.getUid())
-                .document(listName)
+                .document(listId)
                 .collection("items")
                 .document(itemId);
 
         docRef.update("productName", newName);
     }
 
-    public void editList(String listName, String text) {
+    public void editList(String listId, String newName) {
+        DocumentReference docRef = db.collection(currentUser.getUid())
+                .document(listId);
 
+        docRef.update("listName", newName);
     }
 
-    public void deleteList(String listName) {
+    public void deleteList(String listId) {
+        DocumentReference docRef = db.collection(currentUser.getUid())
+                .document(listId);
 
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
     }
 
-    public void addList(String listName) {
-        ListModel list = new ListModel(listName);
-        db.collection(currentUser.getUid()).document(listName).set(list);
+    public void addList(String listId) {
+        ListModel list = new ListModel(listId);
+        db.collection(currentUser.getUid()).document(list.getUuid()).set(list);
     }
 }

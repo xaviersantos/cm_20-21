@@ -21,9 +21,10 @@ public class ItemsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_items, container, false);
 
         MainActivity activity = (MainActivity) getActivity();
+        String listId = getArguments().getString("listId");
         String listName = getArguments().getString("listName");
 
-        activity.initList(view, listName);
+        activity.initList(view, listId, listName);
 
         return view;
     }

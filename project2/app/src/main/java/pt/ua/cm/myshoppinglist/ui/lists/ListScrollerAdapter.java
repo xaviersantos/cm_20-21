@@ -32,6 +32,7 @@ import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.entities.ItemModel;
 import pt.ua.cm.myshoppinglist.entities.ListModel;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
+import pt.ua.cm.myshoppinglist.utils.AddNewList;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 import pt.ua.cm.myshoppinglist.utils.ListItemClickListener;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
@@ -68,23 +69,22 @@ public class ListScrollerAdapter extends FirestoreRecyclerAdapter<ListModel, Lis
 
     public void deleteList(int position) {
         ListModel list = this.getItem(position);
-        db.deleteList(list.getListName());
+        db.deleteList(list.getUuid());
     }
 
     public void editList(int position) {
         ListModel list = this.getItem(position);
         Bundle bundle = new Bundle();
-        //bundle.putString("id", item.getUuid());
-        //bundle.putString("item", item.getProductName());
-        //bundle.putString("listName", listName);
-        //AddNewItem fragment = new AddNewItem();
-        //fragment.setArguments(bundle);
-        //fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+        bundle.putString("listId", list.getUuid());
+        bundle.putString("listName", list.getListName());
+        AddNewList fragment = new AddNewList();
+        fragment.setArguments(bundle);
+        fragment.show(activity.getSupportFragmentManager(), AddNewList.TAG);
     }
 
     public void openList(int position) {
         ListModel list = this.getItem(position);
-        activity.getListDetailAdapter(list.getListName());
+        activity.getListDetailAdapter(list.getUuid());
     }
 
     class listsViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -99,8 +99,8 @@ public class ListScrollerAdapter extends FirestoreRecyclerAdapter<ListModel, Lis
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            String listName = getItem(position).getListName();
-            activity.onListItemClick(listName);
+            ListModel list = getItem(position);
+            activity.onListItemClick(list);
         }
     }
     @Override
