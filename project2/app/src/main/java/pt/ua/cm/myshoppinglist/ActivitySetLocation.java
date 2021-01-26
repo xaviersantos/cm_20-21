@@ -36,7 +36,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private HashMap<String, LatLng> mPreviousPoints;
     private HashMap<String, LatLng> mNewPoints;     // <id : point>
     private ArrayList<String> mRemovedPoints;       // marker id
-    private String mListName;
+    private String mListId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         setContentView(R.layout.activity_set_location);
 
         Intent intent = getIntent();
-        mListName = intent.getStringExtra("LIST_NAME");
+		mListId = intent.getStringExtra(LIST_ID);
         mPreviousPoints = (HashMap<String,LatLng>) intent.getSerializableExtra(MARKERS);
         mNewPoints = new HashMap<>();
         mRemovedPoints = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
             LatLng point = entry.getValue();
             MarkerOptions markerOpt = new MarkerOptions()
                         .position(new LatLng(point.latitude, point.longitude))
-                        .title(mListName);
+                        .title(mListId);
             Marker marker = mMap.addMarker(markerOpt);
             marker.setTag(uuid);
         }
@@ -109,7 +109,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
                 String uuid = UUID.randomUUID().toString();
                 MarkerOptions markerOpt = new MarkerOptions()
                         .position(new LatLng(point.latitude, point.longitude))
-                        .title(mListName);
+                        .title(mListId);
                 Marker marker = mMap.addMarker(markerOpt);
                 marker.setTag(uuid);
                 mNewPoints.put(uuid, point);

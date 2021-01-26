@@ -25,7 +25,7 @@ import pt.ua.cm.myshoppinglist.R;
 public class AddNewList extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-    private String listName;
+    private String listId;
     private EditText newListText;
     private Button newListSaveButton;
 
@@ -65,12 +65,14 @@ public class AddNewList extends BottomSheetDialogFragment {
 
         final Bundle bundle = getArguments();
 
-        if(bundle != null){
+        listId = bundle.getString("listId");
+
+        if(bundle.containsKey("listName")){
             isUpdate = true;
-            String list = bundle.getString("listName");
-            newListText.setText(list);
-            assert list != null;
-            if(list.length()>0)
+            String listName = bundle.getString("listName");
+            newListText.setText(listName);
+            assert listName != null;
+            if(listName.length()>0)
                 newListSaveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
         }
 
@@ -106,7 +108,7 @@ public class AddNewList extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newListText.getText().toString();
                 if(finalIsUpdate){
-                    db.editList(listName, text);
+                    db.editList(listId, text);
                 }
                 else {
                     db.addList(text);

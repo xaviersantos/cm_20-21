@@ -25,7 +25,7 @@ import pt.ua.cm.myshoppinglist.R;
 public class AddNewItem extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-    private String listName;
+    private String listId;
     private EditText newItemText;
     private Button newItemSaveButton;
     private String itemId;
@@ -63,7 +63,7 @@ public class AddNewItem extends BottomSheetDialogFragment {
 
         final Bundle bundle = getArguments();
 
-        listName = bundle.getString("listName");
+        listId = bundle.getString("listId");
         itemId = bundle.getString("id");
 
         if(bundle.containsKey("item")){
@@ -107,10 +107,10 @@ public class AddNewItem extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newItemText.getText().toString();
                 if(finalIsUpdate){
-                    db.editItem(listName, itemId, text);
+                    db.editItem(listId, itemId, text);
                 }
                 else {
-                    db.addItem(listName, text);
+                    db.addItem(listId, text);
                 }
                 dismiss();
             }

@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import pt.ua.cm.myshoppinglist.R;
 import pt.ua.cm.myshoppinglist.ui.lists.ListDetailAdapter;
+import pt.ua.cm.myshoppinglist.ui.lists.ListScrollerAdapter;
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class RecyclerListTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ListDetailAdapter adapter;
+    private ListScrollerAdapter adapter;
 
-    public RecyclerItemTouchHelper(ListDetailAdapter adapter) {
+    public RecyclerListTouchHelper(ListScrollerAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
@@ -42,7 +43,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            adapter.deleteItem(position);
+                            adapter.deleteList(position);
                         }
                     });
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -54,7 +55,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             AlertDialog dialog = builder.create();
             dialog.show();
         } else {
-            adapter.editItem(position);
+            adapter.editList(position);
         }
     }
 
