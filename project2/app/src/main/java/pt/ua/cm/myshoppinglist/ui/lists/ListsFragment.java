@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS;
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS_CHANGED;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.NEW_MARKERS_LIST;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.REMOVED_MARKERS_LIST;
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.SET_LIST_MARKERS;
 
 public class ListsFragment extends Fragment {
@@ -110,7 +113,7 @@ public class ListsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ActivitySetLocation.class);
-                ArrayList<LatLng> markers = new ArrayList<>();
+                HashMap<String, LatLng> markers = new HashMap<>();
                 intent.putExtra("LIST_NAME", listName);
                 intent.putExtra(MARKERS, markers);
                 startActivityForResult(intent, SET_LIST_MARKERS);
@@ -130,17 +133,29 @@ public class ListsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, intent);
 
         String listName = "listName"; //TODO
-
         if (requestCode == SET_LIST_MARKERS && resultCode == Activity.RESULT_OK) {
+            // Check for changes
             boolean markersChanged = intent.getBooleanExtra(MARKERS_CHANGED, false);
             if (!markersChanged) {
                 return;
             }
+            // Get DB handler
             FirebaseDbHandler db = ((MainActivity) getActivity()).getDb();
-            ArrayList<LatLng> mPoints = (ArrayList<LatLng>) intent.getSerializableExtra("MARKERS");
-            for (LatLng point : mPoints) {
-                Log.d("MAP", point.toString());
-                db.addLocation(listName, point);
+
+            // Get list of points that were removed and make the change in DB
+            ArrayList<String> removedPoints =
+                    (ArrayList<String>) intent.getSerializableExtra(REMOVED_MARKERS_LIST);
+            for (String point : removedPoints) {
+                db.deleteLocation(listName, point);
+            }
+
+            // Get list of new points added and make the change in DB
+            HashMap<String, LatLng> newPoints =
+                    (HashMap<String, LatLng>) intent.getSerializableExtra(NEW_MARKERS_LIST);
+            for (HashMap.Entry<String, LatLng> entry : newPoints.entrySet()) {
+                String uuid = entry.getKey();
+                LatLng point = entry.getValue();
+                db.addLocation(listName, uuid, point);
             }
         }
     }

@@ -23,26 +23,31 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.*;
 
 public class ActivitySetLocation extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
-    private SupportMapFragment mMapFragment;
     private LocationRequest mLocationRequest;
-    private FusedLocationProviderClient mFusedLocationClient;
     private boolean isCamInitPosSetup = false;
-    private boolean mMarkersChanged = false;
-    private ArrayList<LatLng> mPoints;
+    private HashMap<String, LatLng> mPreviousPoints;
+    private HashMap<String, LatLng> mNewPoints;     // <id : point>
+    private ArrayList<String> mRemovedPoints;       // marker id
     private String mListName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
 
         Intent intent = getIntent();
-        mPoints = (ArrayList<LatLng>) intent.getSerializableExtra(MARKERS);
         mListName = intent.getStringExtra("LIST_NAME");
+        mPreviousPoints = (HashMap<String,LatLng>) intent.getSerializableExtra(MARKERS);
+        mNewPoints = new HashMap<>();
+        mRemovedPoints = new ArrayList<>();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -64,10 +69,13 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         if(checkLocationPermissions(this, this)) {
             mMap.setMyLocationEnabled(true); // Self location button
         }
+
         // Zoom to my location
         showMyLocation();
+
         // Setup listener to add / remove markers on click
         setTouchListeners();
+
         // Populate map with existing markers
         addMarkersToMap();
     }
@@ -77,12 +85,14 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
      * Adds the already existing markers of this list to the map
      */
     private void addMarkersToMap() {
-        if (mPoints.size() > 0) {
-            for (LatLng point : mPoints) {
-                MarkerOptions marker = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude)).title(mListName);
-                mMap.addMarker(marker);
-            }
+        for(HashMap.Entry<String, LatLng> entry : mPreviousPoints.entrySet()) {
+            String uuid = entry.getKey();
+            LatLng point = entry.getValue();
+            MarkerOptions markerOpt = new MarkerOptions()
+                        .position(new LatLng(point.latitude, point.longitude))
+                        .title(mListName);
+            Marker marker = mMap.addMarker(markerOpt);
+            marker.setTag(uuid);
         }
     }
 
@@ -96,21 +106,27 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                MarkerOptions marker = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude)).title(mListName);
-                mPoints.add(point);
-                mMap.addMarker(marker);
-                mMarkersChanged = true;
-                Log.d("MAP","added point:"+point.toString());
+                String uuid = UUID.randomUUID().toString();
+                MarkerOptions markerOpt = new MarkerOptions()
+                        .position(new LatLng(point.latitude, point.longitude))
+                        .title(mListName);
+                Marker marker = mMap.addMarker(markerOpt);
+                marker.setTag(uuid);
+                mNewPoints.put(uuid, point);
             }
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                mPoints.remove(marker.getPosition());
+//                mPoints.remove(marker.getPosition());
+                String uuid = (String) marker.getTag();
+                if (mPreviousPoints.containsKey(uuid)) {
+                    mRemovedPoints.add(uuid);
+                } else {
+                    mNewPoints.remove(uuid);
+                }
                 marker.remove();
-                mMarkersChanged = true;
                 return true;
             }
         });
@@ -165,10 +181,10 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
      */
     private void finishLocationEdit() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(MARKERS_CHANGED, mMarkersChanged);
-        if (mMarkersChanged) {
-            returnIntent.putExtra(MARKERS, mPoints);
-        }
+        boolean markersChanged = mNewPoints.size() > 0 || mRemovedPoints.size() > 0;
+        returnIntent.putExtra(MARKERS_CHANGED, markersChanged);
+        returnIntent.putExtra(NEW_MARKERS_LIST, mNewPoints);
+        returnIntent.putExtra(REMOVED_MARKERS_LIST, mRemovedPoints);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }

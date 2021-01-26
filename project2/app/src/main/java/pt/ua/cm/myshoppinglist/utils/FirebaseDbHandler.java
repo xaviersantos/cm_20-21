@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -44,15 +45,27 @@ public class FirebaseDbHandler {
                 .set(item);
     }
 
-    public void addLocation(String listName, LatLng coords) {
-        String uuid = UUID.randomUUID().toString();
+    public void addLocation(String listName, String uuid, LatLng coords) {
+        Log.d("MAP", "adding:"+uuid);
         LocationModel location = new LocationModel(uuid, coords);
-
         db.collection(currentUser.getUid())
                 .document(listName)
                 .collection("locations")
                 .document(uuid)
                 .set(location);
+    }
+
+    public void deleteLocation(String listName, String uuid) {
+        Log.d("MAP", "removing:"+uuid);
+        //TODO
+    }
+
+    public HashMap<String, LatLng> getLocations(String listName) {
+        HashMap<String, LatLng> locations = new HashMap<>();
+        CollectionReference colRef = db.collection(currentUser.getUid())
+                .document(listName)
+                .collection("locations");
+        return locations;
     }
 
     public void deleteItem(String listName, String itemId) {
