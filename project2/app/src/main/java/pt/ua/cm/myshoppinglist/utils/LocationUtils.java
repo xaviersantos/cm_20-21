@@ -25,11 +25,13 @@ public class LocationUtils {
     /**
      * Intent codes
      */
-    public static final int SET_LIST_MARKERS = 12345;   // Intent result code to edit shoppinglist location
+    public static final int LOC_ACTIVITY_INTENT_CODE = 12345;   // Intent result code to edit shoppinglist location
     public static final String MARKERS_CHANGED = "MARKERS_CHANGED"; // Intent extra: was there a change?
     public static final String MARKERS = "MARKERS"; // Intent extra: list of points
     public static final String NEW_MARKERS_LIST = "NEW_MARKERS";
     public static final String REMOVED_MARKERS_LIST = "REMOVED_MARKERS";
+    public static final String LIST_ID = "LIST_ID";
+    public static final String LIST_NAME = "LIST_ID";
     /**
      * Checks if app has location permission
      * @return

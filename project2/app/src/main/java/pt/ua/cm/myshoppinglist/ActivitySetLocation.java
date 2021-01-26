@@ -33,9 +33,9 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private GoogleMap mMap;
     private LocationRequest mLocationRequest;
     private boolean isCamInitPosSetup = false;
-    private HashMap<String, LatLng> mPreviousPoints;
-    private HashMap<String, LatLng> mNewPoints;     // <id : point>
-    private ArrayList<String> mRemovedPoints;       // marker id
+    private HashMap<String, LatLng> mPreviousPoints;    // <uuid : point>
+    private HashMap<String, LatLng> mNewPoints;         // <uuid : point>
+    private ArrayList<String> mRemovedPoints;           // uuid
     private String mListId;
 
     @Override
@@ -45,7 +45,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
 
         Intent intent = getIntent();
 		mListId = intent.getStringExtra(LIST_ID);
-        mPreviousPoints = (HashMap<String,LatLng>) intent.getSerializableExtra(MARKERS);
+        mPreviousPoints = (HashMap<String, LatLng>) intent.getSerializableExtra(MARKERS);
         mNewPoints = new HashMap<>();
         mRemovedPoints = new ArrayList<>();
 
@@ -182,6 +182,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private void finishLocationEdit() {
         Intent returnIntent = new Intent();
         boolean markersChanged = mNewPoints.size() > 0 || mRemovedPoints.size() > 0;
+        returnIntent.putExtra(LIST_ID, mListId);
         returnIntent.putExtra(MARKERS_CHANGED, markersChanged);
         returnIntent.putExtra(NEW_MARKERS_LIST, mNewPoints);
         returnIntent.putExtra(REMOVED_MARKERS_LIST, mRemovedPoints);

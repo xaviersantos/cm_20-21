@@ -1,12 +1,12 @@
 package pt.ua.cm.myshoppinglist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,8 +52,13 @@ import pt.ua.cm.myshoppinglist.utils.ListItemClickListener;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 import pt.ua.cm.myshoppinglist.utils.RecyclerListTouchHelper;
 
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.LIST_ID;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.LIST_NAME;
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS;
-import static pt.ua.cm.myshoppinglist.utils.LocationUtils.SET_LIST_MARKERS;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS_CHANGED;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.NEW_MARKERS_LIST;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.REMOVED_MARKERS_LIST;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.LOC_ACTIVITY_INTENT_CODE;
 
 public class MainActivity extends AppCompatActivity implements DialogCloseListener, ListItemClickListener {
     private FirebaseAuth mAuth;
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("MAP", "----CHECKING IF LOGCAT IS WORKING----");
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         loginAnonymously();
@@ -252,15 +259,15 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
         // Define locations for this list
         FloatingActionButton addLocationButton = root.findViewById(R.id.bt_addLocation);
-
         addLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivitySetLocation.class);
-                ArrayList<LatLng> markers = new ArrayList<>();
-                intent.putExtra("LIST_ID", listId);
+                HashMap<String, LatLng> markers = new HashMap<>();
+                intent.putExtra(LIST_NAME, listName);
+                intent.putExtra(LIST_ID, listId);
                 intent.putExtra(MARKERS, markers);
-                startActivityForResult(intent, SET_LIST_MARKERS);
+                startActivityForResult(intent, LOC_ACTIVITY_INTENT_CODE);
             }
         });
 
@@ -284,5 +291,37 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         fragTrans.replace(R.id.nav_host_fragment, itemsFragment);
         fragTrans.addToBackStack(null);
         fragTrans.commit();
+    }
+
+    /**
+     * Receives the changes done markers list on ActivitySetLocation
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == LOC_ACTIVITY_INTENT_CODE && resultCode == Activity.RESULT_OK) {
+            // Check for changes
+            boolean markersChanged = intent.getBooleanExtra(MARKERS_CHANGED, false);
+            if (!markersChanged) {
+                return;
+            }
+            String listId = (String) intent.getStringExtra(LIST_ID);
+
+            // Get list of points that were removed and make the change in DB
+            ArrayList<String> removedPoints =
+                    (ArrayList<String>) intent.getSerializableExtra(REMOVED_MARKERS_LIST);
+            for (String point : removedPoints) {
+                db.deleteLocation(listId, point);
+            }
+
+            // Get list of new points added and make the change in DB
+            HashMap<String, LatLng> newPoints =
+                    (HashMap<String, LatLng>) intent.getSerializableExtra(NEW_MARKERS_LIST);
+            for (HashMap.Entry<String, LatLng> entry : newPoints.entrySet()) {
+                String uuid = entry.getKey();
+                LatLng point = entry.getValue();
+                db.addLocation(listId, uuid, point);
+            }
+        }
     }
 }
