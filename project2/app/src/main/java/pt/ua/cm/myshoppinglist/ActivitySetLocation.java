@@ -1,13 +1,12 @@
 package pt.ua.cm.myshoppinglist;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
+import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -15,7 +14,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.*;
 
@@ -32,11 +32,17 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean isCamInitPosSetup = false;
-
+    private boolean mMarkersChanged = false;
+    private ArrayList<LatLng> mPoints;
+    private String mListName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
+
+        Intent intent = getIntent();
+        mPoints = (ArrayList<LatLng>) intent.getSerializableExtra(MARKERS);
+        mListName = intent.getStringExtra("LIST_NAME");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -59,9 +65,25 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
             mMap.setMyLocationEnabled(true); // Self location button
         }
         // Zoom to my location
-        setMyLocation();
-        // Add / remove markers on click
+        showMyLocation();
+        // Setup listener to add / remove markers on click
         setTouchListeners();
+        // Populate map with existing markers
+        addMarkersToMap();
+    }
+
+
+    /**
+     * Adds the already existing markers of this list to the map
+     */
+    private void addMarkersToMap() {
+        if (mPoints.size() > 0) {
+            for (LatLng point : mPoints) {
+                MarkerOptions marker = new MarkerOptions()
+                        .position(new LatLng(point.latitude, point.longitude)).title(mListName);
+                mMap.addMarker(marker);
+            }
+        }
     }
 
 
@@ -75,15 +97,20 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
             @Override
             public void onMapClick(LatLng point) {
                 MarkerOptions marker = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude)).title("New Marker");
+                        .position(new LatLng(point.latitude, point.longitude)).title(mListName);
+                mPoints.add(point);
                 mMap.addMarker(marker);
+                mMarkersChanged = true;
+                Log.d("MAP","added point:"+point.toString());
             }
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                mPoints.remove(marker.getPosition());
                 marker.remove();
+                mMarkersChanged = true;
                 return true;
             }
         });
@@ -93,7 +120,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
      * Gets own location
      */
     @SuppressLint("MissingPermission")
-    private void setMyLocation() {
+    private void showMyLocation() {
         // Create the location request to start receiving updates
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -126,5 +153,23 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     }
 
 
+    @Override
+    public void onBackPressed() {
+        //TODO: mudar isto para um botao de confirmar
+        finishLocationEdit();
+        super.onBackPressed();
+    }
 
+    /**
+     * Confirms the changes to markers of this list and returns them
+     */
+    private void finishLocationEdit() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(MARKERS_CHANGED, mMarkersChanged);
+        if (mMarkersChanged) {
+            returnIntent.putExtra(MARKERS, mPoints);
+        }
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
 }

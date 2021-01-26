@@ -1,18 +1,13 @@
 package pt.ua.cm.myshoppinglist.ui.map;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,7 +16,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -61,12 +55,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if(checkLocationPermissions(getActivity(), getContext()) ) {
             mMap.setMyLocationEnabled(true); // Self location button
         }
-        startLocationUpdates();
+        showMyLocation();
     }
 
     // Trigger new location updates at interval
     @SuppressLint("MissingPermission")
-    private void startLocationUpdates() {
+    private void showMyLocation() {
         // Create the location request to start receiving updates
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);

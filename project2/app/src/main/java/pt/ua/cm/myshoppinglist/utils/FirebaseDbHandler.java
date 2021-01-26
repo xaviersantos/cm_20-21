@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 import pt.ua.cm.myshoppinglist.entities.ItemModel;
 import pt.ua.cm.myshoppinglist.entities.ListModel;
+import pt.ua.cm.myshoppinglist.entities.LocationModel;
 
 public class FirebaseDbHandler {
     private FirebaseFirestore db;
@@ -40,6 +42,17 @@ public class FirebaseDbHandler {
                 .collection("items")
                 .document(uuid)
                 .set(item);
+    }
+
+    public void addLocation(String listName, LatLng coords) {
+        String uuid = UUID.randomUUID().toString();
+        LocationModel location = new LocationModel(uuid, coords);
+
+        db.collection(currentUser.getUid())
+                .document(listName)
+                .collection("locations")
+                .document(uuid)
+                .set(location);
     }
 
     public void deleteItem(String listName, String itemId) {

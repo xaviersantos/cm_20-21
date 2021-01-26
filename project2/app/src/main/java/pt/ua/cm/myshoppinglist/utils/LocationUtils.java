@@ -1,23 +1,17 @@
 package pt.ua.cm.myshoppinglist.utils;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 public class LocationUtils {
     private LocationRequest mLocationRequest;
@@ -28,7 +22,12 @@ public class LocationUtils {
     public static final long LOCATION_REFRESH_TIME = 500;      // milisecs
     public static final long LOCATION_REFRESH_TIME_FAST = 200;  // milisecs
 
-
+    /**
+     * Intent codes
+     */
+    public static final int SET_LIST_MARKERS = 12345;   // Intent result code to edit shoppinglist location
+    public static final String MARKERS_CHANGED = "MARKERS_CHANGED"; // Intent extra: was there a change?
+    public static final String MARKERS = "MARKERS"; // Intent extra: list of points
     /**
      * Checks if app has location permission
      * @return
