@@ -1,48 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
 
-    <TextView
-        android:id="@+id/listTitle"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="32sp"
-        android:text="@string/items"
-        android:layout_marginLeft="16dp" />
+        android:padding="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
-        android:layout_below="@id/listTitle">
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/listName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_centerHorizontal="true"
+            android:buttonTint="@android:color/holo_green_dark"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            tools:text="Go to the market and bring vegetables immediately today." />
 
-            <TextView
-                android:id="@+id/listItemText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:paddingStart="8dp"
-                android:buttonTint="@android:color/holo_green_dark"
-                tools:text="Go to the market and bring vegetables immediately today."
-                android:paddingLeft="8dp" />
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

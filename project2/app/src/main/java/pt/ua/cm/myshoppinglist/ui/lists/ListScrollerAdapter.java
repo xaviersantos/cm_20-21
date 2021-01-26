@@ -33,49 +33,74 @@ import pt.ua.cm.myshoppinglist.entities.ItemModel;
 import pt.ua.cm.myshoppinglist.entities.ListModel;
 import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
+import pt.ua.cm.myshoppinglist.utils.ListItemClickListener;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS;
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.SET_LIST_MARKERS;
 
 public class ListScrollerAdapter extends FirestoreRecyclerAdapter<ListModel, ListScrollerAdapter.listsViewholder> {
-
-    private LinearLayoutManager lln;
     private MainActivity activity;
-    private ListPreviewAdapter listPreviewAdapter;
+    private FirebaseDbHandler db;
 
     public ListScrollerAdapter(@NonNull FirestoreRecyclerOptions<ListModel> options, MainActivity activity) {
         super(options);
         this.activity = activity;
+        this.db = activity.getDb();
     }
 
     @Override
     protected void onBindViewHolder(@NonNull listsViewholder holder, int position, @NonNull ListModel model) {
-        holder.initList(holder.listRecyclerView, model.getListName());
+        holder.listName.setText(model.getListName());
     }
 
     @NonNull
     @Override
     public listsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lists_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_preview, parent, false);
 
         return new ListScrollerAdapter.listsViewholder(view);
     }
 
-    class listsViewholder extends RecyclerView.ViewHolder {
-        RecyclerView listRecyclerView;
+    public Context getContext() {
+        return activity;
+    }
+
+    public void deleteList(int position) {
+        ListModel list = this.getItem(position);
+        db.deleteList(list.getListName());
+    }
+
+    public void editList(int position) {
+        ListModel list = this.getItem(position);
+        Bundle bundle = new Bundle();
+        //bundle.putString("id", item.getUuid());
+        //bundle.putString("item", item.getProductName());
+        //bundle.putString("listName", listName);
+        //AddNewItem fragment = new AddNewItem();
+        //fragment.setArguments(bundle);
+        //fragment.show(activity.getSupportFragmentManager(), AddNewItem.TAG);
+    }
+
+    public void openList(int position) {
+        ListModel list = this.getItem(position);
+        activity.getListDetailAdapter(list.getListName());
+    }
+
+    class listsViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView listName;
 
         public listsViewholder(@NonNull View itemView) {
             super(itemView);
-            listRecyclerView = itemView.findViewById(R.id.listsRecyclerView);
+            listName = itemView.findViewById(R.id.listName);
+            itemView.setOnClickListener(this);
         }
 
-        public void initList(View root, String listName) {
-            listRecyclerView = root.findViewById(R.id.listsRecyclerView);
-            listRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            listPreviewAdapter = activity.getListPreviewAdapter(listName);
-            // Connecting Adapter class with the Recycler view*/
-            listRecyclerView.setAdapter(listPreviewAdapter);
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            String listName = getItem(position).getListName();
+            activity.onListItemClick(listName);
         }
     }
     @Override

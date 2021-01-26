@@ -97,6 +97,10 @@ public class FirebaseDbHandler {
 
     }
 
+    public void deleteList(String listName) {
+
+    }
+
     public void addList(String listName) {
         ListModel list = new ListModel(listName);
         db.collection(currentUser.getUid()).document(listName).set(list);

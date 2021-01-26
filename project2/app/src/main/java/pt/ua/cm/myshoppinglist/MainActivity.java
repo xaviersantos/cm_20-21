@@ -1,47 +1,71 @@
 package pt.ua.cm.myshoppinglist;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import pt.ua.cm.myshoppinglist.entities.ItemModel;
 import pt.ua.cm.myshoppinglist.entities.ListModel;
+import pt.ua.cm.myshoppinglist.ui.lists.ItemsFragment;
 import pt.ua.cm.myshoppinglist.ui.lists.ListDetailAdapter;
 import pt.ua.cm.myshoppinglist.ui.lists.ListPreviewAdapter;
 import pt.ua.cm.myshoppinglist.ui.lists.ListScrollerAdapter;
+import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.DialogCloseListener;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
+import pt.ua.cm.myshoppinglist.utils.ListItemClickListener;
+import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
+import pt.ua.cm.myshoppinglist.utils.RecyclerListTouchHelper;
 
-public class MainActivity extends AppCompatActivity implements DialogCloseListener {
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS;
+import static pt.ua.cm.myshoppinglist.utils.LocationUtils.SET_LIST_MARKERS;
+
+public class MainActivity extends AppCompatActivity implements DialogCloseListener, ListItemClickListener {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private static final String TAG = "MainActivity";
 
     private FirebaseDbHandler db;
-    private ListDetailAdapter listsAdapter;
     private ListPreviewAdapter listPreviewAdapter;
-    ListScrollerAdapter listScrollerAdapter;
+    private RecyclerView listsRecyclerView;
+    private ListDetailAdapter listsAdapter;
+    private ListScrollerAdapter listScrollerAdapter;
+
+    Context context = this;
 
     private List<ItemModel> itemList;
 
@@ -189,5 +213,74 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     public String getCurrentUserName() {
         return currentUser.getDisplayName();
+    }
+
+    public void initListScroller(View root) {
+        listsRecyclerView = root.findViewById(R.id.listsRecyclerView);
+        listsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        listScrollerAdapter = getListScrollerAdapter();
+        // Connecting Adapter class with the Recycler view*/
+        listsRecyclerView.setAdapter(listScrollerAdapter);
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerListTouchHelper(listScrollerAdapter));
+        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
+    }
+
+    public void initList(View root, String listName) {
+        TextView listTitle = root.findViewById(R.id.listName);
+        listTitle.setText(listName);
+        listsRecyclerView = root.findViewById(R.id.itemsRecyclerView);
+        listsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        listsAdapter = getListDetailAdapter(listName);
+        // Connecting Adapter class with the Recycler view*/
+        listsRecyclerView.setAdapter(listsAdapter);
+
+        FloatingActionButton addItemButton = root.findViewById(R.id.bt_addItem);
+
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("listName", listName);
+                AddNewItem fragment = new AddNewItem();
+                fragment.setArguments(bundle);
+                fragment.show(getSupportFragmentManager(), AddNewItem.TAG);
+            }
+        });
+
+        // Define locations for this list
+        FloatingActionButton addLocationButton = root.findViewById(R.id.bt_addLocation);
+
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivitySetLocation.class);
+                ArrayList<LatLng> markers = new ArrayList<>();
+                intent.putExtra("LIST_NAME", listName);
+                intent.putExtra(MARKERS, markers);
+                startActivityForResult(intent, SET_LIST_MARKERS);
+            }
+        });
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
+        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
+    }
+
+    @Override
+    public void onListItemClick(String listName) {
+        FragmentManager fragMgr = getSupportFragmentManager();
+        FragmentTransaction fragTrans = fragMgr.beginTransaction();
+
+        ItemsFragment itemsFragment = new ItemsFragment(); //my custom fragment
+
+        Bundle bundle = new Bundle();
+        bundle.putString("listName", listName);
+        itemsFragment.setArguments(bundle);
+
+        fragTrans.replace(R.id.nav_host_fragment, itemsFragment);
+        fragTrans.addToBackStack(null);
+        fragTrans.commit();
     }
 }

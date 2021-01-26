@@ -52,8 +52,8 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
     public listsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_preview, parent, false);
 
-        TextView listTitle = view.findViewById(R.id.listTitle);
-        listTitle.setText(listName);
+        //TextView listTitle = view.findViewById(R.id.listTitle);
+        //listTitle.setText(listName);
 
         return new ListPreviewAdapter.listsViewholder(view);
     }
@@ -63,7 +63,7 @@ public class ListPreviewAdapter extends FirestoreRecyclerAdapter<ItemModel, List
 
         public listsViewholder(@NonNull View itemView) {
             super(itemView);
-            item = itemView.findViewById(R.id.listItemText);
+            //item = itemView.findViewById(R.id.listItemText);
         }
     }
     @Override

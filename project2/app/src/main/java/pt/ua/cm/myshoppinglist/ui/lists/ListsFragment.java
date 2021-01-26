@@ -31,6 +31,7 @@ import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 import pt.ua.cm.myshoppinglist.utils.AddNewList;
 import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 import pt.ua.cm.myshoppinglist.utils.RecyclerItemTouchHelper;
+import pt.ua.cm.myshoppinglist.utils.RecyclerListTouchHelper;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS;
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.MARKERS_CHANGED;
@@ -38,6 +39,7 @@ import static pt.ua.cm.myshoppinglist.utils.LocationUtils.SET_LIST_MARKERS;
 
 public class ListsFragment extends Fragment {
 
+    private View root;
     private ListsModel listsModel;
     private RecyclerView listsRecyclerView;
     private ListDetailAdapter listsAdapter;
@@ -46,12 +48,12 @@ public class ListsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listsModel = new ViewModelProvider(this).get(ListsModel.class);
-        View root = inflater.inflate(R.layout.fragment_lists, container, false);
+        root = inflater.inflate(R.layout.fragment_lists, container, false);
         final TextView textView = root.findViewById(R.id.text_lists);
 
         activity = (MainActivity) getActivity();
 
-        initListScroller(root);
+        activity.initListScroller(root);
 
         //initList(root, "listName");
 
@@ -84,6 +86,10 @@ public class ListsFragment extends Fragment {
         listScrollerAdapter = activity.getListScrollerAdapter();
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listScrollerAdapter);
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerListTouchHelper(listScrollerAdapter));
+        itemTouchHelper.attachToRecyclerView(listsRecyclerView);
     }
 
     public void initList(View root, String listName) {
@@ -95,7 +101,7 @@ public class ListsFragment extends Fragment {
         // Connecting Adapter class with the Recycler view*/
         listsRecyclerView.setAdapter(listsAdapter);
 
-        FloatingActionButton fab = root.findViewById(R.id.fab);
+        FloatingActionButton fab = root.findViewById(R.id.bt_addItem);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +160,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        listScrollerAdapter.startListening();
+        //listScrollerAdapter.startListening();
     }
 
     // Function to tell the app to stop getting
@@ -162,6 +168,6 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        listScrollerAdapter.stopListening();
+        //listScrollerAdapter.stopListening();
     }
 }
