@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import pt.ua.cm.myshoppinglist.utils.AddNewItem;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.*;
 
@@ -54,6 +58,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_location);
 
+
         Intent intent = getIntent();
 		mListId = intent.getStringExtra(LIST_ID);
         mFirebaseUser = intent.getStringExtra("FIREBASE_USER");
@@ -67,7 +72,6 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
 
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Called when GoogleMap is ready to be used
@@ -90,9 +94,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
 
         // Populate map with existing markers
         loadMapMarkers();
-
     }
-
 
     /**
      * Loads previously saved markers from DB and places them on the map
@@ -155,6 +157,14 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
                 return true;
             }
         });
+
+        FloatingActionButton confirmBtn = findViewById(R.id.bt_confirm_loc);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishLocationEdit();
+            }
+        });
     }
 
     /**
@@ -193,14 +203,11 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         });
     }
 
-
     @Override
     public void onBackPressed() {
-        //TODO: mudar isto para um botao de confirmar
         finishLocationEdit();
         super.onBackPressed();
     }
-
 
     /**
      * Confirms the changes to markers of this list and returns them
