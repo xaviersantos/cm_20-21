@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -20,10 +21,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,6 +47,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
     private HashMap<String, LatLng> mNewPoints;         // <uuid : point>
     private ArrayList<String> mRemovedPoints;           // uuid
     private String mListId;
+    private String mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,9 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
 
         Intent intent = getIntent();
 		mListId = intent.getStringExtra(LIST_ID);
-        mPreviousPoints = (HashMap<String, LatLng>) intent.getSerializableExtra(MARKERS);
+        mFirebaseUser = intent.getStringExtra("FIREBASE_USER");
+//		mPreviousPoints = (HashMap<String, LatLng>) intent.getSerializableExtra(MARKERS);
+        mPreviousPoints = new HashMap<>();
         mNewPoints = new HashMap<>();
         mRemovedPoints = new ArrayList<>();
 
@@ -77,23 +90,38 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         setTouchListeners();
 
         // Populate map with existing markers
-        addMarkersToMap();
+        loadMapMarkers();
+
     }
 
 
     /**
-     * Adds the already existing markers of this list to the map
+     * Loads from DB and adds the already existing markers of this list to the map
      */
-    private void addMarkersToMap() {
-        for(HashMap.Entry<String, LatLng> entry : mPreviousPoints.entrySet()) {
-            String uuid = entry.getKey();
-            LatLng point = entry.getValue();
-            MarkerOptions markerOpt = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude))
-                        .title(mListId);
-            Marker marker = mMap.addMarker(markerOpt);
-            marker.setTag(uuid);
-        }
+    private void loadMapMarkers() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference colRef = db.collection(mFirebaseUser)
+                .document(mListId)
+                .collection("locations");
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String markerId = (String) document.get("uuid");
+                        HashMap<String, Double> coords = (HashMap<String, Double>) (document.get("coords"));
+                        LatLng point = new LatLng(coords.get("latitude"), coords.get("longitude"));
+                        MarkerOptions markerOpt = new MarkerOptions()
+                                .position(new LatLng(point.latitude, point.longitude));
+                        Marker marker = mMap.addMarker(markerOpt);
+                        marker.setTag(markerId);
+                        mPreviousPoints.put(markerId, point);
+                    }
+                } else {
+                    Log.d("MAP", "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
 
@@ -106,25 +134,23 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                String uuid = UUID.randomUUID().toString();
+                String markerId = UUID.randomUUID().toString();
                 MarkerOptions markerOpt = new MarkerOptions()
-                        .position(new LatLng(point.latitude, point.longitude))
-                        .title(mListId);
+                        .position(new LatLng(point.latitude, point.longitude));
                 Marker marker = mMap.addMarker(markerOpt);
-                marker.setTag(uuid);
-                mNewPoints.put(uuid, point);
+                marker.setTag(markerId);
+                mNewPoints.put(markerId, point);
             }
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                mPoints.remove(marker.getPosition());
-                String uuid = (String) marker.getTag();
-                if (mPreviousPoints.containsKey(uuid)) {
-                    mRemovedPoints.add(uuid);
+                String markerId = (String) marker.getTag();
+                if (mPreviousPoints.containsKey(markerId)) {
+                    mRemovedPoints.add(markerId);
                 } else {
-                    mNewPoints.remove(uuid);
+                    mNewPoints.remove(markerId);
                 }
                 marker.remove();
                 return true;

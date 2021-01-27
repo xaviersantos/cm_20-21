@@ -263,10 +263,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivitySetLocation.class);
-                HashMap<String, LatLng> markers = new HashMap<>();
                 intent.putExtra(LIST_NAME, listName);
                 intent.putExtra(LIST_ID, listId);
-                intent.putExtra(MARKERS, markers);
+                intent.putExtra("FIREBASE_USER", currentUser.getUid());
+//                intent.putExtra(MARKERS, markers);
                 startActivityForResult(intent, LOC_ACTIVITY_INTENT_CODE);
             }
         });
@@ -274,7 +274,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         ItemTouchHelper itemTouchHelper = new
                 ItemTouchHelper(new RecyclerItemTouchHelper(listsAdapter));
         itemTouchHelper.attachToRecyclerView(listsRecyclerView);
+
     }
+
+
 
     @Override
     public void onListItemClick(ListModel list) {
@@ -299,12 +302,15 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+
         if (requestCode == LOC_ACTIVITY_INTENT_CODE && resultCode == Activity.RESULT_OK) {
+
             // Check for changes
             boolean markersChanged = intent.getBooleanExtra(MARKERS_CHANGED, false);
             if (!markersChanged) {
                 return;
             }
+
             String listId = (String) intent.getStringExtra(LIST_ID);
 
             // Get list of points that were removed and make the change in DB
@@ -318,9 +324,9 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             HashMap<String, LatLng> newPoints =
                     (HashMap<String, LatLng>) intent.getSerializableExtra(NEW_MARKERS_LIST);
             for (HashMap.Entry<String, LatLng> entry : newPoints.entrySet()) {
-                String uuid = entry.getKey();
+                String markerId = entry.getKey();
                 LatLng point = entry.getValue();
-                db.addLocation(listId, uuid, point);
+                db.addLocation(listId, markerId, point);
             }
         }
     }

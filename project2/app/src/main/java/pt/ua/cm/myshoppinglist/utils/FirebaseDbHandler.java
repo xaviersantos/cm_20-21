@@ -15,8 +15,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -45,29 +49,37 @@ public class FirebaseDbHandler {
                 .set(item);
     }
 
-    public void addLocation(String listId, String uuid, LatLng coords) {
-        Log.d("MAP", "adding:"+uuid);
-        LocationModel location = new LocationModel(uuid, coords);
+    public void addLocation(String listId, String markerId, LatLng coords) {
+        Log.d("MAP", "adding:"+markerId);
+        LocationModel location = new LocationModel(markerId, coords);
         db.collection(currentUser.getUid())
                 .document(listId)
                 .collection("locations")
-                .document(uuid)
+                .document(markerId)
                 .set(location);
     }
 
 
-    public void deleteLocation(String listName, String uuid) {
-        Log.d("MAP", "removing:"+uuid);
-        //TODO
+    public void deleteLocation(String listId, String markerId) {
+        Log.d("MAP", "removing:"+markerId);
+        DocumentReference docRef = db.collection(currentUser.getUid())
+                .document(listId)
+                .collection("locations")
+                .document(markerId);
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("MAP", "DocumentSnapshot successfully deleted!");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("MAP", "Error deleting document", e);
+            }
+        });
     }
 
-    public HashMap<String, LatLng> getLocations(String listName) {
-        HashMap<String, LatLng> locations = new HashMap<>();
-        CollectionReference colRef = db.collection(currentUser.getUid())
-                .document(listName)
-                .collection("locations");
-        return locations;
-    }
 
     public void deleteItem(String listId, String itemId) {
         DocumentReference docRef = db.collection(currentUser.getUid())
