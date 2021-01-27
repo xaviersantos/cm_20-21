@@ -57,7 +57,6 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         Intent intent = getIntent();
 		mListId = intent.getStringExtra(LIST_ID);
         mFirebaseUser = intent.getStringExtra("FIREBASE_USER");
-//		mPreviousPoints = (HashMap<String, LatLng>) intent.getSerializableExtra(MARKERS);
         mPreviousPoints = new HashMap<>();
         mNewPoints = new HashMap<>();
         mRemovedPoints = new ArrayList<>();
@@ -96,7 +95,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
 
 
     /**
-     * Loads from DB and adds the already existing markers of this list to the map
+     * Loads previously saved markers from DB and places them on the map
      */
     private void loadMapMarkers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
