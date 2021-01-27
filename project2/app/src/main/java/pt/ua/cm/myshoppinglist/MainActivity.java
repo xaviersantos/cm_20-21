@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     }
 
     private void loginAnonymously() {
+
         mAuth = FirebaseAuth.getInstance();
         // Check if user is signed in (non-null) and update UI accordingly.
 
@@ -212,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
         return listScrollerAdapter;
     }
-
 
     public FirebaseDbHandler getDb() {
         return db;

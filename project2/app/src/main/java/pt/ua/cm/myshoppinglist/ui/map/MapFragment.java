@@ -3,6 +3,7 @@ package pt.ua.cm.myshoppinglist.ui.map;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import pt.ua.cm.myshoppinglist.MainActivity;
 import pt.ua.cm.myshoppinglist.R;
+import pt.ua.cm.myshoppinglist.utils.FirebaseDbHandler;
 
 import static pt.ua.cm.myshoppinglist.utils.LocationUtils.*;
 
@@ -35,6 +50,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mMapFragment;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
+    private String mFirebaseUser;
+    private HashMap<String, String> mListNames;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
@@ -45,8 +62,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
 
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        /*((MainActivity)getActivity()).getFirebaseUserID();*/
+
+        mListNames = new HashMap<>(); // <list_id : list_name>
+
         return root;
     }
+
 
     @SuppressLint("MissingPermission")
     @Override
@@ -56,6 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true); // Self location button
         }
         showMyLocation();
+        loadListNames();
     }
 
     // Trigger new location updates at interval
@@ -91,4 +115,65 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
+
+    /**
+     * Loads lists (id:name) pairs
+     */
+    private void loadListNames() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference colRef = db.collection(mFirebaseUser);
+
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = (String) document.get("uuid");
+                        String name = (String) document.get("listName");
+                        mListNames.put(id, name);
+                    }
+                    loadMarkers();
+                } else {
+                    Log.d("MAP", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Loads the markers of the lists and places them on the map
+     */
+    private void loadMarkers() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (HashMap.Entry<String, String> entry : mListNames.entrySet()) {
+            String id = entry.getKey();
+            String name = entry.getValue();
+            CollectionReference colRef = db.collection(mFirebaseUser)
+                .document(id)
+                .collection("locations");
+
+            colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            HashMap<String, Double> coords = (HashMap<String, Double>) (document.get("coords"));
+                            LatLng point = new LatLng(coords.get("latitude"), coords.get("longitude"));
+                            MarkerOptions markerOpt = new MarkerOptions()
+                                    .position(new LatLng(point.latitude, point.longitude)).title(name);
+                            mMap.addMarker(markerOpt);
+                        }
+                    } else {
+                        Log.d("MAP", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
+
 }

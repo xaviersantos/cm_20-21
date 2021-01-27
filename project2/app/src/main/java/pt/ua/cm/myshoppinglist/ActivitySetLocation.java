@@ -201,6 +201,7 @@ public class ActivitySetLocation extends FragmentActivity implements OnMapReadyC
         super.onBackPressed();
     }
 
+
     /**
      * Confirms the changes to markers of this list and returns them
      */
